@@ -35,5 +35,3 @@ while True:
             player.x -= 1
         if letter == 'd':
             player.x += 1
-
-# test
