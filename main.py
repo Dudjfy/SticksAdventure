@@ -7,6 +7,7 @@ sword = Entity(15, 15, '', 'Sword', 'light_blue', False)
 entities = []
 entities.append(player)
 entities.append(orc)
+entities.append(sword)
 
 for entity in entities:
     print('X:{}     Y:{}    Char:{}     Name:{}     Color:{}    Blocks Movement:{}'.format(
