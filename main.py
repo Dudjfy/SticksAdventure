@@ -1,9 +1,8 @@
 from Entity import *
 
-player = Entity(10, 10, '@', 'Player', 'blue', True)
-orc = Entity(15, 10, 'o', 'Orc', 'white', True)
-
-
+player = Entity(10, 10, '@', 'Player', 'white', True)
+orc = Entity(15, 10, 'o', 'Orc', 'green', True)
+sword = Entity(15, 15, '', 'Sword', 'light_blue', False)
 
 entities = []
 entities.append(player)
