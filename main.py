@@ -12,6 +12,7 @@ ren.cursesSetup()
 while True:
     # ren.cursesRender()
     menu.printMenu(ren.screen)
+    menu.inputMenu(ren.screen)
 
 ren.cursesEnd()
 
