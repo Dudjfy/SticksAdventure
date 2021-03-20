@@ -1,4 +1,5 @@
 import curses
+import time
 
 # Klass som ansvarar för allt som har med curses att göra
 class CursesHandler:
@@ -33,13 +34,18 @@ class CursesHandler:
     def cursesRender(self, frame):
         # self.screen.attron(curses.color_pair(1))
 
+        y, x = self.screen.getmaxyx()
+        self.screen.addstr('{} {}'.format(x, y))
+        self.screen.refresh()
+        time.sleep(3)
+
         # self.screen.clear()
         self.screen.move(0, 0)
 
         for tile in frame:
             self.screen.addstr(tile.y, tile.x, tile.char)
 
-        self.screen.refresh()
+        # self.screen.refresh()
 
         # self.screen.attroff(curses.color_pair(1))
 

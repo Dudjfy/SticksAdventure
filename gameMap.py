@@ -7,7 +7,7 @@ class GameMap:
     def createGameMapFromFile(self):
         file = open('map.txt', 'r')
 
-        print('test')
+        # print('test')
         for y, row in enumerate(file):
             for x, tile in enumerate(row):
                 # print(tile, x, y, end='\t')

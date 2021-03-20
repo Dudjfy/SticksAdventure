@@ -36,6 +36,9 @@ gameMap = GameMap()
 gameMap.createGameMapFromFile()
 gameMap = gameMap.gameMap
 
+curses.KEY_RESIZE
+curses.is_term_resized(100, 40)
+
 while True:
     curHan.cursesRender(gameMap)
     curHan.cursesRender(entityList)
