@@ -28,7 +28,7 @@ curHan.cursesSetup()
 player = Creature(10, 10, '@', 'Player', 'white', True)
 orc = Creature(15, 10, 'o', 'Orc', 'green', True)
 sword = Entity(15, 15, '/', 'Sword', 'light_blue', False)
-test = Entity()
+test = Entity(1, 1)
 
 entityList = [player, orc, sword, test]
 

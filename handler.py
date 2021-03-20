@@ -17,7 +17,9 @@ class CursesHandler:
         # self.screen.nodelay(1)
         curses.start_color()
 
-        self.screen.resize(40, 100)
+        curses.resize_term(40, 100)
+        self.screen.border('|', '|', '-', '-', '+', '+', '+', '+')
+
 
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Färgpar
 
@@ -42,7 +44,7 @@ class CursesHandler:
         # time.sleep(3)
 
         # self.screen.clear()
-        self.screen.move(0, 0)
+        # self.screen.move(0, 0)
 
         for tile in frame:
             self.screen.addstr(tile.y, tile.x, tile.char)
