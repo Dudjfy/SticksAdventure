@@ -16,7 +16,8 @@ class cursesRender():
         # self.screen.nodelay(1)
         curses.start_color()
 
-        curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Första färgpar
+        curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Färgpar
+
 
     # Curses avslutas, inställningar sätts tillbaka till
     def cursesEnd(self):

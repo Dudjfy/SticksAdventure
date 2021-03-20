@@ -1,3 +1,5 @@
+from render import *
+
 # Huvudmenyn klassen
 class Menu:
 
@@ -13,6 +15,9 @@ class Menu:
         for idx, row in enumerate(self.menu):
             x = w//2 - len(row)//2
             y = h//2 - len(self.menu)//2 + idx
-            screen.addstr(y, x, row)
+            if idx == 0:
+                screen.attron(curses.color_pair(1))
+                screen.addstr(y, x, row)
+                screen.attroff(curses.color_pair(1))
 
         screen.refresh()
