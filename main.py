@@ -10,23 +10,27 @@ curses.cbreak()
 screen.nodelay(1)
 curses.start_color()
 
-curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_CYAN)
-
-h, w = screen.getmaxyx()
-text = 'Test'
-x = w//2 - len(text)//2
-y = h//2
+curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
 screen.attron(curses.color_pair(1))
-screen.addstr(y, x, text)
-screen.attroff(curses.color_pair(1))
+while True:
+    key = screen.getch()
 
-screen.refresh()
-time.sleep(3)
+    if key == curses.KEY_UP:
+        screen.addstr(0, 0, "Upp")
+    elif key == curses.KEY_DOWN:
+        screen.addstr(0, 0, "Down")
+
+    screen.refresh()
+
+    time.sleep(1)
+
+screen.attroff(curses.color_pair(1))
 
 curses.curs_set(0)
 curses.echo()
 curses.nocbreak()
+screen.nodelay(0)
 
 curses.endwin()
 
