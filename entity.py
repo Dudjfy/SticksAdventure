@@ -11,3 +11,10 @@ class Creature(Entity):
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
+
+    def collisionDetection(self, tileList, dx, dy):
+        for tile in tileList:
+            if tile.blocksMovement:
+                if self.x + dx == tile.x and self.y + dy == tile.y:
+                    return True
+        return False

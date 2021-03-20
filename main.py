@@ -30,8 +30,8 @@ for entity in entityList:
 while True:
     curHan.cursesRender(entityList)
     dx, dy = curHan.cursesPlayerInput()
-
-    player.move(dx, dy)
+    if not player.collisionDetection(entityList, dx, dy):
+        player.move(dx, dy)
 
 """ Curses End """
 curHan.cursesEnd()
