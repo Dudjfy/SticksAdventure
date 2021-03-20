@@ -1,4 +1,4 @@
-from render import *
+from handler import *
 
 # Huvudmenyn klassen
 class Menu:

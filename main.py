@@ -1,38 +1,38 @@
 import time
 
 from entity import *
-from render import *
+from handler import *
 from menu import *
 import curses
 
-ren = cursesRender()
+curHan = CursesHandler()
 menu = Menu()
 
-ren.cursesSetup()
-while True:
-    # ren.cursesRender()
-    menu.printMenu(ren.screen)
-    menu.inputMenu(ren.screen)
+""" Curses setup """
+curHan.cursesSetup()
 
-ren.cursesEnd()
+# Menu loop
+# while True:
+#     menu.printMenu(ren.screen)
+#     menu.inputMenu(ren.screen)
 
 player = Entity(10, 10, '@', 'Player', 'white', True)
 orc = Entity(15, 10, 'o', 'Orc', 'green', True)
 sword = Entity(15, 15, '/', 'Sword', 'light_blue', False)
 test = Entity()
 
-entityList = []
-entityList.append(player)
-entityList.append(orc)
-entityList.append(sword)
-entityList.append(test)
-
+entityList = [player, orc, sword, test]
 entityBlockingCordsList = []
 for entity in entityList:
     if entity.blocksMovement and entity != player:
         entityBlockingCordsList.append([entity.y, entity.x])
 
-print(entityBlockingCordsList)
+while True:
+    curHan.cursesRender(entityList)
+
+""" Curses End """
+curHan.cursesEnd()
+
 
 while True:
     # Represents render/draw

@@ -1,7 +1,7 @@
 import curses
 
-# Render klass som bygger på modulen curses
-class cursesRender():
+# Klass som ansvarar för allt som har med curses att göra
+class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
@@ -30,17 +30,17 @@ class cursesRender():
         curses.endwin()
 
     # Render funktion mha curses
-    def cursesRender(self):
-        self.screen.attron(curses.color_pair(1))
-        key = self.screen.getch()
+    def cursesRender(self, frame):
+        # self.screen.attron(curses.color_pair(1))
 
         self.screen.clear()
 
-        if key == curses.KEY_UP:
-            self.screen.addstr(0, 0, "Upp")
-        elif key == curses.KEY_DOWN:
-            self.screen.addstr(0, 0, "Down")
+        for tile in frame:
+            self.screen.addstr(tile.y, tile.x, tile.char)
 
         self.screen.refresh()
 
-        self.screen.attroff(curses.color_pair(1))
+        # self.screen.attroff(curses.color_pair(1))
+
+    def cursesInput(self):
+        self.screen.getch()
