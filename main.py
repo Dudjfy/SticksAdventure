@@ -6,10 +6,12 @@ from menu import *
 import curses
 
 ren = cursesRender()
+menu = Menu()
 
 ren.cursesSetup()
 while True:
-    ren.cursesRender()
+    # ren.cursesRender()
+    menu.printMenu(ren.screen)
 
 ren.cursesEnd()
 
