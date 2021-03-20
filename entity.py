@@ -7,6 +7,7 @@ class Entity:
         self.name = name
         self.color = color
         self.blocksMovement = blocksMovement
+        self.order = order
 
 
     # def sortEntityListInOrder(self, lst):
@@ -26,7 +27,7 @@ class Entity:
 
 # Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=5):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=5, hp=0, dmg=0):
         super().__init__(x, y, char, name, color, blocksMovement, order)
 
     def move(self, dx, dy):
