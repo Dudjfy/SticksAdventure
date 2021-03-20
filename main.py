@@ -25,10 +25,10 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Creature(10, 10, '@', 'Player', 'white', True)
-orc = Creature(15, 10, 'o', 'Orc', 'green', True)
-sword = Entity(15, 15, '/', 'Sword', 'light_blue', False)
-test = Entity(1, 1)
+player = Creature(78, 19, '@', 'Player', 'white', True)
+orc = Creature(69, 18, 'o', 'Orc', 'green', True)
+sword = Entity(60, 18, '/', 'Sword', 'light_blue', False)
+test = Entity(5, 2)
 
 entityList = [player, orc, sword, test]
 
