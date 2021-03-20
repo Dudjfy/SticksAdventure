@@ -57,7 +57,7 @@ class CursesHandler:
         self.msgLst.insert(0, newMsg)
         self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
-            self.screen.addstr(25 - i, 0, msg)
+            self.screen.addstr(25 - i, 30, msg)
 
     def cursesPlayerInput(self):
         key = self.screen.getch()

@@ -42,7 +42,8 @@ gameMap = gameMap.gameMap
 while True:
     curHan.cursesRender(gameMap)
     curHan.cursesRender(entityList)
-    curHan.cursesRenderMessages('Test')
+    curHan.cursesRenderMessages('Player - X:{} Y:{} HP:{} DMG:{}      Orc - HP:{} DMG:{}'
+                                .format(player.x, player.y, player.hp, player.dmg, orc.hp, orc.dmg))
     dx, dy = curHan.cursesPlayerInput()
     if not player.collisionDetection(entityList, dx, dy) and not player.collisionDetection(gameMap, dx, dy):
         player.move(dx, dy)
