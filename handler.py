@@ -17,6 +17,8 @@ class CursesHandler:
         # self.screen.nodelay(1)
         curses.start_color()
 
+        self.screen.resize(40, 100)
+
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Färgpar
 
 
@@ -34,10 +36,10 @@ class CursesHandler:
     def cursesRender(self, frame):
         # self.screen.attron(curses.color_pair(1))
 
-        y, x = self.screen.getmaxyx()
-        self.screen.addstr('{} {}'.format(x, y))
-        self.screen.refresh()
-        time.sleep(3)
+        # y, x = self.screen.getmaxyx()
+        # self.screen.addstr('{} {}'.format(x, y))
+        # self.screen.refresh()
+        # time.sleep(3)
 
         # self.screen.clear()
         self.screen.move(0, 0)
