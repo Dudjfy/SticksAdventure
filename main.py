@@ -5,9 +5,10 @@ import curses
 
 screen = curses.initscr()
 curses.curs_set(0)
+screen.keypad(True)
 curses.noecho()
 curses.cbreak()
-screen.nodelay(1)
+# screen.nodelay(1)
 curses.start_color()
 
 curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -16,6 +17,8 @@ screen.attron(curses.color_pair(1))
 while True:
     key = screen.getch()
 
+    screen.clear()
+
     if key == curses.KEY_UP:
         screen.addstr(0, 0, "Upp")
     elif key == curses.KEY_DOWN:
@@ -23,11 +26,10 @@ while True:
 
     screen.refresh()
 
-    time.sleep(1)
-
 screen.attroff(curses.color_pair(1))
 
-curses.curs_set(0)
+screen.keypad(False)
+curses.curs_set(1)
 curses.echo()
 curses.nocbreak()
 screen.nodelay(0)
