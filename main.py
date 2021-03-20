@@ -1,4 +1,34 @@
+import time
+
 from Entity import *
+import curses
+
+screen = curses.initscr()
+curses.curs_set(0)
+curses.noecho()
+curses.cbreak()
+screen.nodelay(1)
+curses.start_color()
+
+curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_CYAN)
+
+h, w = screen.getmaxyx()
+text = 'Test'
+x = w//2 - len(text)//2
+y = h//2
+
+screen.attron(curses.color_pair(1))
+screen.addstr(y, x, text)
+screen.attroff(curses.color_pair(1))
+
+screen.refresh()
+time.sleep(3)
+
+curses.curs_set(0)
+curses.echo()
+curses.nocbreak()
+
+curses.endwin()
 
 player = Entity(10, 10, '@', 'Player', 'white', True)
 orc = Entity(15, 10, 'o', 'Orc', 'green', True)
