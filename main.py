@@ -26,7 +26,7 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 player = Player(78, 19, '@', 'Player', 'white', True)
-orc = Monster(69, 18, 'o', 'Orc', 'green', True)
+orc = Monster(69, 18, 'o', 'Orc', 'green', True, hp=10, dmg=2)
 sword = Item(60, 18, '/', 'Sword', 'light_blue', False)
 test = Entity(5, 2)
 
@@ -42,6 +42,7 @@ gameMap = gameMap.gameMap
 while True:
     curHan.cursesRender(gameMap)
     curHan.cursesRender(entityList)
+    curHan.cursesRenderMessages('Test')
     dx, dy = curHan.cursesPlayerInput()
     if not player.collisionDetection(entityList, dx, dy) and not player.collisionDetection(gameMap, dx, dy):
         player.move(dx, dy)

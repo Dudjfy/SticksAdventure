@@ -6,6 +6,7 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
+        self.msgLst = ['1', '2', '3', '4']
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -52,6 +53,11 @@ class CursesHandler:
         # self.screen.refresh()
 
         # self.screen.attroff(curses.color_pair(1))
+    def cursesRenderMessages(self, newMsg):
+        self.msgLst.insert(0, newMsg)
+        self.msgLst.pop()
+        for i, msg in enumerate(self.msgLst):
+            self.screen.addstr(25 - i, 0, msg)
 
     def cursesPlayerInput(self):
         key = self.screen.getch()

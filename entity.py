@@ -29,6 +29,9 @@ class Entity:
 class Creature(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=5, hp=0, dmg=0):
         super().__init__(x, y, char, name, color, blocksMovement, order)
+        self.hp = hp
+        self.dmg = dmg
+
 
     def move(self, dx, dy):
         self.x += dx
@@ -42,12 +45,12 @@ class Creature(Entity):
         return False
 
 class Monster(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=6):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=6, hp=10, dmg=2):
+        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg)
 
 class Player(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=7):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=7, hp=30, dmg=4):
+        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg)
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=2):
