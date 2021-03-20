@@ -33,7 +33,8 @@ class CursesHandler:
     def cursesRender(self, frame):
         # self.screen.attron(curses.color_pair(1))
 
-        self.screen.clear()
+        # self.screen.clear()
+        self.screen.move(0, 0)
 
         for tile in frame:
             self.screen.addstr(tile.y, tile.x, tile.char)
