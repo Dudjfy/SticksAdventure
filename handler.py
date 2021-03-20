@@ -42,5 +42,19 @@ class CursesHandler:
 
         # self.screen.attroff(curses.color_pair(1))
 
-    def cursesInput(self):
-        self.screen.getch()
+    def cursesPlayerInput(self):
+        key = self.screen.getch()
+
+        dx = 0
+        dy = 0
+
+        if key == 119:
+            dy -= 1
+        if key == 115:
+            dy += 1
+        if key == 97:
+            dx -= 1
+        if key == 100:
+            dx += 1
+
+        return dx, dy

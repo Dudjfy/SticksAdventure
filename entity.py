@@ -6,3 +6,8 @@ class Entity:
         self.name = name
         self.color = color
         self.blocksMovement = blocksMovement
+
+class Creature(Entity):
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy

@@ -16,8 +16,8 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Entity(10, 10, '@', 'Player', 'white', True)
-orc = Entity(15, 10, 'o', 'Orc', 'green', True)
+player = Creature(10, 10, '@', 'Player', 'white', True)
+orc = Creature(15, 10, 'o', 'Orc', 'green', True)
 sword = Entity(15, 15, '/', 'Sword', 'light_blue', False)
 test = Entity()
 
@@ -29,6 +29,9 @@ for entity in entityList:
 
 while True:
     curHan.cursesRender(entityList)
+    dx, dy = curHan.cursesPlayerInput()
+
+    player.move(dx, dy)
 
 """ Curses End """
 curHan.cursesEnd()
