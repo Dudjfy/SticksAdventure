@@ -1,5 +1,6 @@
+# Det övriga som inte har med tiles från gamemap att göra kommer härstamma från klassen entities
 class Entity:
-    def __init__(self, x=0, y=0, char='?', name='No Name', color='black', blocksMovement=True):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=4):
         self.x = x
         self.y = y
         self.char = char
@@ -7,7 +8,27 @@ class Entity:
         self.color = color
         self.blocksMovement = blocksMovement
 
+
+    # def sortEntityListInOrder(self, lst):
+    #     orderedLst = []
+    #     for entity in lst:
+    #         if isinstance(entity, Player):
+    #             orderedLst.append(entity)
+    #         elif isinstance(entity, Monster):
+    #             orderedLst.insert(-2, entity)
+    #         elif isinstance(entity, Item):
+    #             orderedLst.insert(0, entity)
+    #         else:
+    #             orderedLst.insert(orderedLst.index(), entity)
+    #
+    #     return orderedLst
+
+
+# Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=5):
+        super().__init__(x, y, char, name, color, blocksMovement, order)
+
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
@@ -18,3 +39,23 @@ class Creature(Entity):
                 if self.x + dx == tile.x and self.y + dy == tile.y:
                     return True
         return False
+
+class Monster(Creature):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=6):
+        super().__init__(x, y, char, name, color, blocksMovement, order)
+
+class Player(Creature):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=7):
+        super().__init__(x, y, char, name, color, blocksMovement, order)
+
+class Stationary(Entity):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=2):
+        super().__init__(x, y, char, name, color, blocksMovement, order)
+
+class NPC(Stationary):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=True, order=3):
+        super().__init__(x, y, char, name, color, blocksMovement, order)
+
+class Item(Stationary):
+    def __init__(self, x=0, y=0, char='?', name='No Name', color='white', blocksMovement=False, order=1):
+        super().__init__(x, y, char, name, color, blocksMovement, order)

@@ -25,12 +25,15 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Creature(78, 19, '@', 'Player', 'white', True)
-orc = Creature(69, 18, 'o', 'Orc', 'green', True)
-sword = Entity(60, 18, '/', 'Sword', 'light_blue', False)
+player = Player(78, 19, '@', 'Player', 'white', True)
+orc = Monster(69, 18, 'o', 'Orc', 'green', True)
+sword = Item(60, 18, '/', 'Sword', 'light_blue', False)
 test = Entity(5, 2)
 
-entityList = [player, orc, sword, test]
+# entityList = [player, orc, sword, test]
+entityList = [orc, sword, test, player]
+# entityList.sort(key=lambda x: x.order, reverse=True)
+# entityList = Entity().sortEntityListInOrder(entityList)
 
 gameMap = GameMap()
 gameMap.createGameMapFromFile()
