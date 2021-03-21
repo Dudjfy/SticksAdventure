@@ -53,8 +53,11 @@ class CursesHandler:
 
     # Render funktion mha curses
     def renderFrame(self, frame, player, rad=5, exploredFrame=[]):
+        tempList = []
         for tile in frame:
-            if math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2)) < rad:
+            # Pythagoras Theorem for distance
+            distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
+            if distance < rad:
                 if isinstance(exploredFrame, set) and tile not in exploredFrame:
                     exploredFrame.add(tile)
                 self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))

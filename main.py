@@ -79,6 +79,12 @@ rad = 5         # Radius of light
 gameOn = True
 
 exploredGameMap = set()
+
+for tile in gameMap:
+    if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
+        exploredGameMap.add(tile)
+
+
 while gameOn:
     curHan.screen.clear()
     curHan.renderFrame(gameMap, player, rad, exploredGameMap)
