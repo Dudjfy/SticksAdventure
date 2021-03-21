@@ -21,10 +21,16 @@ class Creature(Entity):
     def attack(self, enemy):
         self.hp -= enemy.dmg
         enemy.hp -= self.dmg
+        if enemy.hp <= 0:
+            pass
+        if self.hp <= 0:
+            pass
 
-    def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+        # return enemy
+
+    def move(self, entityList, gameMap, dx, dy):
+            self.x += dx
+            self.y += dy
 
 class Monster(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
@@ -53,6 +59,12 @@ class Player(Creature):
                         self.attack(entity)
                     return True
         return False
+
+    def move(self, entityList, gameMap, dx, dy):
+        if not self.collisionDetectionEntityList(entityList, dx, dy) and \
+                not self.collisionDetectionMap(gameMap, dx, dy):
+            self.x += dx
+            self.y += dy
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=2):

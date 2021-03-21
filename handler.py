@@ -64,10 +64,10 @@ class CursesHandler:
             self.screen.addstr(25 - i, 30, msg)
 
     def renderPlayerStats(self, player):
-        self.screen.addstr(22, 0, 'HP: {}'.format(player.hp))
-        self.screen.addstr(23, 0, 'DMG: {}'.format(player.dmg))
-        self.screen.addstr(24, 0, 'Level: {}'.format(player.lvl))
-        self.screen.addstr(25, 0, 'XP: {}'.format(player.xp))
+        self.screen.addstr(22, 0, 'HP: {:<3}'.format(player.hp))
+        self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
+        self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
+        self.screen.addstr(25, 0, 'XP: {:<5}'.format(player.xp))
 
         self.screen.addstr(26, 0, ' ')
 
