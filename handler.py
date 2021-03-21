@@ -7,7 +7,7 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['Welcome Player!', aa'', '', '']
+        self.msgLst = ['Welcome Player!', '', '', '']
 
     # Sätter upp curses
     def cursesSetup(self):
