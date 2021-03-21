@@ -17,22 +17,18 @@ class Entity:
 # Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=5, hp=0, dmg=0, lvl=1):
+                 order=5, hp=0, dmg=0, lvl=1, baseHp=10, baseDmg=2):
         super().__init__(x, y, char, name, color, blocksMovement, order)
         self.hp = hp
         self.dmg = dmg
         self.lvl = lvl
+        self.baseHp = baseHp
+        self.baseDmg = baseDmg
 
     def attack(self, enemy):
         enemy.attacked = True
         self.hp -= enemy.dmg
         enemy.hp -= self.dmg
-        if enemy.hp <= 0:
-            pass
-        if self.hp <= 0:
-            pass
-
-        # return enemy
 
     def move(self, entityList, gameMap, dx, dy):
             self.x += dx
@@ -40,8 +36,8 @@ class Creature(Entity):
 
 class Monster(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=6, hp=10, dmg=2, lvl=1, attacked=False, attackedMsg='Attacked'):
-        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl)
+                 order=6, hp=10, dmg=2, lvl=1, attacked=False, attackedMsg='Attacked', baseHp=10, baseDmg=2):
+        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.attacked = attacked
         self.attackedMsg = attackedMsg
 
@@ -66,8 +62,8 @@ class Monster(Creature):
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2):
-        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl)
+                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2):
+        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
         self.xpConst = xpConst
 
@@ -98,7 +94,14 @@ class Player(Creature):
 
     def calcLevel(self):
         if int(self.xpConst * sqrt(self.xp)) != 0:
+            oldLvl = self.lvl
             self.lvl = int(self.xpConst * sqrt(self.xp))
+            if oldLvl != self.lvl:
+                self.levelUp()
+
+    def levelUp(self):
+            self.hp = int(self.baseHp + (self.lvl - 1) * sqrt(self.xp) * self.xpConst)
+            self.dmg = int(self.baseDmg + (self.lvl - 1) * sqrt(self.xp) * self.xpConst ** 2)
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=2):

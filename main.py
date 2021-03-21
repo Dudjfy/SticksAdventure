@@ -26,7 +26,7 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Player(78, 19, '@', 'Player', 1, True)
+player = Player(78, 19, '@', 'Player', 1, True, baseHp=30, baseDmg=4)
 orc = Monster(69, 18, 'o', 'Orc', 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
 sword = Item(60, 18, '/', 'Sword', 3, False)
 test = Entity(5, 2)
