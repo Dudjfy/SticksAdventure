@@ -37,10 +37,20 @@ class Player(Creature):
         super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl)
         self.xp = xp
 
-    def collisionDetection(self, tileList, dx, dy):
+    def collisionDetectionMap(self, tileList, dx, dy):
         for tile in tileList:
             if tile.blocksMovement:
                 if self.x + dx == tile.x and self.y + dy == tile.y:
+                    return True
+        return False
+
+    def collisionDetectionEntityList(self, entityList, dx, dy):
+        # player.attack(orc)
+        for entity in entityList:
+            if entity.blocksMovement:
+                if self.x + dx == entity.x and self.y + dy == entity.y:
+                    if isinstance(entity, Monster):
+                        self.attack(entity)
                     return True
         return False
 

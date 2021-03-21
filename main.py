@@ -45,7 +45,8 @@ while True:
     curHan.renderPlayerStats(player)
     curHan.renderMessages('Orc - HP:{} DMG:{}'.format(orc.hp, orc.dmg))
     dx, dy = curHan.playerInput()
-    if not player.collisionDetection(entityList, dx, dy) and not player.collisionDetection(gameMap, dx, dy):
+    if not player.collisionDetectionEntityList(entityList, dx, dy) and \
+            not player.collisionDetectionMap(gameMap, dx, dy):
         player.move(dx, dy)
 
 """ Curses End """
