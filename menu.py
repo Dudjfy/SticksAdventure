@@ -37,7 +37,8 @@ class Menu:
     def gameOver(self, screen):
         h, w = screen.getmaxyx()
         screen.clear()
-        screen.addstr(h//2, w//2, 'Game Over')
+        msg = 'Game Over'
+        screen.addstr(h//2, w//2 - len(msg)//2, msg)
         screen.refresh()
         time.sleep(5)
 

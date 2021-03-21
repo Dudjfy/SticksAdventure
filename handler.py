@@ -6,7 +6,7 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['1', '2', '3', '4']
+        self.msgLst = ['', '', '', '']
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -87,5 +87,7 @@ class CursesHandler:
             dx -= 1
         if key == 100:
             dx += 1
+        if key == 27:
+            exit()
 
         return dx, dy

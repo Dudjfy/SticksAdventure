@@ -19,6 +19,7 @@ class Creature(Entity):
         self.lvl = lvl
 
     def attack(self, enemy):
+        enemy.attacked = True
         self.hp -= enemy.dmg
         enemy.hp -= self.dmg
         if enemy.hp <= 0:
@@ -34,8 +35,16 @@ class Creature(Entity):
 
 class Monster(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=6, hp=10, dmg=2, lvl=1):
+                 order=6, hp=10, dmg=2, lvl=1, attacked=False, attackedMsg='Attacked'):
         super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl)
+        self.attacked = attacked
+        self.attackedMsg = attackedMsg
+
+    def returnAttackedMonster(self, entityList):
+        for entity in entityList:
+            if isinstance(entity, Monster) and entity.attacked:
+                entity.attacked = False
+                return entity
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,

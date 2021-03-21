@@ -26,7 +26,7 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 player = Player(78, 19, '@', 'Player', 1, True)
-orc = Monster(69, 18, 'o', 'Orc', 2, True, hp=10, dmg=2)
+orc = Monster(69, 18, 'o', 'Orc', 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
 sword = Item(60, 18, '/', 'Sword', 3, False)
 test = Entity(5, 2)
 
@@ -34,8 +34,9 @@ test = Entity(5, 2)
 
 entityList = [player, orc, sword, test]
 
-for i in range(10):
-    entityList.append(Monster(40 + i, 18, 'o', 'Orc', 2, True, hp=10, dmg=2))
+
+[entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
+ for i in range(12)]
 
 entityList.sort(key=lambda x: x.order)
 
@@ -49,12 +50,21 @@ for tile in gameMap:
             if entity.x == tile.x and entity.y == tile.y:
                 entityList.remove(entity)
 
+# List comprehension version
+# [[entityList.remove(entity) for entity in entityList if entity.x == tile.x and entity.y == tile.y]
+#  for tile in gameMap if tile == 'Wall']
 
 while True:
     curHan.renderFrame(gameMap)
     curHan.renderFrame(entityList)
     curHan.renderPlayerStats(player)
-    curHan.renderMessages('Orc - HP:{} DMG:{}'.format(orc.hp, orc.dmg))
+    attackedMonster = Monster().returnAttackedMonster(entityList)
+    if isinstance(attackedMonster, Monster):
+        curHan.renderMessages(attackedMonster.attackedMsg
+                              .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
+    # [curHan.renderMessages(entity.attackedMsg.format(entity.name, entity.hp, entity.dmg))
+    #  for entity in entityList if isinstance(entity, Monster) and entity.attacked]
+
     dx, dy = curHan.playerInput()
     player.move(entityList, gameMap, dx, dy)
     if player.hp <= 0:
@@ -65,22 +75,4 @@ menu.gameOver(curHan.screen)
 
 """ Curses End """
 curHan.cursesEnd()
-# print('Game Over')
 
-# while True:
-#     # Represents render/draw
-#     for entity in entityList:
-#         print('X:{} Y:{} Char:{} Name:{} Color:{} Blocks Movement:{}'.format(
-#             entity.x, entity.y, entity.char, entity.name, entity.color, entity.blocksMovement))
-#
-#     # Represents movement
-#     inp = input('>>> ').strip().lower()
-#     for letter in inp:
-#         if letter == 'w':
-#             player.y -= 1
-#         if letter == 's':
-#             player.y += 1
-#         if letter == 'a':
-#             player.x -= 1
-#         if letter == 'd':
-#             player.x += 1
