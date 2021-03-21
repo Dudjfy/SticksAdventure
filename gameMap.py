@@ -13,15 +13,16 @@ class GameMap:
             for x, tile in enumerate(row):
                 # print(tile, x, y, end='\t')
                 if tile == self.floorChar:
-                    self.gameMap.add(Tile(x, y, self.floorChar, 'Floor', 1, False))
+                    self.gameMap.add(Tile(x, y, self.floorChar, 'Floor', 1, 2, False))
                 elif tile == self.wallChar:
-                    self.gameMap.add(Tile(x, y, self.wallChar, 'Wall', 4, True))
+                    self.gameMap.add(Tile(x, y, self.wallChar, 'Wall', 7, 8, True))
 
 class Tile:
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True):
         self.x = x
         self.y = y
         self.char = char
         self.name = name
-        self.color = color
+        self.dark = dark
+        self.light = light
         self.blocksMovement = blocksMovement

@@ -7,7 +7,7 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['', '', '', '']
+        self.msgLst = ['Welcome Player!', aa'', '', '']
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -23,10 +23,14 @@ class CursesHandler:
         self.screen.border('|', '|', '-', '-', '+', '+', '+', '+')
 
         # Färgpar
-        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic/player colors
-        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)      # Orc green colors
-        curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)       # Sword light-blue colors
-        curses.init_pair(4, 240, curses.COLOR_BLACK)                      # Wall dark-gray colors
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic/player white fg, black bg
+        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_YELLOW)      # Classic/player white fg, yellow bg
+        curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)      # Orc green fg, black bg
+        curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_YELLOW)      # Orc green fg, yellow bg
+        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)       # Sword light-blue fg, black bg
+        curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_YELLOW)       # Sword light-blue fg, yellow bg
+        curses.init_pair(7, 240, curses.COLOR_BLACK)                     # Wall dark-gray fg, black bg
+        curses.init_pair(8, 240, curses.COLOR_YELLOW)                     # Wall dark-gray fg, yellow bg
         curses.init_pair(10, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
 
@@ -42,22 +46,9 @@ class CursesHandler:
 
     # Render funktion mha curses
     def renderFrame(self, frame):
-        # self.screen.attron(curses.color_pair(1))
-
-        # y, x = self.screen.getmaxyx()
-        # self.screen.addstr('{} {}'.format(x, y))
-        # self.screen.refresh()
-        # time.sleep(3)
-
-        # self.screen.clear()
-        # self.screen.move(0, 0)
-
         for tile in frame:
-            self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.color))
+            self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
 
-        # self.screen.refresh()
-
-        # self.screen.attroff(curses.color_pair(1))
     def renderMessages(self, newMsg):
         self.msgLst.insert(0, newMsg)
         self.msgLst.pop()

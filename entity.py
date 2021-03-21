@@ -5,20 +5,21 @@ from math import sqrt
 
 
 class Entity:
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=4):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=4):
         self.x = x
         self.y = y
         self.char = char
         self.name = name
-        self.color = color
+        self.dark = dark
+        self.light = light
         self.blocksMovement = blocksMovement
         self.order = order
 
 # Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True,
                  order=5, hp=0, dmg=0, lvl=1, baseHp=10, baseDmg=2):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.hp = hp
         self.dmg = dmg
         self.lvl = lvl
@@ -35,10 +36,10 @@ class Creature(Entity):
             self.y += dy
 
 class Monster(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=6, hp=10, dmg=2,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=6, hp=10, dmg=2,
                  lvl=1, attacked=False, attackedMsg='Attacked', baseHp=10, baseDmg=2,
                  xpReward=0, xpRewardBase=15, lvlGap=3, xpIncrease=15):
-        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.attacked = attacked
         self.attackedMsg = attackedMsg
         self.xpReward = xpReward
@@ -56,7 +57,7 @@ class Monster(Creature):
 
     def createRandomMonsters(self, entityList, entityBase, amountMax, randomSpawning=False):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
-            entity = Monster(char=entityBase.char, name=entityBase.name, color=entityBase.color,
+            entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
                              blocksMovement=entityBase.blocksMovement, hp=entityBase.hp, dmg=entityBase.dmg,
                              lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
@@ -83,9 +84,9 @@ class Monster(Creature):
                 entity.levelUp(entityList[-1])
 
 class Player(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True,
                  order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10):
-        super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
         self.xpConst = xpConst
         self.maxHp = baseHp
@@ -140,15 +141,15 @@ class Player(Creature):
 
 
 class Stationary(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=2):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=2):
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order)
 
 
 class NPC(Stationary):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=3):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=3):
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order)
 
 
 class Item(Stationary):
-    def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=False, order=1):
-        super().__init__(x, y, char, name, color, blocksMovement, order)
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=False, order=1):
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order)
