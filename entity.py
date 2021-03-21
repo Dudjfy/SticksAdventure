@@ -1,4 +1,7 @@
 # Det övriga som inte har med tiles från gamemap att göra kommer härstamma från klassen entities
+import random
+
+
 class Entity:
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=4):
         self.x = x
@@ -45,6 +48,15 @@ class Monster(Creature):
             if isinstance(entity, Monster) and entity.attacked:
                 entity.attacked = False
                 return entity
+
+    def createRandomMonsters(self, entityList, entityBase, amountMax, randomSpawning=False):
+        for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
+            entity = Monster(char=entityBase.char, name=entityBase.name, color=entityBase.color,
+                             blocksMovement=entityBase.blocksMovement, hp=entityBase.hp, dmg=entityBase.dmg,
+                             lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
+            entity.x = random.randint(1, 80)
+            entity.y = random.randint(1, 20)
+            entityList.append(entity)
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,

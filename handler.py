@@ -71,7 +71,7 @@ class CursesHandler:
 
         self.screen.addstr(26, 0, ' ')
 
-        self.screen.addstr(27, 0, 'X:{} Y:{}'.format(player.x, player.y))
+        self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
     def playerInput(self):
         key = self.screen.getch()
