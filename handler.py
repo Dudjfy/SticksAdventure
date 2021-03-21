@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import curses
 import time
+import math
 
 # Klass som ansvarar för allt som har med curses att göra
+
+
 class CursesHandler:
 
     def __init__(self, screen=None):
@@ -23,15 +26,17 @@ class CursesHandler:
         self.screen.border('|', '|', '-', '-', '+', '+', '+', '+')
 
         # Färgpar
-        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic/player white fg, black bg
-        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_YELLOW)      # Classic/player white fg, yellow bg
-        curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)      # Orc green fg, black bg
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)       # Classic white fg, black bg
+        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_YELLOW)      # Classic white fg, yellow bg
+        curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)       # Orc green fg, black bg
         curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_YELLOW)      # Orc green fg, yellow bg
-        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)       # Sword light-blue fg, black bg
-        curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_YELLOW)       # Sword light-blue fg, yellow bg
-        curses.init_pair(7, 240, curses.COLOR_BLACK)                     # Wall dark-gray fg, black bg
+        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)        # Sword blue fg, black bg
+        curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_YELLOW)       # Sword blue fg, yellow bg
+        curses.init_pair(7, 240, curses.COLOR_BLACK)                      # Wall dark-gray fg, black bg
         curses.init_pair(8, 240, curses.COLOR_YELLOW)                     # Wall dark-gray fg, yellow bg
-        curses.init_pair(10, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
+        curses.init_pair(9, 11, curses.COLOR_BLACK)                       # Player cyan fg, yellow bg
+        curses.init_pair(10, 11, curses.COLOR_YELLOW)                     # Player cyan fg, yellow bg
+        curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
 
     # Curses avslutas, inställningar sätts tillbaka till
@@ -45,9 +50,12 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderFrame(self, frame):
+    def renderFrame(self, frame, player, rad=5):
         for tile in frame:
-            self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
+            if math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2)) < rad:
+                self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
+            else:
+                self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
 
     def renderMessages(self, newMsg):
         self.msgLst.insert(0, newMsg)

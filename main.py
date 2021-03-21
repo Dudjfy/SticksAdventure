@@ -26,7 +26,7 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Player(78, 19, '@', 'Player', 1, 2, True, baseHp=30, baseDmg=4)
+player = Player(78, 19, '@', 'Player', 9, 10, True, baseHp=30, baseDmg=4)
 orc = Monster(69, 18, 'o', 'Orc', 3, 4, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
 sword = Item(60, 18, '/', 'Sword', 5, 6, False)
 test = Entity(5, 2)
@@ -65,17 +65,16 @@ for i, entity1 in enumerate(entityList):
 # [[entityList.remove(entity) for entity in entityList if entity.x == tile.x and entity.y == tile.y]
 #  for tile in gameMap if tile == 'Wall']
 
+rad = 5         # Radius of light
 gameOn = True
 while gameOn:
-    curHan.renderFrame(gameMap)
-    curHan.renderFrame(entityList)
+    curHan.renderFrame(gameMap, player, rad)
+    curHan.renderFrame(entityList, player, rad)
     curHan.renderPlayerStats(player)
     attackedMonster = Monster().returnAttackedMonster(entityList)
     if isinstance(attackedMonster, Monster):
         curHan.renderMessages(attackedMonster.attackedMsg
                               .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
-    # [curHan.renderMessages(entity.attackedMsg.format(entity.name, entity.hp, entity.dmg))
-    #  for entity in entityList if isinstance(entity, Monster) and entity.attacked]
 
     gameOn = curHan.playerInput(player, entityList, gameMap)
 

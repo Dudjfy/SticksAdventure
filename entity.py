@@ -58,7 +58,7 @@ class Monster(Creature):
     def createRandomMonsters(self, entityList, entityBase, amountMax, randomSpawning=False):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
             entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
-                             blocksMovement=entityBase.blocksMovement, hp=entityBase.hp, dmg=entityBase.dmg,
+                             light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp, dmg=entityBase.dmg,
                              lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
