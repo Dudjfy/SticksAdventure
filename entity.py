@@ -56,7 +56,11 @@ class Monster(Creature):
                              lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
-            entityList.append(entity)
+            for oldEntity in entityList:
+                if oldEntity.x == entity.x and oldEntity.y == entity.y:
+                    break
+            else:
+                entityList.append(entity)
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,

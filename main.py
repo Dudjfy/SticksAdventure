@@ -35,7 +35,8 @@ test = Entity(5, 2)
 entityList = [player, orc, sword, test]
 
 # Orcs test
-# [entityList.append(Monster(40d
+# [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
+#  for i in range(12)]
 
 # Orcs random over whole map
 Monster().createRandomMonsters(entityList, orc, 100)
