@@ -10,8 +10,8 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['Here you will find Monsters and Loot',
-                       'Let your adventure begin with WASD', 'Welcome To The Dungeon, Stick!', '']
+        self.msgLst = ['Here you will find Monsters and Loot', 'Let your adventure begin with WASD',
+                       'Welcome To The Dungeon, Stick!', 'You may leave after defeating the Boss!']
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -62,9 +62,10 @@ class CursesHandler:
                 if tile in exploredFrame:
                     self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
 
-    def renderMessages(self, newMsg):
-        self.msgLst.insert(0, '{:<40}'.format(newMsg))
-        self.msgLst.pop()
+    def renderMessages(self, newMsg, update=False):
+        if update:
+            self.msgLst.insert(0, '{:<40}'.format(newMsg))
+            self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
             self.screen.addstr(25 - i, 20, msg)
 

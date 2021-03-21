@@ -77,7 +77,6 @@ for i, entity1 in enumerate(entityList):
 
 rad = 5         # Radius of light
 gameOn = True
-curHan.renderMessages('You may leave after defeating the Boss!')
 
 exploredGameMap = set()
 while gameOn:
@@ -85,10 +84,15 @@ while gameOn:
     curHan.renderFrame(gameMap, player, rad, exploredGameMap)
     curHan.renderFrame(entityList, player, rad)
     curHan.renderPlayerStats(player)
+
     attackedMonster = Monster().returnAttackedMonster(entityList)
-    if isinstance(attackedMonster, Monster):
-        curHan.renderMessages(attackedMonster.attackedMsg
-                              .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
+
+    curHan.renderMessages(attackedMonster.attackedMsg\
+        .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
+        isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
+    # if isinstance(attackedMonster, Monster):
+    #     curHan.renderMessages(attackedMonster.attackedMsg
+    #                           .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
 
     gameOn = curHan.playerInput(player, entityList, gameMap)
 

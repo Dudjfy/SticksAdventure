@@ -54,6 +54,8 @@ class Monster(Creature):
             if isinstance(entity, Monster) and entity.attacked:
                 entity.attacked = False
                 return entity
+        else:
+            return ''
 
     def createRandomMonsters(self, entityList, entityBase, amountMax, randomSpawning=False):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
