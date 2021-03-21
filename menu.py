@@ -34,6 +34,12 @@ class Menu:
             self.curRow += 1
         # elif key == curses.KEY_ENTER and self.menu[self.curRow] == 'Exit':
 
+    def gameOver(self, screen):
+        h, w = screen.getmaxyx()
+        screen.clear()
+        screen.addstr(h//2, w//2, 'Game Over')
+        screen.refresh()
+        time.sleep(5)
 
 # class MenuButton:
 #     def

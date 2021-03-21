@@ -51,12 +51,14 @@ class Player(Creature):
         return False
 
     def collisionDetectionEntityList(self, entityList, dx, dy):
-        # player.attack(orc)
         for entity in entityList:
             if entity.blocksMovement:
                 if self.x + dx == entity.x and self.y + dy == entity.y:
                     if isinstance(entity, Monster):
                         self.attack(entity)
+                        if entity.hp <= 0:
+                            entityList.remove(entity)
+
                     return True
         return False
 

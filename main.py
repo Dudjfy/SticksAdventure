@@ -30,10 +30,14 @@ orc = Monster(69, 18, 'o', 'Orc', 2, True, hp=10, dmg=2)
 sword = Item(60, 18, '/', 'Sword', 3, False)
 test = Entity(5, 2)
 
+
+
 entityList = [player, orc, sword, test]
-# entityList = [orc, sword, test, player]
+
+for i in range(10):
+    entityList.append(Monster(40 + i, 18, 'o', 'Orc', 2, True, hp=10, dmg=2))
+
 entityList.sort(key=lambda x: x.order)
-# entityList = Entity().sortEntityListInOrder(entityList)
 
 gameMap = GameMap()
 gameMap.createGameMapFromFile()
@@ -46,10 +50,15 @@ while True:
     curHan.renderMessages('Orc - HP:{} DMG:{}'.format(orc.hp, orc.dmg))
     dx, dy = curHan.playerInput()
     player.move(entityList, gameMap, dx, dy)
+    if player.hp <= 0:
+        break
+
+menu.gameOver(curHan.screen)
+
 
 """ Curses End """
 curHan.cursesEnd()
-
+# print('Game Over')
 
 # while True:
 #     # Represents render/draw
