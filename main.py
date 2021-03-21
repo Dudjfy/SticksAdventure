@@ -43,6 +43,13 @@ gameMap = GameMap()
 gameMap.createGameMapFromFile()
 gameMap = gameMap.gameMap
 
+for tile in gameMap:
+    if tile.name == 'Wall':
+        for entity in entityList:
+            if entity.x == tile.x and entity.y == tile.y:
+                entityList.remove(entity)
+
+
 while True:
     curHan.renderFrame(gameMap)
     curHan.renderFrame(entityList)
