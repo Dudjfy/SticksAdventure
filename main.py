@@ -67,6 +67,7 @@ for i, entity1 in enumerate(entityList):
 
 rad = 5         # Radius of light
 gameOn = True
+curHan.renderMessages('You may leave after defeating the Boss!')
 while gameOn:
     curHan.renderFrame(gameMap, player, rad)
     curHan.renderFrame(entityList, player, rad)
