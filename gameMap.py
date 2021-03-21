@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class GameMap:
     def __init__(self):
         self.gameMap = set()

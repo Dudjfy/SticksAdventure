@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Det övriga som inte har med tiles från gamemap att göra kommer härstamma från klassen entities
 import random
 from math import sqrt
