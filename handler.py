@@ -40,7 +40,7 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def cursesRender(self, frame):
+    def renderFrame(self, frame):
         # self.screen.attron(curses.color_pair(1))
 
         # y, x = self.screen.getmaxyx()
@@ -57,13 +57,23 @@ class CursesHandler:
         # self.screen.refresh()
 
         # self.screen.attroff(curses.color_pair(1))
-    def cursesRenderMessages(self, newMsg):
+    def renderMessages(self, newMsg):
         self.msgLst.insert(0, newMsg)
         self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
             self.screen.addstr(25 - i, 30, msg)
 
-    def cursesPlayerInput(self):
+    def renderPlayerStats(self, player):
+        self.screen.addstr(22, 0, 'HP: {}'.format(player.hp))
+        self.screen.addstr(23, 0, 'DMG: {}'.format(player.dmg))
+        self.screen.addstr(24, 0, 'Level: {}'.format(player.lvl))
+        self.screen.addstr(25, 0, 'XP: {}'.format(player.xp))
+
+        self.screen.addstr(26, 0, ' ')
+
+        self.screen.addstr(27, 0, 'X:{} Y:{}'.format(player.x, player.y))
+
+    def playerInput(self):
         key = self.screen.getch()
 
         dx = 0
