@@ -62,10 +62,11 @@ class Monster(Creature):
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2):
+                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10):
         super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
         self.xpConst = xpConst
+        self.maxHp = baseHp
 
     def collisionDetectionMap(self, tileList, dx, dy):
         for tile in tileList:
@@ -100,16 +101,26 @@ class Player(Creature):
                 self.levelUp()
 
     def levelUp(self):
-            self.hp = int(self.baseHp + (self.lvl - 1) * sqrt(self.xp) * self.xpConst)
-            self.dmg = int(self.baseDmg + (self.lvl - 1) * sqrt(self.xp) * self.xpConst ** 2)
+        self.maxHp = int(self.baseHp + (self.lvl - 1) * sqrt(self.xp) * self.xpConst)
+        self.dmg = int(self.baseDmg + (self.lvl - 1) * sqrt(self.xp) * self.xpConst ** 2)
+        self.heal()
+
+    def heal(self):
+        if self.hp + self.maxHp // 5 <= self.maxHp:
+            self.hp += self.maxHp // 5
+        else:
+            self.hp = self.maxHp
+
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=2):
         super().__init__(x, y, char, name, color, blocksMovement, order)
 
+
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=3):
         super().__init__(x, y, char, name, color, blocksMovement, order)
+
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=False, order=1):

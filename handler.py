@@ -94,8 +94,8 @@ class CursesHandler:
         if key == curses.KEY_UP:
             player.xp += 1 * mul
             player.calcLevel()
-        # if key == curses.KEY_DOWN:
-        #     mul += 1
+        if key == curses.KEY_DOWN:
+            player.heal()
 
         if key == 27:
             return False
