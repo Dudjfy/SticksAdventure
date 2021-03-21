@@ -68,7 +68,7 @@ class CursesHandler:
         self.screen.addstr(22, 0, 'HP: {:<3}'.format(player.hp))
         self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
-        self.screen.addstr(25, 0, 'XP: {:<5}'.format(player.xp))
+        self.screen.addstr(25, 0, 'XP: {:<6}'.format(player.xp))
 
         self.screen.addstr(26, 0, ' ')
 
@@ -81,8 +81,6 @@ class CursesHandler:
         dy = 0
 
 
-        mul = 10
-
         if key == 119:
             dy -= 1
         if key == 115:
@@ -92,8 +90,8 @@ class CursesHandler:
         if key == 100:
             dx += 1
         if key == curses.KEY_UP:
-            player.xp += 1 * mul
-            player.calcLevel()
+            player.xp += 10
+            player.calcLevel(entityList)
         if key == curses.KEY_DOWN:
             player.heal()
 
