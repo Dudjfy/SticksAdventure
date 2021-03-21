@@ -14,6 +14,11 @@ import curses
     Projektet var gjord i PyCharm så det finns ett par extra filer, dessutom användes github
     för att kunna göra ändringar både på replit och min egna lokala miljö. Git användes då för
     versionskontroll. Utöver detta bör projektens filer vara tillgångliga som vanligt.
+    
+    ESC = komma ut ur programmet, viktigt då man kör i konsolen
+    arrow UP = xp cheat, +10 XP
+    arrow DOWN = healing cheat, +20% of Max HP
+    
 """
 
 
@@ -86,7 +91,7 @@ for tile in gameMap:
 
 
 while gameOn:
-    curHan.screen.clear()
+    # curHan.screen.clear()
     curHan.renderFrame(gameMap, player, rad, exploredGameMap)
     curHan.renderFrame(entityList, player, rad)
     curHan.renderPlayerStats(player)
