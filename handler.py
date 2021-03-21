@@ -23,9 +23,9 @@ class CursesHandler:
 
         # Färgpar
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic/player colors
-        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)                      # Orc green colors
-        curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)                      # Sword light-blue colors
-        curses.init_pair(4, 16, curses.COLOR_BLACK)                     # Wall dark-gray colors
+        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)      # Orc green colors
+        curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)       # Sword light-blue colors
+        curses.init_pair(4, 240, curses.COLOR_BLACK)                      # Wall dark-gray colors
         curses.init_pair(10, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
 
