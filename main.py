@@ -7,6 +7,16 @@ from menu import *
 from gameMap import *
 import curses
 
+"""
+    OBS! Replits inbyggda konsol fungerar väldigt dåligt, så kör uppguften från shell med:
+    python3 main.py
+    
+    Projektet var gjord i PyCharm så det finns ett par extra filer, dessutom användes github
+    för att kunna göra ändringar både på replit och min egna lokala miljö. Git användes då för
+    versionskontroll. Utöver detta bör projektens filer vara tillgångliga som vanligt.
+"""
+
+
 curHan = CursesHandler()
 menu = Menu()
 
@@ -26,9 +36,9 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
-player = Player(78, 19, '@', 'Player', 9, 10, True, baseHp=30, baseDmg=4)
-orc = Monster(69, 18, 'o', 'Orc', 3, 4, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
-sword = Item(60, 18, '/', 'Sword', 5, 6, False)
+player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
+orc = Monster(69, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
+sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 test = Entity(5, 2)
 
 
