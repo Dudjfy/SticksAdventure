@@ -10,8 +10,8 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['Here you will find Monsters and Loot', 'Let your adventure begin with WASD',
-                       'Welcome To The Dungeon, Stick!', 'You may leave after defeating the Boss!']
+        self.msgLst = ['You may leave after defeating the Boss!', 'Here you will find Monsters and Loot',
+                       'Let your adventure begin with WASD', 'Welcome To The Dungeon, Stick!']
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -24,7 +24,7 @@ class CursesHandler:
         curses.start_color()
 
         curses.resize_term(40, 100)
-        self.screen.border('|', '|', '-', '-', '+', '+', '+', '+')
+        # self.screen.border('|', '|', '-', '-', '+', '+', '+', '+')
 
         # Färgpar
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)       # Classic white fg, black bg
