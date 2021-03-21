@@ -52,12 +52,15 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderFrame(self, frame, player, rad=5):
+    def renderFrame(self, frame, player, rad=5, exploredFrame=[]):
         for tile in frame:
             if math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2)) < rad:
+                if isinstance(exploredFrame, set) and tile not in exploredFrame:
+                    exploredFrame.add(tile)
                 self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
             else:
-                self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
+                if tile in exploredFrame:
+                    self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
 
     def renderMessages(self, newMsg):
         self.msgLst.insert(0, '{:<40}'.format(newMsg))

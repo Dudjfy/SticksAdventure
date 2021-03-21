@@ -36,7 +36,7 @@ class Creature(Entity):
             self.y += dy
 
 class Monster(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=6, hp=10, dmg=2,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6, hp=10, dmg=2,
                  lvl=1, attacked=False, attackedMsg='Attacked', baseHp=10, baseDmg=2,
                  xpReward=0, xpRewardBase=15, lvlGap=3, xpIncrease=15):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
@@ -84,7 +84,7 @@ class Monster(Creature):
                 entity.levelUp(entityList[-1])
 
 class Player(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
                  order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
@@ -141,15 +141,15 @@ class Player(Creature):
 
 
 class Stationary(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=2):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=2):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
 
 
 class NPC(Stationary):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=3):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
 
 
 class Item(Stationary):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=False, order=1):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
