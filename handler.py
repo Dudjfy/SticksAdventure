@@ -73,11 +73,14 @@ class CursesHandler:
 
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
-    def playerInput(self):
+    def playerInput(self, player, entityList, gameMap):
         key = self.screen.getch()
 
         dx = 0
         dy = 0
+
+
+        mul = 10
 
         if key == 119:
             dy -= 1
@@ -87,7 +90,17 @@ class CursesHandler:
             dx -= 1
         if key == 100:
             dx += 1
-        if key == 27:
-            exit()
+        if key == curses.KEY_UP:
+            player.xp += 1 * mul
+            player.calcLevel()
+        # if key == curses.KEY_DOWN:
+        #     mul += 1
 
-        return dx, dy
+        if key == 27:
+            return False
+
+        player.move(entityList, gameMap, dx, dy)
+        if player.hp <= 0:
+            return False
+
+        return True

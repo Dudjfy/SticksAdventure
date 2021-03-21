@@ -1,5 +1,6 @@
 # Det övriga som inte har med tiles från gamemap att göra kommer härstamma från klassen entities
 import random
+from math import sqrt
 
 
 class Entity:
@@ -64,9 +65,10 @@ class Monster(Creature):
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True,
-                 order=7, hp=30, dmg=4, lvl=1, xp=0):
+                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2):
         super().__init__(x, y, char, name, color, blocksMovement, order, hp, dmg, lvl)
         self.xp = xp
+        self.xpConst = xpConst
 
     def collisionDetectionMap(self, tileList, dx, dy):
         for tile in tileList:
@@ -92,6 +94,10 @@ class Player(Creature):
                 not self.collisionDetectionMap(gameMap, dx, dy):
             self.x += dx
             self.y += dy
+
+    def calcLevel(self):
+        if int(self.xpConst * sqrt(self.xp)) != 0:
+            self.lvl = int(self.xpConst * sqrt(self.xp))
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', color=1, blocksMovement=True, order=2):

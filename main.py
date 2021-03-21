@@ -64,7 +64,8 @@ for i, entity1 in enumerate(entityList):
 # [[entityList.remove(entity) for entity in entityList if entity.x == tile.x and entity.y == tile.y]
 #  for tile in gameMap if tile == 'Wall']
 
-while True:
+gameOn = True
+while gameOn:
     curHan.renderFrame(gameMap)
     curHan.renderFrame(entityList)
     curHan.renderPlayerStats(player)
@@ -75,10 +76,7 @@ while True:
     # [curHan.renderMessages(entity.attackedMsg.format(entity.name, entity.hp, entity.dmg))
     #  for entity in entityList if isinstance(entity, Monster) and entity.attacked]
 
-    dx, dy = curHan.playerInput()
-    player.move(entityList, gameMap, dx, dy)
-    if player.hp <= 0:
-        break
+    gameOn = curHan.playerInput(player, entityList, gameMap)
 
 menu.gameOver(curHan.screen)
 
