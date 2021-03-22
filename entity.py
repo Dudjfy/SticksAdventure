@@ -57,20 +57,16 @@ class Monster(Creature):
         else:
             return ''
 
-    def createRandomMonsters(self, entityList, entityBase, amountMax, randomSpawning=False):
+    def createRandomMonsters(self, entityList, gameMap, entityBase, amountMax, randomSpawning=False):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
             entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
-                             light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp, dmg=entityBase.dmg,
-                             lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
+                             light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
+                             dmg=entityBase.dmg, lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
-            if entityList.get((entity.x, entity.y)) == None:
-                entityList[(entity.x, entity.y)] = entity
-            # for oldEntity in entityList:
-            #     if oldEntity.x == entity.x and oldEntity.y == entity.y:
-            #         break
-            # else:
-            #     entityList.append(entity)
+            if not (gameMap.get((entity.x, entity.y))).blocksMovement:
+                if entityList.get((entity.x, entity.y)) == None:
+                    entityList[(entity.x, entity.y)] = entity
 
     def calcXpReward(self):
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl

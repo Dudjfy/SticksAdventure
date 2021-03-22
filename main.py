@@ -51,12 +51,12 @@ entityList[(test.x, test.y)] = test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
 #  for i in range(12)]
 
-# Orcs random over whole map
-Monster().createRandomMonsters(entityList, orc, 100)
-
 # entityList.sort(key=lambda x: x.order)
 
 gameMap = GameMap().createGameMapFromFile()
+
+# Orcs random over whole map
+Monster().createRandomMonsters(entityList, gameMap, orc, 100)
 
 # Entities map collision detection
 # for tile in gameMap.values():
