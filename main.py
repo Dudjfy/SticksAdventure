@@ -25,14 +25,6 @@ import curses
 curHan = CursesHandler()
 menu = Menu()
 
-# gameMap = GameMap()
-# gameMap.createGameMapFromFile()
-# gameMap = gameMap.gameMap
-#
-# for i in gameMap:
-#     print(i.x, i.y, i.name)
-#     break
-
 """ Curses setup """
 curHan.cursesSetup()
 
@@ -48,33 +40,36 @@ test = Entity(5, 2)
 
 
 
-entityList = [player, orc, sword, test]
+# entityList = [player, orc, sword, test]
+entityList = {}
+entityList[(player.x, player.y)] = player
+entityList[(orc.x, orc.y)] = orc
+entityList[(sword.x, sword.y)] = sword
+entityList[(test.x, test.y)] = test
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
 #  for i in range(12)]
 
 # Orcs random over whole map
-Monster().createRandomMonsters(entityList, orc, 100)
+# Monster().createRandomMonsters(entityList, orc, 100)
 
-entityList.sort(key=lambda x: x.order)
+# entityList.sort(key=lambda x: x.order)
 
-gameMap = GameMap()
-gameMap.createGameMapFromFile()
-gameMap = gameMap.gameMap
+gameMap = GameMap().createGameMapFromFile()
 
 # Entities map collision detection
-for tile in gameMap:
-    if tile.name == 'Wall':
-        for entity in entityList:
-            if entity.x == tile.x and entity.y == tile.y:
-                entityList.remove(entity)
+# for tile in gameMap.values():
+#     if tile.blocksMovement:
+#         for entity in entityList:
+#             if entity.x == tile.x and entity.y == tile.y:
+#                 entityList.remove(entity)
 
 # Entities entity collision detection
-for i, entity1 in enumerate(entityList):
-    for entity2 in entityList[i + 1:]:
-        if entity1.x == entity2.x and entity1.y == entity2.y:
-            entityList.remove(entity2)
+# for i, entity1 in enumerate(entityList):
+#     for entity2 in entityList[i + 1:]:
+#         if entity1.x == entity2.x and entity1.y == entity2.y:
+#             entityList.remove(entity2)
 
 # List comprehension version
 # [[entityList.remove(entity) for entity in entityList if entity.x == tile.x and entity.y == tile.y]
@@ -83,29 +78,32 @@ for i, entity1 in enumerate(entityList):
 rad = 5         # Radius of light
 gameOn = True
 
-exploredGameMap = set()
+exploredGameMap = {}
 
-for tile in gameMap:
+for tile in gameMap.values():
     if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
-        exploredGameMap.add(tile)
+        exploredGameMap[(tile.x, tile.y)] = tile
 
+rad = 5         # Radius of light
+gameOn = True
 
 while gameOn:
     # curHan.screen.clear()
-    curHan.renderFrame(gameMap, player, rad, exploredGameMap)
-    curHan.renderFrame(entityList, player, rad)
-    curHan.renderPlayerStats(player)
-
-    attackedMonster = Monster().returnAttackedMonster(entityList)
-
-    curHan.renderMessages(attackedMonster.attackedMsg\
-        .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
-        isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
+    curHan.renderGameMap(gameMap, player, rad, exploredGameMap)
+    curHan.screen.refresh()
+    # curHan.renderFrame(entityList, player, rad)
+    # curHan.renderPlayerStats(player)
+    #
+    # attackedMonster = Monster().returnAttackedMonster(entityList)
+    #
+    # curHan.renderMessages(attackedMonster.attackedMsg\
+    #     .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
+    #     isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
     # if isinstance(attackedMonster, Monster):
     #     curHan.renderMessages(attackedMonster.attackedMsg
     #                           .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
-
-    gameOn = curHan.playerInput(player, entityList, gameMap)
+    time.sleep(10)
+    # gameOn = curHan.playerInput(player, entityList, gameMap)
 
 menu.gameOver(curHan.screen)
 

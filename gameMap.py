@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
 class GameMap:
     def __init__(self):
-        self.gameMap = set()
+        self.gameMap = {}
         self.wallChar = '#'
-        self.floorChar = ' '
+        self.floorCharDark = ' '
+        self.floorCharLight = '.'
 
     def createGameMapFromFile(self):
         file = open('map.txt', 'r')
 
-        # print('test')
         for y, row in enumerate(file):
             for x, tile in enumerate(row):
-                # print(tile, x, y, end='\t')
-                if tile == self.floorChar:
-                    self.gameMap.add(Tile(x, y, '.', 'Floor', 2, 1, False))
+                if tile == self.floorCharDark:
+                    self.gameMap[(x, y)] = Tile(x, y, self.floorCharDark, self.floorCharLight, 'Floor', 2, 1, False)
                 elif tile == self.wallChar:
-                    self.gameMap.add(Tile(x, y, self.wallChar, 'Wall', 2, 1, True))
+                    self.gameMap[(x, y)] = (Tile(x, y, self.wallChar, self.wallChar, 'Wall', 2, 1, True))
+        file.close()
+        return self.gameMap
 
 class Tile:
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True):
+    def __init__(self, x=0, y=0, charDark='?', charLight='?', name='No Name', dark=1, light=2, blocksMovement=True):
         self.x = x
         self.y = y
-        self.char = char
+        self.charDark = charDark
+        self.charLight = charLight
         self.name = name
         self.dark = dark
         self.light = light

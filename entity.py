@@ -64,6 +64,8 @@ class Monster(Creature):
                              lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
+            if [entity.x, entity.y]:
+                pass
             for oldEntity in entityList:
                 if oldEntity.x == entity.x and oldEntity.y == entity.y:
                     break

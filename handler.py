@@ -52,18 +52,32 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderFrame(self, frame, player, rad=5, exploredFrame=[]):
+    def renderGameMap(self, gameMap, player, rad=5, exploredGameMap={}):
         tempList = []
-        for tile in frame:
+        for tile in gameMap.values():
             # Pythagoras Theorem for distance
             distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
-            if distance < rad:
-                if isinstance(exploredFrame, set) and tile not in exploredFrame:
-                    exploredFrame.add(tile)
-                self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
-            else:
-                if tile in exploredFrame:
-                    self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
+            # if distance < rad:
+            #     if tile not in exploredGameMap:
+            #         exploredGameMap[(tile.x, tile.y)] = tile
+            self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
+            # else:
+            #     if tile in exploredGameMap:
+            #         self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
+
+
+    # def renderGameMap(self, gameMap, player, rad=5, exploredGameMap={}):
+    #     tempList = []
+    #     for tile in gameMap.values():
+    #         # Pythagoras Theorem for distance
+    #         distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
+    #         if distance < rad:
+    #             if tile not in exploredGameMap:
+    #                 exploredGameMap[(tile.x, tile.y)] = tile
+    #             self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
+    #         else:
+    #             if tile in exploredGameMap:
+    #                 self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
 
     def renderMessages(self, newMsg, update=False):
         if update:
