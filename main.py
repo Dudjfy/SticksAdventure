@@ -84,9 +84,9 @@ while gameOn:
         .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
         isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
 
-    curHan.screen.refresh()
-    time.sleep(1)
-    # gameOn = curHan.playerInput(player, entityList, gameMap)
+    # curHan.screen.refresh()
+    # time.sleep(1)
+    gameOn = curHan.playerInput(player, entityList, gameMap)
 
 menu.gameOver(curHan.screen)
 
