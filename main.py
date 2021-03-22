@@ -77,17 +77,15 @@ while gameOn:
     curHan.renderEntityList(entityList, player, rad)
 
     curHan.renderPlayerStats(player)
+
+    attackedMonster = Monster().returnAttackedMonster(entityList)
+
+    curHan.renderMessages(attackedMonster.attackedMsg\
+        .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
+        isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
+
     curHan.screen.refresh()
-    #
-    # attackedMonster = Monster().returnAttackedMonster(entityList)
-    #
-    # curHan.renderMessages(attackedMonster.attackedMsg\
-    #     .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
-    #     isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
-    # if isinstance(attackedMonster, Monster):
-    #     curHan.renderMessages(attackedMonster.attackedMsg
-    #                           .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg))
-    time.sleep(10)
+    time.sleep(1)
     # gameOn = curHan.playerInput(player, entityList, gameMap)
 
 menu.gameOver(curHan.screen)

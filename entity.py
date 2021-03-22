@@ -50,7 +50,7 @@ class Monster(Creature):
         self.calcXpReward()
 
     def returnAttackedMonster(self, entityList):
-        for entity in entityList:
+        for entity in entityList.values():
             if isinstance(entity, Monster) and entity.attacked:
                 entity.attacked = False
                 return entity
