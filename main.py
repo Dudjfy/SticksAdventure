@@ -42,9 +42,10 @@ test = Entity(5, 2)
 
 # entityList = [player, orc, sword, test]
 entityList = {}
+itemList = {}
 entityList[(player.x, player.y)] = player
 entityList[(orc.x, orc.y)] = orc
-entityList[(sword.x, sword.y)] = sword
+itemList[(sword.x, sword.y)] = sword
 entityList[(test.x, test.y)] = test
 
 # Orcs test

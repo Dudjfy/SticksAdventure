@@ -91,44 +91,23 @@ class Player(Creature):
         self.xpConst = xpConst
         self.maxHp = baseHp
 
-    def collisionDetectionMap(self, gameMap, dx, dy):
-
-        if not (gameMap.get((self.x + dx, self.y + dy))).blocksMovement:
-            return True
-        else:
-            return False
-
-    def collisionDetectionEntityList(self, entityList, dx, dy):
-        entity = entityList.get((self.x + dx, self.y + dy))
-        if entity.blocksMovement:
-            if isinstance(entity, Monster):
-                self.attack(entity)
-                if entity.hp <= 0:
-                    self.xp += entity.xpReward
-                    self.calcLevel(entityList)
-                    entityList.remove(entity)
-            return True
-
-        return False
-
-        # for entity in entityList:
-        #     if entity.blocksMovement:
-        #         if self.x + dx == entity.x and self.y + dy == entity.y:
-        #             if isinstance(entity, Monster):
-        #                 self.attack(entity)
-        #                 if entity.hp <= 0:
-        #                     self.xp += entity.xpReward
-        #                     self.calcLevel(entityList)
-        #                     entityList.remove(entity)
-        #
-        #             return True
-        # return False
-
     def move(self, entityList, gameMap, dx, dy):
-        if not self.collisionDetectionEntityList(entityList, dx, dy) and \
-                not self.collisionDetectionMap(gameMap, dx, dy):
-            self.x += dx
-            self.y += dy
+        cords = (self.x + dx, self.y + dy)
+        if not (gameMap.get(cords)).blocksMovement:
+            entity = entityList.get(cords)
+            if isinstance(entity, Entity) and entityList.get(cords).blocksMovement:
+                if isinstance(entity, Monster):
+                    self.attack(entity)
+                    if entity.hp <= 0:
+                        self.xp += entity.xpReward
+                        self.calcLevel(entityList)
+                        entityList.pop(cords)
+            else:
+                entityList.pop((self.x, self.y))
+                self.x += dx
+                self.y += dy
+                entityList[(self.x, self.y)] = self
+
 
     def calcLevel(self, entityList):
         if int(self.xpConst * sqrt(self.xp)) != 0:
