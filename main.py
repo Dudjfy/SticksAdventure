@@ -59,17 +59,13 @@ gameMap = GameMap().createGameMapFromFile()
 # Orcs random over whole map
 Monster().createRandomMonsters(entityList, gameMap, orc, 100)
 
-
-rad = 5         # Radius of light
-gameOn = True
-
 exploredGameMap = {}
 
 for tile in gameMap.values():
     if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
         exploredGameMap[(tile.x, tile.y)] = tile
 
-rad = 5         # Radius of light
+rad = 4         # Radius of light
 gameOn = True
 
 while gameOn:
