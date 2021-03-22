@@ -57,27 +57,22 @@ class CursesHandler:
         for tile in gameMap.values():
             # Pythagoras Theorem for distance
             distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
-            # if distance < rad:
-            #     if tile not in exploredGameMap:
-            #         exploredGameMap[(tile.x, tile.y)] = tile
-            self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
-            # else:
-            #     if tile in exploredGameMap:
-            #         self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
+            if distance < rad:
+                if tile not in exploredGameMap:
+                    exploredGameMap[(tile.x, tile.y)] = tile
+                self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
+            else:
+                if tile in exploredGameMap:
+                    self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
 
-    # def renderGameMap(self, gameMap, player, rad=5, exploredGameMap={}):
-    #     tempList = []
-    #     for tile in gameMap.values():
-    #         # Pythagoras Theorem for distance
-    #         distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
-    #         if distance < rad:
-    #             if tile not in exploredGameMap:
-    #                 exploredGameMap[(tile.x, tile.y)] = tile
-    #             self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
-    #         else:
-    #             if tile in exploredGameMap:
-    #                 self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.dark))
+    def renderEntityList(self, entityList, player, rad=5):
+        tempList = []
+        for tile in entityList.values():
+            # Pythagoras Theorem for distance
+            distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
+            if distance < rad:
+                self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
 
     def renderMessages(self, newMsg, update=False):
         if update:

@@ -52,7 +52,7 @@ entityList[(test.x, test.y)] = test
 #  for i in range(12)]
 
 # Orcs random over whole map
-# Monster().createRandomMonsters(entityList, orc, 100)
+Monster().createRandomMonsters(entityList, orc, 100)
 
 # entityList.sort(key=lambda x: x.order)
 
@@ -90,8 +90,9 @@ gameOn = True
 while gameOn:
     # curHan.screen.clear()
     curHan.renderGameMap(gameMap, player, rad, exploredGameMap)
+    curHan.renderEntityList(entityList, player, rad)
     curHan.screen.refresh()
-    # curHan.renderFrame(entityList, player, rad)
+
     # curHan.renderPlayerStats(player)
     #
     # attackedMonster = Monster().returnAttackedMonster(entityList)

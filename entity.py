@@ -64,13 +64,13 @@ class Monster(Creature):
                              lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
-            if [entity.x, entity.y]:
-                pass
-            for oldEntity in entityList:
-                if oldEntity.x == entity.x and oldEntity.y == entity.y:
-                    break
-            else:
-                entityList.append(entity)
+            if entityList.get((entity.x, entity.y)) == None:
+                entityList[(entity.x, entity.y)] = entity
+            # for oldEntity in entityList:
+            #     if oldEntity.x == entity.x and oldEntity.y == entity.y:
+            #         break
+            # else:
+            #     entityList.append(entity)
 
     def calcXpReward(self):
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
