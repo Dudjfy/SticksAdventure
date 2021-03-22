@@ -66,9 +66,13 @@ class CursesHandler:
                     self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
 
-    def renderEntityList(self, entityList, player, rad=5):
+    def renderEntityList(self, entityList, itemList, player, rad=5):
         tempList = []
-        for tile in entityList.values():
+        newEntityList = list(entityList.values())
+        newEntityList.extend(list(itemList.values()))
+        newEntityList.sort(key=lambda x: x.order)
+
+        for tile in newEntityList:
             # Pythagoras Theorem for distance
             distance = math.ceil(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
             if distance < rad:

@@ -75,7 +75,7 @@ gameOn = True
 while gameOn:
     # curHan.screen.clear()
     curHan.renderGameMap(gameMap, exploredGameMap, player, rad)
-    curHan.renderEntityList(entityList, player, rad)
+    curHan.renderEntityList(entityList, itemList, player, rad)
 
     curHan.renderPlayerStats(player)
 
