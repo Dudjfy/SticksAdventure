@@ -52,7 +52,7 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderGameMap(self, gameMap, player, rad=5, exploredGameMap={}):
+    def renderGameMap(self, gameMap, exploredGameMap, player, rad=5):
         tempList = []
         for tile in gameMap.values():
             # Pythagoras Theorem for distance
@@ -62,7 +62,7 @@ class CursesHandler:
                     exploredGameMap[(tile.x, tile.y)] = tile
                 self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
             else:
-                if tile in exploredGameMap:
+                if tile in exploredGameMap.values():
                     self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
 

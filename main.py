@@ -58,22 +58,6 @@ gameMap = GameMap().createGameMapFromFile()
 # Orcs random over whole map
 Monster().createRandomMonsters(entityList, gameMap, orc, 100)
 
-# Entities map collision detection
-# for tile in gameMap.values():
-#     if tile.blocksMovement:
-#         for entity in entityList:
-#             if entity.x == tile.x and entity.y == tile.y:
-#                 entityList.remove(entity)
-
-# Entities entity collision detection
-# for i, entity1 in enumerate(entityList):
-#     for entity2 in entityList[i + 1:]:
-#         if entity1.x == entity2.x and entity1.y == entity2.y:
-#             entityList.remove(entity2)
-
-# List comprehension version
-# [[entityList.remove(entity) for entity in entityList if entity.x == tile.x and entity.y == tile.y]
-#  for tile in gameMap if tile == 'Wall']
 
 rad = 5         # Radius of light
 gameOn = True
@@ -89,7 +73,7 @@ gameOn = True
 
 while gameOn:
     # curHan.screen.clear()
-    curHan.renderGameMap(gameMap, player, rad, exploredGameMap)
+    curHan.renderGameMap(gameMap, exploredGameMap, player, rad)
     curHan.renderEntityList(entityList, player, rad)
     curHan.screen.refresh()
 
