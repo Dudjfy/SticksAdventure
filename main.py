@@ -75,9 +75,9 @@ while gameOn:
     # curHan.screen.clear()
     curHan.renderGameMap(gameMap, exploredGameMap, player, rad)
     curHan.renderEntityList(entityList, player, rad)
-    curHan.screen.refresh()
 
-    # curHan.renderPlayerStats(player)
+    curHan.renderPlayerStats(player)
+    curHan.screen.refresh()
     #
     # attackedMonster = Monster().returnAttackedMonster(entityList)
     #
