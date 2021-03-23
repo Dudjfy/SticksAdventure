@@ -28,6 +28,7 @@ class Creature(Entity):
 
     def attack(self, enemy):
         enemy.attacked = True
+        enemy.attackedOnce = True
         self.hp -= enemy.dmg
         enemy.hp -= self.dmg
 
@@ -36,19 +37,19 @@ class Creature(Entity):
             self.y += dy
 
 class Monster(Creature):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6, hp=10, dmg=2,
-                 lvl=1, attacked=False, attackedMsg='Attacked', deathMsg='Died', baseHp=10, baseDmg=2,
-                 xpReward=0, xpRewardBase=15, lvlGap=3, xpIncrease=15):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6,
+                 hp=10, dmg=2, lvl=1, attacked=False, attackedMsg='Attacked', deathMsg='Died', baseHp=10,
+                 baseDmg=2, xpReward=0, xpRewardBase=15, lvlGap=3, xpIncrease=15, attackedOnce=False):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.attacked = attacked
         self.attackedMsg = attackedMsg
         self.deathMsg = deathMsg
-        self.xpReward = xpReward
         self.xpRewardBase = xpRewardBase
         self.xpIncrease = xpIncrease
         self.lvlGap = lvlGap
+        self.attackedOnce = attackedOnce
 
-        self.calcXpReward()
+        self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
 
     def returnAttackedMonster(self, entityList):
         for entity in entityList.values():
@@ -73,20 +74,18 @@ class Monster(Creature):
                         entityList[(entity.x, entity.y)] = entity
                         break
 
-    def calcXpReward(self):
-        self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
-
     def levelUp(self, player):
-        if player.lvl - self.lvlGap > 0:
-            self.calcXpReward()
+        if player.lvl - self.lvlGap > 0 and not self.attackedOncea:
             self.lvl = player.lvl - self.lvlGap
+            self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
             self.hp = int(self.baseHp + player.hp // 2)
             self.dmg = int(self.baseDmg + self.lvl - 1)
 
-    def entityListUpdate(self, entityList):
-        for entity in entityList:
+    def entityListUpdate(self, entityList, player):
+        for entity in entityList.values():
             if isinstance(entity, Monster):
-                entity.levelUp(entityList[-1])
+                entity.levelUp(player)
+
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
@@ -120,18 +119,15 @@ class Player(Creature):
                 self.y += dy
                 entityList[(self.x, self.y)] = self
 
-
     def calcLevel(self, entityList):
         if int(self.xpConst * sqrt(self.xp)) != 0:
             oldLvl = self.lvl
             self.lvl = int(self.xpConst * sqrt(self.xp))
             if oldLvl != self.lvl:
-                Monster().entityListUpdate(entityList)
                 self.levelUp()
-
+                Monster().entityListUpdate(entityList, self)
 
     def levelUp(self):
-
         self.maxHp = int(self.baseHp + (self.lvl - 1) * sqrt(self.xp) * self.xpConst)
         self.dmg = int(self.baseDmg + (self.lvl - 1) * sqrt(self.xp) * self.xpConst ** 2)
         self.heal()
@@ -152,8 +148,9 @@ class Stationary(Entity):
 
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
-                 npcMsg='NPC', msgFlag=False):
+                 npcMsg='NPC', msgFlag=False, healAmount=3):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
+        self.healAmount = healAmount
         self.npcMsg = npcMsg
         self.msgFlag = msgFlag
 

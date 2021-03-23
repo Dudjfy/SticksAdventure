@@ -38,7 +38,7 @@ orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{0} - H
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, hp=20, dmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
 goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, hp=4, dmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
-fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, npcMsg='Healed player {} HP')
+fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, npcMsg='Healed player {} HP', healAmount=3)
 test = Entity(5, 2)
 
 
