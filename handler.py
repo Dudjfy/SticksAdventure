@@ -73,7 +73,6 @@ class CursesHandler:
                     self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
                 elif not item == None:
                     self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
-
                 else:
                     self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
 

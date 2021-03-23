@@ -78,7 +78,7 @@ curHan.renderMessages()
 
 while gameOn:
     # curHan.screen.clear()
-    curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
+    # curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
     curHan.renderPlayerStats(player)
 
@@ -90,8 +90,10 @@ while gameOn:
             .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg),
                               isinstance(attackedMonster, Monster))
 
-        if attackedMonster.hp < 0:
+        if attackedMonster.hp <= 0:
             entityList.pop((attackedMonster.x, attackedMonster.y))
+
+    curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
     gameOn = curHan.playerInput(player, entityList, gameMap)
 
