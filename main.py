@@ -63,9 +63,9 @@ entityList[(test.x, test.y)] = test
 gameMap = GameMap().createGameMapFromFile()
 
 # Orcs random over whole map
-Monster().createRandomMonsters(entityList, gameMap, orc, 50)
-Monster().createRandomMonsters(entityList, gameMap, troll, 20)
-Monster().createRandomMonsters(entityList, gameMap, goblin, 10)
+Monster().spawnRandomMonsters(entityList, gameMap, orc, 50)
+Monster().spawnRandomMonsters(entityList, gameMap, troll, 20)
+Monster().spawnRandomMonsters(entityList, gameMap, goblin, 10)
 
 exploredGameMap = {}
 
@@ -100,6 +100,7 @@ while gameOn:
     if fountain.msgFlag:
         curHan.renderMessages('Player already at max HP!' if player.healedHp == 0 else
                               fountain.npcMsg.format(player.healedHp), True)
+        fountain.respawnNpc(entityList, itemList, gameMap)
         fountain.msgFlag = False
 
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)

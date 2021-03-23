@@ -58,17 +58,20 @@ class Monster(Creature):
         else:
             return ''
 
-    def createRandomMonsters(self, entityList, gameMap, entityBase, amountMax, randomSpawning=False):
-        for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
-            entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
-                             light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
-                             dmg=entityBase.dmg, lvl=entityBase.lvl, xpRewardBase=entityBase.xpRewardBase,
-                             attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
-            entity.x = random.randint(1, 80)
-            entity.y = random.randint(1, 20)
-            if not (gameMap.get((entity.x, entity.y))).blocksMovement:
-                if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
-                    entityList[(entity.x, entity.y)] = entity
+    def spawnRandomMonsters(self, entityList, gameMap, entityBase, amountMax, randomSpawningAmount=False, playableWidthMin=1, playableWidthMax=80,
+                   playableHeightMin=1, playableHeightMax=20):
+        for i in range(amountMax if not randomSpawningAmount else random.randint(0, amountMax)):
+            while True:
+                entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
+                                 light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
+                                 dmg=entityBase.dmg, lvl=entityBase.lvl, xpRewardBase=entityBase.xpRewardBase,
+                                 attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
+                entity.x = random.randint(playableWidthMin, playableWidthMax)
+                entity.y = random.randint(playableHeightMin, playableHeightMax)
+                if not (gameMap.get((entity.x, entity.y))).blocksMovement:
+                    if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
+                        entityList[(entity.x, entity.y)] = entity
+                        break
 
     def calcXpReward(self):
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
@@ -133,10 +136,10 @@ class Player(Creature):
         self.dmg = int(self.baseDmg + (self.lvl - 1) * sqrt(self.xp) * self.xpConst ** 2)
         self.heal()
 
-    def heal(self):
-        if self.hp + self.maxHp // 5 <= self.maxHp:
-            self.hp += self.maxHp // 5
-            self.healedHp = self.maxHp // 5
+    def heal(self, healPart=5):
+        if self.hp + self.maxHp // healPart <= self.maxHp:
+            self.hp += self.maxHp // healPart
+            self.healedHp = self.maxHp // healPart
         else:
             self.healedHp = self.maxHp - self.hp
             self.hp = self.maxHp
@@ -154,6 +157,19 @@ class NPC(Stationary):
         self.npcMsg = npcMsg
         self.msgFlag = msgFlag
 
+    def respawnNpc(self, entityList, itemList, gameMap, playableWidthMin=1, playableWidthMax=80,
+                   playableHeightMin=1, playableHeightMax=20):
+        while True:
+            x = random.randint(playableWidthMin, playableWidthMax)
+            y = random.randint(playableHeightMin, playableHeightMax)
+            cords = (x, y)
+            if not gameMap.get(cords).blocksMovement:
+                if entityList.get(cords) == None and itemList.get(cords) == None:
+                    entityList.pop((self.x, self.y))
+                    self.x = x
+                    self.y = y
+                    entityList[(self.x, self.y)] = self
+                    break
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1):
