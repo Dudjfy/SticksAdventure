@@ -5,7 +5,7 @@ from math import sqrt
 
 
 class Entity:
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True, order=4):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=4):
         self.x = x
         self.y = y
         self.char = char
@@ -17,7 +17,7 @@ class Entity:
 
 # Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=1, light=2, blocksMovement=True,
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
                  order=5, hp=0, dmg=0, lvl=1, baseHp=10, baseDmg=2):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.hp = hp

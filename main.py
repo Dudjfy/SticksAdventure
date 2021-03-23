@@ -65,12 +65,14 @@ for tile in gameMap.values():
     if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
         exploredGameMap[(tile.x, tile.y)] = tile
 
-rad = 4         # Radius of light
+rad = 3         # Radius of light
+rays = 360
+steps = rad
 gameOn = True
 
 while gameOn:
     # curHan.screen.clear()
-    curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad)
+    curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
     curHan.renderPlayerStats(player)
 

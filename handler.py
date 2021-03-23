@@ -52,12 +52,10 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderFrame(self, gameMap, exploredGameMap, entityList, itemList, player, rad=5):
+    def renderFrame(self, gameMap, exploredGameMap, entityList, itemList, player, rad=4, rays=360, steps=4):
         for tile in exploredGameMap.values():
             self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
-        rays = 360
-        steps = 5
         for ray in range(rays):
             x = rad * math.cos(ray)
             y = rad * math.sin(ray)

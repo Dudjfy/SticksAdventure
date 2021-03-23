@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-s
 from handler import *
 
 # Huvudmenyn klassen
