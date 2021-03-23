@@ -62,7 +62,8 @@ class Monster(Creature):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
             entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
                              light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
-                             dmg=entityBase.dmg, lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
+                             dmg=entityBase.dmg, lvl=entityBase.lvl, xpRewardBase=entityBase.xpRewardBase,
+                             attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
             if not (gameMap.get((entity.x, entity.y))).blocksMovement:
