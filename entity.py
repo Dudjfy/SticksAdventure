@@ -75,7 +75,7 @@ class Monster(Creature):
                         break
 
     def levelUp(self, player):
-        if player.lvl - self.lvlGap > 0 and not self.attackedOncea:
+        if player.lvl - self.lvlGap > 0 and not self.attackedOnce:
             self.lvl = player.lvl - self.lvlGap
             self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
             self.hp = int(self.baseHp + player.hp // 2)
