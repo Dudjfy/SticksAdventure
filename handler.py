@@ -81,7 +81,7 @@ class CursesHandler:
                     break
 
 
-    def renderMessages(self, newMsg, update=False):
+    def renderMessages(self, newMsg='', update=False):
         if update:
             self.msgLst.insert(0, '{:<40}'.format(newMsg))
             self.msgLst.pop()

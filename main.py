@@ -34,7 +34,9 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
-orc = Monster(69, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}')
+orc = Monster(69, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died')
+troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, hp=20, dmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died')
+goblin = Monster(69, 18, 'G', 'Goblin', 2, 3, True, hp=4, dmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died')
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 test = Entity(5, 2)
 
@@ -57,7 +59,9 @@ entityList[(test.x, test.y)] = test
 gameMap = GameMap().createGameMapFromFile()
 
 # Orcs random over whole map
-Monster().createRandomMonsters(entityList, gameMap, orc, 100)
+Monster().createRandomMonsters(entityList, gameMap, orc, 50)
+Monster().createRandomMonsters(entityList, gameMap, troll, 20)
+Monster().createRandomMonsters(entityList, gameMap, goblin, 10)
 
 exploredGameMap = {}
 
@@ -70,6 +74,8 @@ rays = 360
 steps = rad
 gameOn = True
 
+curHan.renderMessages()
+
 while gameOn:
     # curHan.screen.clear()
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
@@ -78,12 +84,15 @@ while gameOn:
 
     attackedMonster = Monster().returnAttackedMonster(entityList)
 
-    curHan.renderMessages(attackedMonster.attackedMsg\
-        .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg) if \
-        isinstance(attackedMonster, Monster) else '', isinstance(attackedMonster, Monster))
+    if isinstance(attackedMonster, Monster):
 
-    # curHan.screen.refresh()
-    # time.sleep(1)
+        curHan.renderMessages(attackedMonster.attackedMsg\
+            .format(attackedMonster.name, attackedMonster.hp, attackedMonster.dmg),
+                              isinstance(attackedMonster, Monster))
+
+        if attackedMonster.hp < 0:
+            entityList.pop((attackedMonster.x, attackedMonster.y))
+
     gameOn = curHan.playerInput(player, entityList, gameMap)
 
 menu.gameOver(curHan.screen)

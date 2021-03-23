@@ -37,11 +37,12 @@ class Creature(Entity):
 
 class Monster(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6, hp=10, dmg=2,
-                 lvl=1, attacked=False, attackedMsg='Attacked', baseHp=10, baseDmg=2,
+                 lvl=1, attacked=False, attackedMsg='Attacked', deathMsg='Died', baseHp=10, baseDmg=2,
                  xpReward=0, xpRewardBase=15, lvlGap=3, xpIncrease=15):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.attacked = attacked
         self.attackedMsg = attackedMsg
+        self.deathMsg = deathMsg
         self.xpReward = xpReward
         self.xpRewardBase = xpRewardBase
         self.xpIncrease = xpIncrease
@@ -61,7 +62,7 @@ class Monster(Creature):
         for i in range(amountMax if not randomSpawning else random.randint(0, amountMax)):
             entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
                              light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
-                             dmg=entityBase.dmg, lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg)
+                             dmg=entityBase.dmg, lvl=entityBase.lvl, attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
             if not (gameMap.get((entity.x, entity.y))).blocksMovement:
@@ -99,9 +100,10 @@ class Player(Creature):
                 if isinstance(entity, Monster):
                     self.attack(entity)
                     if entity.hp <= 0:
+                        entity.attackedMsg = entity.deathMsg
                         self.xp += entity.xpReward
                         self.calcLevel(entityList)
-                        entityList.pop(cords)
+                        # entityList.pop(cords)
             else:
                 entityList.pop((self.x, self.y))
                 self.x += dx
