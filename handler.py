@@ -52,7 +52,7 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderGameMap(self, gameMap, exploredGameMap, entityList, itemList, player, rad=5):
+    def renderFrame(self, gameMap, exploredGameMap, entityList, itemList, player, rad=5):
         for tile in exploredGameMap.values():
             self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
@@ -61,7 +61,7 @@ class CursesHandler:
         for ray in range(rays):
             x = rad * math.cos(ray)
             y = rad * math.sin(ray)
-            for step in range(1, steps + 1):
+            for step in range(0, steps + 1):
                 cords = (player.x + round(x / steps * step), player.y + round(y / steps * step))
                 tile = gameMap.get(cords)
                 if tile == None:
@@ -71,56 +71,17 @@ class CursesHandler:
 
                 item = itemList.get(cords)
                 entity = entityList.get(cords)
-                if not item == None:
-                    self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
-                elif not entity == None:
+                if not entity == None:
                     self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
+                elif not item == None:
+                    self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
+
                 else:
                     self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
 
                 if tile.blocksMovement:
                     break
 
-        # for tile in gameMap.values():
-        #     # Pythagoras Theorem for distance
-        #     distance = round(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
-        #     if distance <= rad:
-        #         if tile not in exploredGameMap:
-        #             exploredGameMap[(tile.x, tile.y)] = tile
-        #         self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
-        #     else:
-        #         if tile in exploredGameMap.values():
-        #             self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
-
-
-    def renderEntityList(self, entityList, itemList, player, rad=5):
-        tempList = []
-        newEntityList = list(entityList.values())
-        newEntityList.extend(list(itemList.values()))
-        newEntityList.sort(key=lambda x: x.order)
-
-        rays = 360
-        steps = 5
-        for ray in range(rays):
-            x = rad * math.cos(ray)
-            y = rad * math.sin(ray)
-            for step in range(0, steps + 1):
-                entity = entityList.get((player.x + round(x / steps * step), player.y + round(y / steps * step)))
-                if entity == None:
-                    break
-
-                self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
-
-                # for entities blocking or not blocking light
-                # if entity.blocksMovement:
-                #     break
-
-
-        # for tile in newEntityList:
-        #     # Pythagoras Theorem for distance
-        #     distance = round(math.sqrt(abs(player.x - tile.x) ** 2 + abs(player.y - tile.y) ** 2))
-        #     if distance <= rad:
-        #         self.screen.addstr(tile.y, tile.x, tile.char, curses.color_pair(tile.light))
 
     def renderMessages(self, newMsg, update=False):
         if update:
