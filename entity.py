@@ -67,7 +67,7 @@ class Monster(Creature):
             entity.x = random.randint(1, 80)
             entity.y = random.randint(1, 20)
             if not (gameMap.get((entity.x, entity.y))).blocksMovement:
-                if entityList.get((entity.x, entity.y)) == None:
+                if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
                     entityList[(entity.x, entity.y)] = entity
 
     def calcXpReward(self):
@@ -87,11 +87,12 @@ class Monster(Creature):
 
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
-                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10):
+                 order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10, healedHp=0):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
         self.xpConst = xpConst
         self.maxHp = baseHp
+        self.healedHp = healedHp
 
     def move(self, entityList, gameMap, dx, dy):
         cords = (self.x + dx, self.y + dy)
@@ -105,6 +106,11 @@ class Player(Creature):
                         self.xp += entity.xpReward
                         self.calcLevel(entityList)
                         # entityList.pop(cords)
+                elif isinstance(entity, NPC):
+                    if entity.name == 'Health Fountain':
+                        entity.msgFlag = True
+                        self.heal()
+
             else:
                 entityList.pop((self.x, self.y))
                 self.x += dx
@@ -130,7 +136,9 @@ class Player(Creature):
     def heal(self):
         if self.hp + self.maxHp // 5 <= self.maxHp:
             self.hp += self.maxHp // 5
+            self.healedHp = self.maxHp // 5
         else:
+            self.healedHp = self.maxHp - self.hp
             self.hp = self.maxHp
 
 
@@ -140,8 +148,11 @@ class Stationary(Entity):
 
 
 class NPC(Stationary):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
+                 npcMsg='NPC', msgFlag=False):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
+        self.npcMsg = npcMsg
+        self.msgFlag = msgFlag
 
 
 class Item(Stationary):

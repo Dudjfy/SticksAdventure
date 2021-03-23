@@ -34,10 +34,11 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
-orc = Monster(69, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
+orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, hp=10, dmg=2, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, hp=20, dmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
-goblin = Monster(69, 18, 'G', 'Goblin', 2, 3, True, hp=4, dmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
+goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, hp=4, dmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
+fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, npcMsg='Healed player {} HP')
 test = Entity(5, 2)
 
 
@@ -47,7 +48,10 @@ entityList = {}
 itemList = {}
 entityList[(player.x, player.y)] = player
 entityList[(orc.x, orc.y)] = orc
+entityList[(troll.x, troll.y)] = troll
+entityList[(goblin.x, goblin.y)] = goblin
 itemList[(sword.x, sword.y)] = sword
+entityList[(fountain.x, fountain.y)] = fountain
 entityList[(test.x, test.y)] = test
 
 # Orcs test
@@ -92,6 +96,11 @@ while gameOn:
 
         if attackedMonster.hp <= 0:
             entityList.pop((attackedMonster.x, attackedMonster.y))
+
+    if fountain.msgFlag:
+        curHan.renderMessages('Player already at max HP!' if player.healedHp == 0 else
+                              fountain.npcMsg.format(player.healedHp), True)
+        fountain.msgFlag = False
 
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
