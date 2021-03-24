@@ -10,7 +10,10 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['', '', '', '']
+        self.msgLst = ['{:<40}'.format('Should I approach him? (use WASD)'),
+                       '{:<40}'.format('He.. looks like.. A Wizard?..'),
+                       '{:<40}'.format("Looks like there's someone near me..."),
+                       '{:<40}'.format('Ahgg... Whe- Where.. am I??.')]
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -34,13 +37,6 @@ class CursesHandler:
         curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
         curses.init_pair(7, 5, curses.COLOR_BLACK)                       # Wizard purple fg, black bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
-
-        # curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic white fg, yellow bg
-        # curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)      # Orc green fg, yellow bg
-        # curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_BLACK)       # Sword blue fg, yellow bg
-        # curses.init_pair(8, curses.COLOR_WHITE, curses.COLOR_BLACK)       # Wall dark-gray fg, yellow bg
-        # curses.init_pair(10, 11, curses.COLOR_BLACK)                     # Player cyan fg, yellow bg
-
 
     # Curses avslutas, inställningar sätts tillbaka till
     def cursesEnd(self):

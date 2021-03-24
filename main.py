@@ -42,10 +42,9 @@ fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedT
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
 wizard = NPC(80, 19, 'W', 'Wizard', 2, 7, True,
              npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
-                         'Here you will find Monsters and Loot', 'You may leave after defeating the Boss!'])
+                         'to move, interact or attack Monster!', "Use E to pick up Items of Loot",
+                         'You may leave after defeating the Boss!', 'Good luck with your adventure, Stick!'])
 test = Entity(5, 2)
-
-
 
 # entityList = [player, orc, sword, test]
 entityList = {}
@@ -66,11 +65,13 @@ entityList[(test.x, test.y)] = test
 # entityList.sort(key=lambda x: x.order)
 
 gameMap = GameMap().createGameMapFromFile()
+forbiddenTiles = GameMap().addForbiddenTiles([], 57, 17, 80, 20)
+
 
 # Orcs random over whole map
-Monster().spawnRandomMonsters(entityList, gameMap, orc, 50)
-Monster().spawnRandomMonsters(entityList, gameMap, troll, 20)
-Monster().spawnRandomMonsters(entityList, gameMap, goblin, 10)
+Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, orc, 50)
+Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, troll, 20)
+Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, goblin, 10)
 
 exploredGameMap = {}
 

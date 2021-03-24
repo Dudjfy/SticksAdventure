@@ -18,6 +18,13 @@ class GameMap:
         file.close()
         return self.gameMap
 
+    def addForbiddenTiles(self, forbiddenTiles, xMin, yMin, xMax, yMax):
+        for x in range(xMin, xMax + 1):
+            for y in range(yMin, yMax + 1):
+                forbiddenTiles.append((x, y))
+        return forbiddenTiles
+
+
 class Tile:
     def __init__(self, x=0, y=0, charDark='?', charLight='?', name='No Name', dark=1, light=2, blocksMovement=True):
         self.x = x

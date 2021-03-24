@@ -59,20 +59,24 @@ class Monster(Creature):
         else:
             return ''
 
-    def spawnRandomMonsters(self, entityList, gameMap, entityBase, amountMax, randomSpawningAmount=False, playableWidthMin=1, playableWidthMax=80,
+    def spawnRandomMonsters(self, entityList, gameMap, forbiddenTiles, entityBase, amountMax, randomSpawningAmount=False, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
         for i in range(amountMax if not randomSpawningAmount else random.randint(0, amountMax)):
             while True:
                 entity = Monster(char=entityBase.char, name=entityBase.name, dark=entityBase.dark,
-                                 light=entityBase.light, blocksMovement=entityBase.blocksMovement, hp=entityBase.hp,
-                                 dmg=entityBase.dmg, lvl=entityBase.lvl, xpRewardBase=entityBase.xpRewardBase,
+                                 light=entityBase.light, blocksMovement=entityBase.blocksMovement,
+                                 hp=entityBase.baseHp, dmg=entityBase.baseDmg, baseHp=entityBase.baseHp,
+                                 baseDmg=entityBase.baseDmg, lvl=entityBase.lvl,
+                                 xpRewardBase=entityBase.xpRewardBase,
                                  attackedMsg=entityBase.attackedMsg, deathMsg=entityBase.deathMsg)
+
                 entity.x = random.randint(playableWidthMin, playableWidthMax)
                 entity.y = random.randint(playableHeightMin, playableHeightMax)
-                if not (gameMap.get((entity.x, entity.y))).blocksMovement:
-                    if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
-                        entityList[(entity.x, entity.y)] = entity
-                        break
+                if not (entity.x, entity.y) in forbiddenTiles:
+                    if not (gameMap.get((entity.x, entity.y))).blocksMovement:
+                        if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
+                            entityList[(entity.x, entity.y)] = entity
+                            break
 
     def levelUp(self, player):
         if player.lvl - self.lvlGap > 0 and not self.attackedOnce:
