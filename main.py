@@ -38,7 +38,8 @@ orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2, attackedMsg=
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
 goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
-fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, npcMsg='Healed player {} HP', healAmount=3, healedTimes=0, healTimeMax=3)
+fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
+               npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
 test = Entity(5, 2)
 
 
@@ -98,8 +99,8 @@ while gameOn:
             entityList.pop((attackedMonster.x, attackedMonster.y))
 
     if fountain.msgFlag:
-        curHan.renderMessages('Player already at max HP!' if player.healedHp == 0 else
-                              fountain.npcMsg.format(player.healedHp), True)
+        curHan.renderMessages(fountain.npcMsgList[1] if player.healedHp == 0 else
+                              fountain.npcMsgList[0].format(player.healedHp), True)
         fountain.msgFlag = False
         if fountain.healedTimes >= fountain.healTimesMax:
             fountain.respawnNpc(entityList, itemList, gameMap)

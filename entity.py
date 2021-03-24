@@ -149,10 +149,10 @@ class Stationary(Entity):
 
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
-                 npcMsg='NPC', msgFlag=False, healAmount=3, healedTimes=0, healTimeMax=3):
+                 npcMsgList=['NPC'], msgFlag=False, healAmount=3, healedTimes=0, healTimeMax=3):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.healAmount = healAmount
-        self.npcMsg = npcMsg
+        self.npcMsgList = npcMsgList
         self.msgFlag = msgFlag
         self.healTimesMax = healTimeMax
         self.healedTimes = healedTimes
