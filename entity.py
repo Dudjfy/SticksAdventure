@@ -110,6 +110,7 @@ class Player(Creature):
                         # entityList.pop(cords)
                 elif isinstance(entity, NPC):
                     if entity.name == 'Health Fountain':
+                        entity.healedTimes += 1
                         entity.msgFlag = True
                         self.heal()
 
@@ -148,14 +149,17 @@ class Stationary(Entity):
 
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
-                 npcMsg='NPC', msgFlag=False, healAmount=3):
+                 npcMsg='NPC', msgFlag=False, healAmount=3, healedTimes=0, healTimeMax=3):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.healAmount = healAmount
         self.npcMsg = npcMsg
         self.msgFlag = msgFlag
+        self.healTimesMax = healTimeMax
+        self.healedTimes = healedTimes
 
     def respawnNpc(self, entityList, itemList, gameMap, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
+        self.healedTimes = 0
         while True:
             x = random.randint(playableWidthMin, playableWidthMax)
             y = random.randint(playableHeightMin, playableHeightMax)
