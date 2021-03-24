@@ -36,7 +36,7 @@ class CursesHandler:
         curses.init_pair(5, 11, curses.COLOR_BLACK)                       # Player/XP-bar cyan fg, black bg
         curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
         curses.init_pair(7, 5, curses.COLOR_BLACK)                        # Wizard purple fg, black bg
-        curses.init_pair(8, curses.COLOR_RED, curses.COLOR_BLACK)           # HP-bar red fg, red bg
+        curses.init_pair(8, curses.COLOR_RED, curses.COLOR_BLACK)         # HP-bar red fg, red bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
     # Curses avslutas, inställningar sätts tillbaka till
@@ -83,16 +83,23 @@ class CursesHandler:
             self.msgLst.insert(0, '{:<40}'.format(newMsg))
             self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
-            self.screen.addstr(25 - i, 25, msg)
+            self.screen.addstr(25 - i, 30, msg)
 
     def renderPlayerStats(self, player):
         barChar = '■'
         hpBarLevel = math.ceil(player.hp / (player.maxHp / 10))
-        self.screen.addstr(22, 0, 'HP:|{:10}| {:>3}/{:<3}'.format('', player.hp, player.maxHp))
+        self.screen.addstr(22, 0, 'HP:|{:10}|{:>3}/{:<3}'.format('', player.hp, player.maxHp))
         self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
         self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
-        self.screen.addstr(25, 0, 'XP: {:<6}'.format(player.xp))
+
+        curLevelXp = (player.lvl / player.xpConst) ** 2
+        nextLevelXp = ((player.lvl + 1) / player.xpConst) ** 2
+        playerXpDif = round(player.xp - curLevelXp) if player.lvl > 1 else round(player.xp - curLevelXp + 25)
+        nextLevelXpDif = round(nextLevelXp - curLevelXp) if player.lvl > 1 else 100
+        xpBarLevel = math.ceil(playerXpDif / (nextLevelXpDif / 10))
+        self.screen.addstr(25, 0, 'XP:|{:10}|{:>5}/{:<5}'.format('', playerXpDif, nextLevelXpDif))
+        self.screen.addstr(25, 4, barChar * xpBarLevel, curses.color_pair(4))
 
         self.screen.addstr(26, 0, ' ')
 
