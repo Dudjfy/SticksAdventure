@@ -108,7 +108,7 @@ while gameOn:
                               fountain.npcMsgList[0].format(player.healedHp), True)
         fountain.msgFlag = False
         if fountain.healedTimes >= fountain.healTimesMax:
-            fountain.respawnNpc(entityList, itemList, gameMap)
+            fountain.respawnNpc(entityList, itemList, gameMap, forbiddenTiles)
 
     for entity in entityList.values():
         if isinstance(entity, NPC) and entity.msgFlag:

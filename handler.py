@@ -88,7 +88,8 @@ class CursesHandler:
     def renderPlayerStats(self, player):
         barChar = '■'
         hpBarLevel = math.ceil(player.hp / (player.maxHp / 10))
-        self.screen.addstr(22, 0, 'HP:|{:10}|{:>3}/{:<3}'.format('', player.hp, player.maxHp))
+        hpShown = '{:>4}/{:<4}'.format(player.hp, player.maxHp).strip()
+        self.screen.addstr(22, 0, 'HP:|{:10}| {:<11}'.format('', hpShown))
         self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
         self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
@@ -98,7 +99,9 @@ class CursesHandler:
         playerXpDif = round(player.xp - curLevelXp) if player.lvl > 1 else round(player.xp - curLevelXp + 25)
         nextLevelXpDif = round(nextLevelXp - curLevelXp) if player.lvl > 1 else 100
         xpBarLevel = math.ceil(playerXpDif / (nextLevelXpDif / 10))
-        self.screen.addstr(25, 0, 'XP:|{:10}|{:>5}/{:<5}'.format('', playerXpDif, nextLevelXpDif))
+
+        xpShown = '{:>5}/{:<5}'.format(playerXpDif, nextLevelXpDif).strip()
+        self.screen.addstr(25, 0, 'XP:|{:10}| {:<11}'.format('', xpShown))
         self.screen.addstr(25, 4, barChar * xpBarLevel, curses.color_pair(4))
 
         self.screen.addstr(26, 0, ' ')
@@ -110,7 +113,6 @@ class CursesHandler:
 
         dx = 0
         dy = 0
-
 
         if key == 119:
             dy -= 1

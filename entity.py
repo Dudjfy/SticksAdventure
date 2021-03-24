@@ -165,20 +165,22 @@ class NPC(Stationary):
         self.healedTimes = healedTimes
         self.curMsgIndex = curMsgIndex
 
-    def respawnNpc(self, entityList, itemList, gameMap, playableWidthMin=1, playableWidthMax=80,
+    def respawnNpc(self, entityList, itemList, gameMap, forbiddenTiles, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
         self.healedTimes = 0
         while True:
             x = random.randint(playableWidthMin, playableWidthMax)
             y = random.randint(playableHeightMin, playableHeightMax)
             cords = (x, y)
-            if not gameMap.get(cords).blocksMovement:
-                if entityList.get(cords) == None and itemList.get(cords) == None:
-                    entityList.pop((self.x, self.y))
-                    self.x = x
-                    self.y = y
-                    entityList[(self.x, self.y)] = self
-                    break
+            if cords not in forbiddenTiles:
+                if not gameMap.get(cords).blocksMovement:
+                    if entityList.get(cords) == None and itemList.get(cords) == None:
+                        entityList.pop((self.x, self.y))
+                        self.x = x
+                        self.y = y
+                        entityList[(self.x, self.y)] = self
+                        break
+
     def loopMsgs(self):
         if self.curMsgIndex < len(self.npcMsgList) - 1:
             self.curMsgIndex += 1
