@@ -93,6 +93,10 @@ while gameOn:
 
     curHan.renderPlayerStats(player)
 
+    curHan.renderInventory()
+
+    curHan.renderDeviders(4)
+
     attackedMonster = Monster().returnAttackedMonster(entityList)
 
     if isinstance(attackedMonster, Monster):

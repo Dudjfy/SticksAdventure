@@ -83,7 +83,7 @@ class CursesHandler:
 
 
     def renderMessages(self, newMsg='', update=False):
-        self.screen.addstr(27, 26, "#" * 35)
+        # self.screen.addstr(27, 26, "#" * 35)
         if update:
             self.msgLst.insert(0, '{:<35}'.format(newMsg))
             self.msgLst.pop()
@@ -114,7 +114,13 @@ class CursesHandler:
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
     def renderInventory(self):
-        pass
+        self.screen.addstr(22, 62, 'Inventory:')
+
+    def renderDeviders(self, devLen):
+        for y in range(devLen):
+            self.screen.addstr(22 + y, 25, '|')
+        for y in range(devLen):
+            self.screen.addstr(22 + y, 61, '|')
 
     def playerInput(self, player, entityList, gameMap):
         key = self.screen.getch()
