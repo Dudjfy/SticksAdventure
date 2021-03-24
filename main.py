@@ -42,8 +42,8 @@ fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedT
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
 wizard = NPC(80, 19, 'W', 'Wizard', 2, 7, True,
              npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
-                         'to move, interact or attack Monster!', "Use E to pick up Items of Loot",
-                         'You may leave after defeating the Boss!', 'Good luck with your adventure, Stick!'])
+                         'to move, interact or attack others!', "Use E to pick up Items of Loot",
+                         'You may leave if the Boss falls!', 'Good luck on your adventure, Stick!'])
 test = Entity(5, 2)
 
 # entityList = [player, orc, sword, test]

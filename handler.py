@@ -10,10 +10,10 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['{:<40}'.format('Should I approach him? (use WASD)'),
-                       '{:<40}'.format('He.. looks like.. A Wizard?..'),
-                       '{:<40}'.format("Looks like there's someone near me..."),
-                       '{:<40}'.format('Ahgg... Whe- Where.. am I??.')]
+        self.msgLst = ['{:<35}'.format('Should I approach him? (use WASD)'),
+                       '{:<35}'.format('He.. looks like.. A Wizard?..'),
+                       '{:<35}'.format("Looks like there's someone close.."),
+                       '{:<35}'.format('Ahgg... Whe- Where.. am I??.')]
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -79,17 +79,18 @@ class CursesHandler:
 
 
     def renderMessages(self, newMsg='', update=False):
+        self.screen.addstr(27, 26, "#" * 35)
         if update:
-            self.msgLst.insert(0, '{:<40}'.format(newMsg))
+            self.msgLst.insert(0, '{:<35}'.format(newMsg))
             self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
-            self.screen.addstr(25 - i, 30, msg)
+            self.screen.addstr(25 - i, 26, msg)
 
     def renderPlayerStats(self, player):
         barChar = '■'
         hpBarLevel = math.ceil(player.hp / (player.maxHp / 10))
         hpShown = '{:>4}/{:<4}'.format(player.hp, player.maxHp).strip()
-        self.screen.addstr(22, 0, 'HP:|{:10}| {:<11}'.format('', hpShown))
+        self.screen.addstr(22, 0, 'HP:|{:10}| {:<9}'.format('', hpShown))
         self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
         self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
@@ -100,8 +101,8 @@ class CursesHandler:
         nextLevelXpDif = round(nextLevelXp - curLevelXp) if player.lvl > 1 else 100
         xpBarLevel = math.ceil(playerXpDif / (nextLevelXpDif / 10))
 
-        xpShown = '{:>5}/{:<5}'.format(playerXpDif, nextLevelXpDif).strip()
-        self.screen.addstr(25, 0, 'XP:|{:10}| {:<11}'.format('', xpShown))
+        xpShown = '{:>4}/{:<4}'.format(playerXpDif, nextLevelXpDif).strip()
+        self.screen.addstr(25, 0, 'XP:|{:10}| {:<9}'.format('', xpShown))
         self.screen.addstr(25, 4, barChar * xpBarLevel, curses.color_pair(4))
 
         self.screen.addstr(26, 0, ' ')
