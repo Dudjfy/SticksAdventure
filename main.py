@@ -33,6 +33,7 @@ curHan.cursesSetup()
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
 
+
 player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
 orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)

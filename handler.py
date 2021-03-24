@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import curses
+import string
 import time
 import math
 
@@ -14,6 +15,9 @@ class CursesHandler:
                        '{:<35}'.format('He.. looks like.. A Wizard?..'),
                        '{:<35}'.format("Looks like there's someone close.."),
                        '{:<35}'.format('Ahgg... Whe- Where.. am I??.')]
+        self.keyList = {}
+        for value, letter in enumerate(string.ascii_lowercase):
+            self.keyList[letter] = value + 97
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -109,19 +113,22 @@ class CursesHandler:
 
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
+    def renderInventory(self):
+        pass
+
     def playerInput(self, player, entityList, gameMap):
         key = self.screen.getch()
 
         dx = 0
         dy = 0
 
-        if key == 119:
+        if key == self.keyList.get('w'):
             dy -= 1
-        if key == 115:
+        if key == self.keyList.get('s'):
             dy += 1
-        if key == 97:
+        if key == self.keyList.get('a'):
             dx -= 1
-        if key == 100:
+        if key == self.keyList.get('d'):
             dx += 1
         if key == curses.KEY_UP:
             player.xp += 10
