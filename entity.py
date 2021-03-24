@@ -113,6 +113,9 @@ class Player(Creature):
                         entity.healedTimes += 1
                         entity.msgFlag = True
                         self.heal()
+                    elif entity.name == 'Wizard':
+                        entity.msgFlag = True
+
 
             else:
                 entityList.pop((self.x, self.y))
@@ -149,13 +152,14 @@ class Stationary(Entity):
 
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
-                 npcMsgList=['NPC'], msgFlag=False, healAmount=3, healedTimes=0, healTimeMax=3):
+                 npcMsgList=['NPC'], msgFlag=False, healAmount=3, healedTimes=0, healTimeMax=3, curMsgIndex=0):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.healAmount = healAmount
         self.npcMsgList = npcMsgList
         self.msgFlag = msgFlag
         self.healTimesMax = healTimeMax
         self.healedTimes = healedTimes
+        self.curMsgIndex = curMsgIndex
 
     def respawnNpc(self, entityList, itemList, gameMap, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
@@ -171,6 +175,11 @@ class NPC(Stationary):
                     self.y = y
                     entityList[(self.x, self.y)] = self
                     break
+    def loopMsgs(self):
+        if self.curMsgIndex < len(self.npcMsgList) - 1:
+            self.curMsgIndex += 1
+        else:
+            self.curMsgIndex = 0
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1):

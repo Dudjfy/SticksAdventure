@@ -40,6 +40,9 @@ goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6, attacke
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
+wizard = NPC(80, 19, 'W', 'Wizard', 2, 6, True,
+             npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
+                         'Here you will find Monsters and Loot', 'You may leave after defeating the Boss!'])
 test = Entity(5, 2)
 
 
@@ -53,6 +56,7 @@ entityList[(troll.x, troll.y)] = troll
 entityList[(goblin.x, goblin.y)] = goblin
 itemList[(sword.x, sword.y)] = sword
 entityList[(fountain.x, fountain.y)] = fountain
+entityList[(wizard.x, wizard.y)] = wizard
 entityList[(test.x, test.y)] = test
 
 # Orcs test
@@ -104,6 +108,13 @@ while gameOn:
         fountain.msgFlag = False
         if fountain.healedTimes >= fountain.healTimesMax:
             fountain.respawnNpc(entityList, itemList, gameMap)
+
+    for entity in entityList.values():
+        if isinstance(entity, NPC) and entity.msgFlag:
+            curHan.renderMessages(entity.npcMsgList[entity.curMsgIndex], entity.msgFlag)
+            entity.loopMsgs()
+            entity.msgFlag = False
+            break
 
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 

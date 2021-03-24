@@ -10,8 +10,7 @@ class CursesHandler:
 
     def __init__(self, screen=None):
         self.screen = screen    # Använder screen i olika delar av klassen, därav en variabel här
-        self.msgLst = ['You may leave after defeating the Boss!', 'Here you will find Monsters and Loot',
-                       'Let your adventure begin with WASD', 'Welcome To The Dungeon, Stick!']
+        self.msgLst = ['', '', '', '']
 
     # Sätter upp curses
     def cursesSetup(self):
