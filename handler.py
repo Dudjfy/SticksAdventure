@@ -31,7 +31,8 @@ class CursesHandler:
         curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)       # Orc green fg, black bg
         curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)        # Sword blue fg, black bg
         curses.init_pair(5, 11, curses.COLOR_BLACK)                       # Player cyan fg, black bg
-        curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Player pink fg, black bg
+        curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
+        curses.init_pair(7, 5, curses.COLOR_BLACK)                       # Wizard purple fg, black bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
         # curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)      # Classic white fg, yellow bg

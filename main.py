@@ -40,7 +40,7 @@ goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6, attacke
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
-wizard = NPC(80, 19, 'W', 'Wizard', 2, 6, True,
+wizard = NPC(80, 19, 'W', 'Wizard', 2, 7, True,
              npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
                          'Here you will find Monsters and Loot', 'You may leave after defeating the Boss!'])
 test = Entity(5, 2)
