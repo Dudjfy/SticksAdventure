@@ -33,9 +33,10 @@ class CursesHandler:
         curses.init_pair(2, 240, curses.COLOR_BLACK)                      # Wall dark-gray fg, black bg
         curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)       # Orc green fg, black bg
         curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)        # Sword blue fg, black bg
-        curses.init_pair(5, 11, curses.COLOR_BLACK)                       # Player cyan fg, black bg
+        curses.init_pair(5, 11, curses.COLOR_BLACK)                       # Player/XP-bar cyan fg, black bg
         curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
-        curses.init_pair(7, 5, curses.COLOR_BLACK)                       # Wizard purple fg, black bg
+        curses.init_pair(7, 5, curses.COLOR_BLACK)                        # Wizard purple fg, black bg
+        curses.init_pair(8, curses.COLOR_RED, curses.COLOR_BLACK)           # HP-bar red fg, red bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
     # Curses avslutas, inställningar sätts tillbaka till
@@ -82,10 +83,13 @@ class CursesHandler:
             self.msgLst.insert(0, '{:<40}'.format(newMsg))
             self.msgLst.pop()
         for i, msg in enumerate(self.msgLst):
-            self.screen.addstr(25 - i, 20, msg)
+            self.screen.addstr(25 - i, 25, msg)
 
     def renderPlayerStats(self, player):
-        self.screen.addstr(22, 0, 'HP: {:<3}'.format(player.hp))
+        barChar = '■'
+        hpBarLevel = math.ceil(player.hp / (player.maxHp / 10))
+        self.screen.addstr(22, 0, 'HP:|{:10}| {:>3}/{:<3}'.format('', player.hp, player.maxHp))
+        self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
         self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
         self.screen.addstr(25, 0, 'XP: {:<6}'.format(player.xp))
