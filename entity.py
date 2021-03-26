@@ -48,6 +48,9 @@ class Monster(Creature):
         self.xpIncrease = xpIncrease
         self.lvlGap = lvlGap
         self.attackedOnce = attackedOnce
+        self.hp = self.baseHp
+        self.dmg = self.baseDmg
+
 
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
 
