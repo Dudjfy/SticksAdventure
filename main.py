@@ -67,6 +67,7 @@ entityList[(test.x, test.y)] = test
 
 gameMap = GameMap().createGameMapFromFile()
 forbiddenTiles = GameMap().addForbiddenTiles([], 57, 17, 80, 20)
+forbiddenTiles = GameMap().addForbiddenTiles(forbiddenTiles, 1, 1, 9, 6)
 
 
 # Orcs random over whole map
@@ -84,6 +85,7 @@ rad = 3         # Radius of light
 rays = 360
 steps = rad
 gameOn = True
+curHan.renderMode = True
 
 curHan.renderMessages()
 

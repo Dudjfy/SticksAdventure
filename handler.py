@@ -18,6 +18,7 @@ class CursesHandler:
         self.keyList = {}
         for value, letter in enumerate(string.ascii_lowercase):
             self.keyList[letter] = value + 97
+        self.renderMode = True
 
     # Sätter upp curses
     def cursesSetup(self):
@@ -55,32 +56,42 @@ class CursesHandler:
 
     # Render funktion mha curses
     def renderFrame(self, gameMap, exploredGameMap, entityList, itemList, player, rad=4, rays=360, steps=4):
-        for tile in exploredGameMap.values():
-            self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
+        if self.renderMode:
+            for tile in exploredGameMap.values():
+                self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
-        for ray in range(rays):
-            x = rad * math.cos(ray)
-            y = rad * math.sin(ray)
-            for step in range(0, steps + 1):
-                cords = (player.x + round(x / steps * step), player.y + round(y / steps * step))
-                tile = gameMap.get(cords)
-                if tile == None:
-                    break
-                if tile not in exploredGameMap:
-                    exploredGameMap.update({cords : tile})
+            for ray in range(rays):
+                x = rad * math.cos(ray)
+                y = rad * math.sin(ray)
+                for step in range(0, steps + 1):
+                    cords = (player.x + round(x / steps * step), player.y + round(y / steps * step))
+                    tile = gameMap.get(cords)
+                    if tile == None:
+                        break
+                    if tile not in exploredGameMap:
+                        exploredGameMap.update({cords : tile})
 
-                item = itemList.get(cords)
-                entity = entityList.get(cords)
-                if not entity == None:
-                    self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
-                elif not item == None:
-                    self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
-                else:
-                    self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
+                    item = itemList.get(cords)
+                    entity = entityList.get(cords)
+                    if not entity == None:
+                        self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
+                    elif not item == None:
+                        self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
+                    else:
+                        self.screen.addstr(tile.y, tile.x, tile.charLight, curses.color_pair(tile.light))
 
-                if tile.blocksMovement:
-                    break
+                    if tile.blocksMovement:
+                        break
 
+        else:
+            for tile in gameMap.values():
+                self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
+
+            for item in itemList.values():
+                self.screen.addstr(item.y, item.x, item.char, curses.color_pair(item.light))
+
+            for entity in entityList.values():
+                self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
 
     def renderMessages(self, newMsg='', update=False):
         # self.screen.addstr(27, 26, "#" * 35)
@@ -141,6 +152,10 @@ class CursesHandler:
             player.calcLevel(entityList)
         if key == curses.KEY_DOWN:
             player.heal()
+        if key == curses.KEY_LEFT:
+            self.renderMode = not self.renderMode
+            self.screen.clear()
+            self.renderMessages()
 
         if key == 27:
             return False
