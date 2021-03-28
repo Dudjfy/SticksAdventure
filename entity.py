@@ -104,10 +104,10 @@ class Player(Creature):
         self.healedHp = healedHp
 
     def move(self, entityList, gameMap, dx, dy):
-        cords = (self.x + dx, self.y + dy)
-        if not (gameMap.get(cords)).blocksMovement:
-            entity = entityList.get(cords)
-            if isinstance(entity, Entity) and entityList.get(cords).blocksMovement:
+        coords = (self.x + dx, self.y + dy)
+        if not (gameMap.get(coords)).blocksMovement:
+            entity = entityList.get(coords)
+            if isinstance(entity, Entity) and entityList.get(coords).blocksMovement:
                 if isinstance(entity, Monster):
                     self.attack(entity)
                     if entity.hp <= 0:
@@ -116,14 +116,12 @@ class Player(Creature):
                         self.calcLevel(entityList)
                         # entityList.pop(cords)
                 elif isinstance(entity, NPC):
-                    if entity.name == 'Health Fountain':
+                    if isinstance(entity, Fountain):
                         entity.healedTimes += 1
                         entity.msgFlag = True
                         self.heal()
-                    elif entity.name == 'Wizard':
+                    elif isinstance(entity, Wizard):
                         entity.msgFlag = True
-
-
             else:
                 entityList.pop((self.x, self.y))
                 self.x += dx
@@ -153,8 +151,9 @@ class Player(Creature):
 
 
 class Stationary(Entity):
-    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=2):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=2, key=False):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
+        self.key = key
 
 
 class NPC(Stationary):
@@ -189,6 +188,12 @@ class NPC(Stationary):
             self.curMsgIndex += 1
         else:
             self.curMsgIndex = 0
+
+class Wizard(NPC):
+    pass
+
+class Fountain(NPC):
+    pass
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1):

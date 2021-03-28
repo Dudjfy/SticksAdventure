@@ -5,6 +5,7 @@ import time
 import math
 
 # Klass som ansvarar för allt som har med curses att göra
+from typing import Callable
 
 
 class CursesHandler:
@@ -138,6 +139,31 @@ class CursesHandler:
 
         dx = 0
         dy = 0
+
+        # Test stuff
+
+        # dict0 = {
+        #     'w': (0, -1),
+        #     's': (0, 1),
+        #     'a': (-1, 0),
+        #     'd': (1, 0)
+        # }
+        #
+        # dict1 = dict()
+        # for key, value in dict0.items():
+        #     dict1[self.keyList.get(key)] = lambda player: player.move(entityList, gameMap, value[0], value[1])
+        #
+        # # dict1 = {
+        # #     self.keyList.get('w'): lambda player: player.move(entityList, gameMap, 0, -1),
+        # #     self.keyList.get('s'): lambda player: player.move(entityList, gameMap, 0, 1),
+        # #     self.keyList.get('a'): lambda player: player.move(entityList, gameMap, -1, 0),
+        # #     self.keyList.get('d'): lambda player: player.move(entityList, gameMap, 1, 0),
+        # # }
+        #
+        # func: Callable[[int], int] = dict1.get(key)
+        #
+        #
+        # func(player)
 
         if key == self.keyList.get('w'):
             dy -= 1

@@ -39,12 +39,13 @@ orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2, attackedMsg=
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
 goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
-fountain = NPC(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
+fountain = Fountain(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
-wizard = NPC(80, 19, 'W', 'Wizard', 2, 7, True,
+wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
              npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
                          'to move, interact or attack others!', "Use E to pick up Items of Loot",
                          'You may leave if the Boss falls!', 'Good luck on your adventure, Stick!'])
+bossDoor = Stationary(5, 5, '-', 'Boss Door', True)
 test = Entity(5, 2)
 
 # entityList = [player, orc, sword, test]
