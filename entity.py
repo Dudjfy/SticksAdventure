@@ -54,6 +54,13 @@ class Monster(Creature):
 
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
 
+    def collision(self, player, entityList):
+        player.attack(self)
+        if self.hp <= 0:
+            self.attackedMsg = self.deathMsg
+            player.xp += self.xpReward
+            player.calcLevel(entityList)
+
     def returnAttackedMonster(self, entityList):
         for entity in entityList.values():
             if isinstance(entity, Monster) and entity.attacked:
@@ -108,20 +115,7 @@ class Player(Creature):
         if not (gameMap.get(coords)).blocksMovement:
             entity = entityList.get(coords)
             if isinstance(entity, Entity) and entityList.get(coords).blocksMovement:
-                if isinstance(entity, Monster):
-                    self.attack(entity)
-                    if entity.hp <= 0:
-                        entity.attackedMsg = entity.deathMsg
-                        self.xp += entity.xpReward
-                        self.calcLevel(entityList)
-                        # entityList.pop(cords)
-                elif isinstance(entity, NPC):
-                    if isinstance(entity, Fountain):
-                        entity.healedTimes += 1
-                        entity.msgFlag = True
-                        self.heal()
-                    elif isinstance(entity, Wizard):
-                        entity.msgFlag = True
+                entity.collision(self, entityList)
             else:
                 entityList.pop((self.x, self.y))
                 self.x += dx
@@ -155,6 +149,8 @@ class Stationary(Entity):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.key = key
 
+class Door(Stationary):
+    pass
 
 class NPC(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=3,
@@ -190,10 +186,14 @@ class NPC(Stationary):
             self.curMsgIndex = 0
 
 class Wizard(NPC):
-    pass
+    def collision(self, player, entityList):
+        self.msgFlag = True
 
 class Fountain(NPC):
-    pass
+    def collision(self, player, entityList):
+        self.healedTimes += 1
+        self.msgFlag = True
+        player.heal()
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1):

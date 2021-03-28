@@ -45,7 +45,7 @@ wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
              npcMsgList=['Welcome To The Dungeon, Stick!', 'Let your adventure begin with WASD',
                          'to move, interact or attack others!', "Use E to pick up Items of Loot",
                          'You may leave if the Boss falls!', 'Good luck on your adventure, Stick!'])
-bossDoor = Stationary(5, 5, '-', 'Boss Door', True)
+bossDoor = Door(5, 5, '-', 'Boss Door', True)
 test = Entity(5, 2)
 
 # entityList = [player, orc, sword, test]
@@ -58,6 +58,7 @@ entityList[(goblin.x, goblin.y)] = goblin
 itemList[(sword.x, sword.y)] = sword
 entityList[(fountain.x, fountain.y)] = fountain
 entityList[(wizard.x, wizard.y)] = wizard
+entityList[(bossDoor.x, bossDoor.y)] = bossDoor
 entityList[(test.x, test.y)] = test
 
 # Orcs test
