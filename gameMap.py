@@ -5,6 +5,8 @@ class GameMap:
         self.wallChar = '#'
         self.floorCharDark = ' '
         self.floorCharLight = '.'
+        self.doorCharHorizontal = '-'
+        self.doorCharVertical = '|'
 
     def createGameMapFromFile(self):
         file = open('map.txt', 'r')
@@ -15,6 +17,9 @@ class GameMap:
                     self.gameMap[(x, y)] = Tile(x, y, self.floorCharDark, self.floorCharLight, 'Floor', 2, 1, False)
                 elif tile == self.wallChar:
                     self.gameMap[(x, y)] = (Tile(x, y, self.wallChar, self.wallChar, 'Wall', 2, 1, True))
+                elif tile == self.doorCharHorizontal:
+                    self.gameMap[(x, y)] = (Tile(x, y, self.doorCharHorizontal, self.doorCharHorizontal,
+                                                 'Door', 2, 1, True))
         file.close()
         return self.gameMap
 

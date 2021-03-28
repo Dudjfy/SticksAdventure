@@ -15,6 +15,9 @@ class Entity:
         self.blocksMovement = blocksMovement
         self.order = order
 
+    def collision(self, player, entityList):
+        pass
+
 # Detta kommer vara det som kan gå runt och strida mot spelaren, samt själva spelaren
 class Creature(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
