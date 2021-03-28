@@ -2,6 +2,7 @@
 import time
 
 from entity import *
+from player import *
 from handler import *
 from menu import *
 from gameMap import *
