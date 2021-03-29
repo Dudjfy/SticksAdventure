@@ -46,18 +46,40 @@ class Player(Creature):
 
 
 class Inventory:
-    def __init__(self, totalSize=10, visableSize=4, itemList=[], visableList=[], curItem=0):
+    def __init__(self, totalSize=10, visableSize=4, itemList=[], visableList=[], curVisableItem=0):
         self.totalSize = totalSize
         self.visableSize = visableSize
         self.itemList = itemList
         self.visableList = visableList
-        self.curItem = curItem
+        self.curVisableItem = curVisableItem
 
     def addItem(self, item):
         if len(self.itemList) < self.totalSize:
+            if len(self.itemList) == 0:
+                self.curVisableItem = 0
             self.itemList.append(item)
-            if len(self.itemList) < self.visableSize:
+            if len(self.itemList) <= self.visableSize:
                 self.visableList.append(item)
+
+    def nextItem(self, nextItem):
+        if len(self.itemList) > 0:
+            newIdx = self.curVisableItem + nextItem
+            if 0 <= newIdx <= len(self.visableList) - 1:
+                self.curVisableItem += nextItem
+            elif newIdx == -1:
+                itemListIdx = self.itemList.index(self.visableList[self.curVisableItem])
+                if itemListIdx != 0:
+                    self.visableList.clear()
+                    self.visableList.extend(self.itemList[itemListIdx - 1:itemListIdx - 1 + self.visableSize])
+                    # self.visableList.insert(0, self.itemList[itemListIdx - 1])
+                    # self.visableList.pop()
+            elif newIdx == self.visableSize:
+                itemListIdx = self.itemList.index(self.visableList[self.curVisableItem])
+                if itemListIdx != len(self.itemList) - 1:
+                    self.visableList.clear()
+                    self.visableList.extend(self.itemList[(itemListIdx + 1) + 1 - self.visableSize:(itemListIdx + 1) + 1])
+                    # self.visableList.insert(3, self.itemList[itemListIdx + 1])
+                    # self.visableList.pop(0)
 
 
 class InvItem:

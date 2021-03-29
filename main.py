@@ -97,8 +97,14 @@ curHan.renderMessages()
 inventory = Inventory()
 potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 15)
 maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3)
+test1 = InvItem('test1', 99, 'Heals full HP', 99)
+test2 = InvItem('test2', 99, 'Heals full HP', 1)
+test3 = InvItem('test3', 99, 'Heals full HP', 69)
 inventory.addItem(potion)
 inventory.addItem(maxPotion)
+inventory.addItem(test1)
+inventory.addItem(test2)
+inventory.addItem(test3)
 
 while gameOn:
     # curHan.screen.clear()
@@ -106,7 +112,7 @@ while gameOn:
 
     curHan.renderPlayerStats(player)
 
-    curHan.renderInventory(inventory.visableList)
+    curHan.renderInventory(inventory)
 
     curHan.renderDeviders(4)
 
@@ -137,7 +143,7 @@ while gameOn:
 
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
-    gameOn = curHan.playerInput(player, entityList, gameMap)
+    gameOn = curHan.playerInput(player, inventory, entityList, gameMap)
 
 menu.gameOver(curHan.screen)
 

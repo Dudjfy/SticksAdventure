@@ -125,11 +125,19 @@ class CursesHandler:
 
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
-    def renderInventory(self, visableList):
+    def renderInventory(self, inventory):
         # self.screen.addstr(22, 62, 'Inventory:')
-        for i, item in enumerate(visableList):
-            msg = '{:>18}'.format('{} x{:>2}'.format(item.name, item.amount))
-            self.screen.addstr(22 + i, 64, msg)
+        for y in range(4):
+            self.screen.addstr(22 + y, 62, ' ')
+
+        if len(inventory.itemList) > 0:
+            self.screen.addstr(22 + inventory.curVisableItem, 62, '*', curses.color_pair(100))
+            for i, item in enumerate(inventory.visableList):
+                msg = '{:>18}'.format('{} x{:>2}'.format(item.name, item.amount))
+                self.screen.addstr(22 + i, 64, msg)
+
+        else:
+            self.screen.addstr(22, 64, 'Inventory Empty')
 
 
     def renderDeviders(self, devLen):
@@ -138,7 +146,7 @@ class CursesHandler:
         for y in range(devLen):
             self.screen.addstr(22 + y, 61, '|')
 
-    def playerInput(self, player, entityList, gameMap):
+    def playerInput(self, player, inventory, entityList, gameMap):
         key = self.screen.getch()
 
         dx = 0
@@ -169,6 +177,7 @@ class CursesHandler:
         #
         # func(player)
 
+        # Movement
         if key == self.keyList.get('w'):
             dy -= 1
         if key == self.keyList.get('s'):
@@ -177,12 +186,23 @@ class CursesHandler:
             dx -= 1
         if key == self.keyList.get('d'):
             dx += 1
+
+        # Inventory
         if key == curses.KEY_UP:
+            inventory.nextItem(-1)
+        if key == curses.KEY_DOWN:
+            inventory.nextItem(1)
+
+        # Cheat codes
+        # =
+        if key == 45:
             player.xp += 10
             player.calcLevel(entityList)
-        if key == curses.KEY_DOWN:
+        # -
+        if key == 61:
             player.heal()
-        if key == curses.KEY_LEFT:
+        # 0
+        if key == 48:
             self.renderMode = not self.renderMode
             self.screen.clear()
             self.renderMessages()
