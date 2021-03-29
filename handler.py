@@ -125,8 +125,12 @@ class CursesHandler:
 
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
-    def renderInventory(self):
-        self.screen.addstr(22, 62, 'Inventory:')
+    def renderInventory(self, visableList):
+        # self.screen.addstr(22, 62, 'Inventory:')
+        for i, item in enumerate(visableList):
+            msg = '{:>18}'.format('{} x{:>2}'.format(item.name, item.amount))
+            self.screen.addstr(22 + i, 64, msg)
+
 
     def renderDeviders(self, devLen):
         for y in range(devLen):

@@ -43,3 +43,26 @@ class Player(Creature):
         else:
             self.healedHp = self.maxHp - self.hp
             self.hp = self.maxHp
+
+
+class Inventory:
+    def __init__(self, totalSize=10, visableSize=4, itemList=[], visableList=[], curItem=0):
+        self.totalSize = totalSize
+        self.visableSize = visableSize
+        self.itemList = itemList
+        self.visableList = visableList
+        self.curItem = curItem
+
+    def addItem(self, item):
+        if len(self.itemList) < self.totalSize:
+            self.itemList.append(item)
+            if len(self.itemList) < self.visableSize:
+                self.visableList.append(item)
+
+
+class InvItem:
+    def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1):
+        self.name = name
+        self.stackSize = stackSize
+        self.desc = desc
+        self.amount = amount

@@ -92,13 +92,21 @@ curHan.renderMode = True
 
 curHan.renderMessages()
 
+
+
+inventory = Inventory()
+potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 15)
+maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3)
+inventory.addItem(potion)
+inventory.addItem(maxPotion)
+
 while gameOn:
     # curHan.screen.clear()
     # curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
     curHan.renderPlayerStats(player)
 
-    curHan.renderInventory()
+    curHan.renderInventory(inventory.visableList)
 
     curHan.renderDeviders(4)
 
