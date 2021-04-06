@@ -192,6 +192,7 @@ class CursesHandler:
         if key == self.keyList.get('e'):
             for item in itemList.values():
                 if item.x == player.x and item.y == player.y:
+                    inventory.addItem(inventory.createItem(item))
                     itemList.pop((item.x, item.y))
                     break
         if key == curses.KEY_UP:

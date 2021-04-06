@@ -53,6 +53,9 @@ class Inventory:
         self.visableList = visableList
         self.curVisableItem = curVisableItem
 
+    def createItem(self, item):
+        return InvItem(item.name, item.stackSize, item.desc, item.amount)
+
     def addItem(self, item):
         if len(self.itemList) < self.totalSize:
             if len(self.itemList) == 0:
