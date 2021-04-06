@@ -43,7 +43,7 @@ class CursesHandler:
         curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
         curses.init_pair(7, 5, curses.COLOR_BLACK)                        # Wizard purple fg, black bg
         curses.init_pair(8, curses.COLOR_RED, curses.COLOR_BLACK)         # HP-bar red fg, red bg
-        curses.init_pair(9, curses.COLOR_YELLOW, curses.COLOR_BLACK)         # HP-bar red fg, red bg
+        curses.init_pair(9, curses.COLOR_YELLOW, curses.COLOR_BLACK)      # HP-bar red fg, red bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
     # Curses avslutas, inställningar sätts tillbaka till
@@ -147,7 +147,7 @@ class CursesHandler:
         for y in range(devLen):
             self.screen.addstr(22 + y, 61, '|')
 
-    def playerInput(self, player, inventory, entityList, gameMap):
+    def playerInput(self, player, inventory, entityList, itemList, gameMap):
         key = self.screen.getch()
 
         dx = 0
@@ -188,7 +188,12 @@ class CursesHandler:
         if key == self.keyList.get('d'):
             dx += 1
 
-        # Inventory
+        # Inventory related
+        if key == self.keyList.get('e'):
+            for item in itemList.values():
+                if item.x == player.x and item.y == player.y:
+                    itemList.pop((item.x, item.y))
+                    break
         if key == curses.KEY_UP:
             inventory.nextItem(-1)
         if key == curses.KEY_DOWN:

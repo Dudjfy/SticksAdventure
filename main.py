@@ -35,8 +35,8 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 
-# player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
-player = Player(6, 2, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
+player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
+# player = Player(6, 2, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
 orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2,
               attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
 troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1,
@@ -57,16 +57,22 @@ wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
 
 # entityList = [player, orc, sword, test]
 entityList = {}
-itemList = {}
 entityList[(player.x, player.y)] = player
 entityList[(orc.x, orc.y)] = orc
 entityList[(troll.x, troll.y)] = troll
 entityList[(goblin.x, goblin.y)] = goblin
-itemList[(sword.x, sword.y)] = sword
 entityList[(fountain.x, fountain.y)] = fountain
 entityList[(wizard.x, wizard.y)] = wizard
 # entityList[(bossDoor.x, bossDoor.y)] = bossDoor
 entityList[(boss.x, boss.y)] = boss
+
+
+sword = Item(60, 18, '/', 'Sword', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG')
+key = Item(59, 18, '<', 'Key', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG')
+
+itemList = {}
+itemList[(sword.x, sword.y)] = sword
+itemList[(key.x, key.y)] = key
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
@@ -101,16 +107,16 @@ curHan.renderMessages()
 
 
 inventory = Inventory()
-potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 15)
-maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3)
-test1 = InvItem('test1', 99, 'Heals full HP', 99)
-test2 = InvItem('test2', 99, 'Heals full HP', 1)
-test3 = InvItem('test3', 99, 'Heals full HP', 69)
+potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 3)
+# maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3)
+# test1 = InvItem('test1', 99, 'Heals full HP', 99)
+# test2 = InvItem('test2', 99, 'Heals full HP', 1)
+# test3 = InvItem('test3', 99, 'Heals full HP', 69)
 inventory.addItem(potion)
-inventory.addItem(maxPotion)
-inventory.addItem(test1)
-inventory.addItem(test2)
-inventory.addItem(test3)
+# inventory.addItem(maxPotion)
+# inventory.addItem(test1)
+# inventory.addItem(test2)
+# inventory.addItem(test3)
 
 while gameOn:
     # curHan.screen.clear()
@@ -149,7 +155,7 @@ while gameOn:
 
     curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
 
-    gameOn = curHan.playerInput(player, inventory, entityList, gameMap)
+    gameOn = curHan.playerInput(player, inventory, entityList, itemList, gameMap)
 
 menu.gameOver(curHan.screen)
 
