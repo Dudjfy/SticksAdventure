@@ -35,10 +35,16 @@ curHan.cursesSetup()
 #     menu.inputMenu(ren.screen)
 
 
-player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
-orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
-troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
-goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6, attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
+# player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
+player = Player(6, 2, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
+orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2,
+              attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
+troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1,
+                attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
+goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6,
+                 attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
+boss = Boss(5, 2, 'B', 'Boss', 2, 9, True, hp=120, dmg=20,
+            attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='Boss died. You won, Stick!')
 sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 fountain = Fountain(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
@@ -47,7 +53,7 @@ wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
                          'to move, interact or attack others!', "Use E to pick up Items of Loot",
                          'You may leave if the Boss falls!', 'Good luck on your adventure, Stick!'])
 # bossDoor = Door(5, 5, '-', 'Boss Door', True)
-test = Entity(5, 2)
+# test = Entity(5, 2)
 
 # entityList = [player, orc, sword, test]
 entityList = {}
@@ -60,7 +66,7 @@ itemList[(sword.x, sword.y)] = sword
 entityList[(fountain.x, fountain.y)] = fountain
 entityList[(wizard.x, wizard.y)] = wizard
 # entityList[(bossDoor.x, bossDoor.y)] = bossDoor
-entityList[(test.x, test.y)] = test
+entityList[(boss.x, boss.y)] = boss
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))

@@ -39,6 +39,7 @@ class Creature(Entity):
             self.x += dx
             self.y += dy
 
+
 class Monster(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6,
                  hp=10, dmg=2, lvl=1, attacked=False, attackedMsg='Attacked', deathMsg='Died', baseHp=10,
@@ -103,15 +104,42 @@ class Monster(Creature):
             if isinstance(entity, Monster):
                 entity.levelUp(player)
 
+class Boss(Monster):
+    def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=6,
+                 hp=120, dmg=20, attacked=False, attackedMsg='Attacked', deathMsg='Died', attackedOnce=False,
+                 lvl=1, baseHp=120, baseDmg=20):
+        super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg,
+                         baseHp=baseHp, baseDmg=baseDmg)
+        self.attacked = attacked
+        self.attackedMsg = attackedMsg
+        self.deathMsg = deathMsg
+        self.attackedOnce = attackedOnce
+        self.baseHp = baseHp
+        self.baseDmg = baseDmg
+
+    def collision(self, player, entityList):
+        player.attack(self)
+        if self.hp <= 0:
+            self.attackedMsg = self.deathMsg
+
+    def returnAttackedMonster(self, entityList):
+        for entity in entityList.values():
+            if isinstance(entity, Boss) and entity.attacked:
+                entity.attacked = False
+                return entity
+        else:
+            return ''
+
+    def levelUp(self, player):
+        pass
+
+    def entityListUpdate(self, entityList, player):
+        pass
 
 class Stationary(Entity):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True, order=2, key=False):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.key = key
-
-
-class Door(Stationary):
-    pass
 
 
 class NPC(Stationary):

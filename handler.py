@@ -43,6 +43,7 @@ class CursesHandler:
         curses.init_pair(6, 13, curses.COLOR_BLACK)                       # Fountain pink fg, black bg
         curses.init_pair(7, 5, curses.COLOR_BLACK)                        # Wizard purple fg, black bg
         curses.init_pair(8, curses.COLOR_RED, curses.COLOR_BLACK)         # HP-bar red fg, red bg
+        curses.init_pair(9, curses.COLOR_YELLOW, curses.COLOR_BLACK)         # HP-bar red fg, red bg
         curses.init_pair(100, curses.COLOR_BLACK, curses.COLOR_WHITE)     # Inverted (classic) colors
 
     # Curses avslutas, inställningar sätts tillbaka till
