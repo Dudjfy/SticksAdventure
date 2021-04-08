@@ -46,12 +46,13 @@ class Player(Creature):
 
 
 class Inventory:
-    def __init__(self, totalSize=10, visableSize=4, itemList=[], visableList=[], curVisableItem=0):
+    def __init__(self, totalSize=10, visibleSize=4, itemList=[], visibleList=[], curItem=None, curVisibleItem=0):
         self.totalSize = totalSize
-        self.visableSize = visableSize
+        self.visibleSize = visibleSize
         self.itemList = itemList
-        self.visableList = visableList
-        self.curVisableItem = curVisableItem
+        self.visibleList = visibleList
+        self.curVisibleItem = curVisibleItem
+        self.curItem = curItem
 
     def createItem(self, item):
         return InvItem(item.name, item.stackSize, item.desc, item.amount)
@@ -59,35 +60,74 @@ class Inventory:
     def addItem(self, item):
         if len(self.itemList) < self.totalSize:
             if len(self.itemList) == 0:
-                self.curVisableItem = 0
+                self.curItem = item
+                self.curVisibleItem = 0
             self.itemList.append(item)
-            if len(self.itemList) <= self.visableSize:
-                self.visableList.append(item)
+            if len(self.itemList) <= self.visibleSize:
+                self.visibleList.append(item)
 
     def nextItem(self, nextItem):
         if len(self.itemList) > 0:
-            newIdx = self.curVisableItem + nextItem
-            if 0 <= newIdx <= len(self.visableList) - 1:
-                self.curVisableItem += nextItem
+            newIdx = self.curVisibleItem + nextItem
+            if 0 <= newIdx <= len(self.visibleList) - 1:
+                self.curVisibleItem += nextItem
             elif newIdx == -1:
-                itemListIdx = self.itemList.index(self.visableList[self.curVisableItem])
+                itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
                 if itemListIdx != 0:
-                    self.visableList.clear()
-                    self.visableList.extend(self.itemList[itemListIdx - 1:itemListIdx - 1 + self.visableSize])
-                    # self.visableList.insert(0, self.itemList[itemListIdx - 1])
-                    # self.visableList.pop()
-            elif newIdx == self.visableSize:
-                itemListIdx = self.itemList.index(self.visableList[self.curVisableItem])
+                    self.visibleList.clear()
+                    self.visibleList.extend(self.itemList[itemListIdx - 1:itemListIdx - 1 + self.visibleSize])
+            elif newIdx == self.visibleSize:
+                itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
                 if itemListIdx != len(self.itemList) - 1:
-                    self.visableList.clear()
-                    self.visableList.extend(self.itemList[(itemListIdx + 1) + 1 - self.visableSize:(itemListIdx + 1) + 1])
-                    # self.visableList.insert(3, self.itemList[itemListIdx + 1])
-                    # self.visableList.pop(0)
+                    self.visibleList.clear()
+                    self.visibleList.extend(self.itemList[(itemListIdx + 1) + 1 - self.visibleSize:(itemListIdx + 1) + 1])
+            self.curItem = self.visibleList[self.curVisibleItem]
+
+    def updateVisibleList(self):
+        itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
+
+    def useItem(self, player):
+        if len(self.itemList) > 0:
+            if self.curItem.consumable:
+                if self.curItem.amount > 0:
+                    self.curItem.use(player)
+                    self.curItem.amount -= 1
+                    if self.curItem.amount == 0:
+                        self.updateVisibleList(-1)
+                        idx = 1
+                        self.itemList.remove(self.curItem)
+                        x = 'test'
 
 
 class InvItem:
-    def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1):
+    def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1, consumable=False,
+                 equipped=False, used=False):
         self.name = name
         self.stackSize = stackSize
         self.desc = desc
         self.amount = amount
+        self.consumable = consumable
+        self.equipped = equipped
+        self.used = used
+
+    def use(self, player):
+        if self.consumable:
+            pass
+        else:
+            pass
+
+
+class Potion(InvItem):
+    pass
+
+
+class Sword(InvItem):
+    pass
+
+
+class Armor(InvItem):
+    pass
+
+
+class Key(InvItem):
+    pass

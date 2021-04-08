@@ -127,18 +127,17 @@ class CursesHandler:
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
     def renderInventory(self, inventory):
-        # self.screen.addstr(22, 62, 'Inventory:')
         for y in range(4):
             self.screen.addstr(22 + y, 62, ' ')
 
         if len(inventory.itemList) > 0:
-            self.screen.addstr(22 + inventory.curVisableItem, 62, '*', curses.color_pair(100))
-            for i, item in enumerate(inventory.visableList):
+            self.screen.addstr(22 + inventory.curVisibleItem, 62, '*', curses.color_pair(100))
+            for i, item in enumerate(inventory.visibleList):
                 msg = '{:>18}'.format('{} x{:>2}'.format(item.name, item.amount))
                 self.screen.addstr(22 + i, 64, msg)
 
         else:
-            self.screen.addstr(22, 64, 'Inventory Empty')
+            self.screen.addstr(22, 62, '{:^20}'.format('Inventory Empty'))
 
 
     def renderDeviders(self, devLen):
@@ -195,6 +194,9 @@ class CursesHandler:
                     inventory.addItem(inventory.createItem(item))
                     itemList.pop((item.x, item.y))
                     break
+        if key == self.keyList.get('f'):
+            inventory.useItem(player)
+            self.renderInventory(inventory)
         if key == curses.KEY_UP:
             inventory.nextItem(-1)
         if key == curses.KEY_DOWN:

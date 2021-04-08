@@ -45,7 +45,6 @@ goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6,
                  attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 boss = Boss(5, 2, 'B', 'Boss', 2, 9, True, hp=120, dmg=20,
             attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='Boss died. You won, Stick!')
-sword = Item(60, 18, '/', 'Sword', 2, 4, False)
 fountain = Fountain(61, 18, '*', 'Health Fountain', 2, 6, True, healAmount=3, healedTimes=0, healTimeMax=3,
                npcMsgList=['Healed player {0} HP', 'Player already at max HP!'])
 wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
@@ -67,7 +66,7 @@ entityList[(wizard.x, wizard.y)] = wizard
 entityList[(boss.x, boss.y)] = boss
 
 
-sword = Item(60, 18, '/', 'Sword', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG')
+sword = Item(60, 18, '/', 'Sword', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG', consumable=False)
 key = Item(59, 18, '<', 'Key', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG')
 
 itemList = {}
@@ -107,16 +106,16 @@ curHan.renderMessages()
 
 
 inventory = Inventory()
-potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 3)
-# maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3)
-# test1 = InvItem('test1', 99, 'Heals full HP', 99)
-# test2 = InvItem('test2', 99, 'Heals full HP', 1)
-# test3 = InvItem('test3', 99, 'Heals full HP', 69)
+potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 3, True)
+maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3, True)
+test1 = InvItem('test1', 99, 'Heals full HP', 99, True)
+test2 = InvItem('test2', 99, 'Heals full HP', 1, True)
+test3 = InvItem('test3', 99, 'Heals full HP', 69, True)
 inventory.addItem(potion)
-# inventory.addItem(maxPotion)
-# inventory.addItem(test1)
-# inventory.addItem(test2)
-# inventory.addItem(test3)
+inventory.addItem(maxPotion)
+inventory.addItem(test1)
+inventory.addItem(test2)
+inventory.addItem(test3)
 
 while gameOn:
     # curHan.screen.clear()

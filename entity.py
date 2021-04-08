@@ -187,9 +187,10 @@ class Fountain(NPC):
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1,
-                 amount=1, stackSize=99, desc='No item desc', picked=False):
+                 amount=1, stackSize=99, desc='No item desc', picked=False, consumable=False):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.amount = amount
         self.stackSize = stackSize
         self.desc = desc
         self.picked = picked
+        self.consumable = consumable
