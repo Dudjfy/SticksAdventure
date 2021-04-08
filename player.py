@@ -46,57 +46,56 @@ class Player(Creature):
 
 
 class Inventory:
-    def __init__(self, totalSize=10, visibleSize=4, itemList=[], visibleList=[], curItem=None, curVisibleItem=0):
+    def __init__(self, totalSize=10, visibleSize=4, itemList=[], startPos=0, curVisibleIdx=0):
         self.totalSize = totalSize
         self.visibleSize = visibleSize
         self.itemList = itemList
-        self.visibleList = visibleList
-        self.curVisibleItem = curVisibleItem
-        self.curItem = curItem
+        self.startPos = startPos
+        self.curVisibleIdx = curVisibleIdx
 
     def createItem(self, item):
         return InvItem(item.name, item.stackSize, item.desc, item.amount)
 
     def addItem(self, item):
+        ''' NEED TO FIX FOR ADDING ITEMS TO EXISTING ITEMS AMOUNT '''
         if len(self.itemList) < self.totalSize:
             if len(self.itemList) == 0:
-                self.curItem = item
-                self.curVisibleItem = 0
+                self.startPos = 0
+                self.curVisibleIdx = 0
             self.itemList.append(item)
-            if len(self.itemList) <= self.visibleSize:
-                self.visibleList.append(item)
 
     def nextItem(self, nextItem):
         if len(self.itemList) > 0:
-            newIdx = self.curVisibleItem + nextItem
-            if 0 <= newIdx <= len(self.visibleList) - 1:
-                self.curVisibleItem += nextItem
-            elif newIdx == -1:
-                itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
-                if itemListIdx != 0:
-                    self.visibleList.clear()
-                    self.visibleList.extend(self.itemList[itemListIdx - 1:itemListIdx - 1 + self.visibleSize])
-            elif newIdx == self.visibleSize:
-                itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
-                if itemListIdx != len(self.itemList) - 1:
-                    self.visibleList.clear()
-                    self.visibleList.extend(self.itemList[(itemListIdx + 1) + 1 - self.visibleSize:(itemListIdx + 1) + 1])
-            self.curItem = self.visibleList[self.curVisibleItem]
+            if nextItem == -1:
+                if self.curVisibleIdx == 0:
+                    if self.startPos > 0:
+                        self.startPos -= 1
+                else:
+                    self.curVisibleIdx -= 1
 
-    def updateVisibleList(self):
-        itemListIdx = self.itemList.index(self.visibleList[self.curVisibleItem])
+            elif nextItem == 1:
+                if self.curVisibleIdx == self.visibleSize - 1:
+                    if self.startPos < len(self.itemList) - self.visibleSize:
+                        self.startPos += 1
+                elif self.curVisibleIdx < len(self.itemList) - 1:
+                    self.curVisibleIdx += 1
 
     def useItem(self, player):
         if len(self.itemList) > 0:
-            if self.curItem.consumable:
-                if self.curItem.amount > 0:
-                    self.curItem.use(player)
-                    self.curItem.amount -= 1
-                    if self.curItem.amount == 0:
-                        self.updateVisibleList(-1)
-                        idx = 1
-                        self.itemList.remove(self.curItem)
-                        x = 'test'
+            curItem = self.itemList[self.startPos + self.curVisibleIdx]
+            if curItem.consumable:
+                if curItem.amount > 0:
+                    ''' NEED TO IMPLEMENT KEY USAGE '''
+                    curItem.use(player)
+                    curItem.amount -= 1
+                    if curItem.amount == 0:
+                        self.itemList.pop(self.startPos + self.curVisibleIdx)
+                        if len(self.itemList) > 0:
+                            if self.startPos == 0:
+                                if self.curVisibleIdx > len(self.itemList) - 1:
+                                    self.curVisibleIdx -= 1
+                            elif self.startPos + self.visibleSize > len(self.itemList):
+                                self.startPos -= 1
 
 
 class InvItem:

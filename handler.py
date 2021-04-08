@@ -131,11 +131,17 @@ class CursesHandler:
             self.screen.addstr(22 + y, 62, ' ')
 
         if len(inventory.itemList) > 0:
-            self.screen.addstr(22 + inventory.curVisibleItem, 62, '*', curses.color_pair(100))
-            for i, item in enumerate(inventory.visibleList):
-                msg = '{:>18}'.format('{} x{:>2}'.format(item.name, item.amount))
-                self.screen.addstr(22 + i, 64, msg)
+            for itemIdx in range(inventory.visibleSize):
+                self.screen.addstr(22 + itemIdx, 62, '{:>20}'.format(' '))
 
+            for itemIdx in range(inventory.visibleSize):
+                if itemIdx == inventory.curVisibleIdx:
+                    self.screen.addstr(22 + itemIdx, 62, '*', curses.color_pair(100))
+
+                if itemIdx < len(inventory.itemList):
+                    msg = '{:>18}'.format('{} x{:>2}'.format(inventory.itemList[inventory.startPos + itemIdx].name,
+                                                             inventory.itemList[inventory.startPos + itemIdx].amount))
+                    self.screen.addstr(22 + itemIdx, 64, msg)
         else:
             self.screen.addstr(22, 62, '{:^20}'.format('Inventory Empty'))
 
