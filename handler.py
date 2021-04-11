@@ -109,7 +109,10 @@ class CursesHandler:
         hpShown = '{:>4}/{:<4}'.format(player.hp, player.maxHp).strip()
         self.screen.addstr(22, 0, 'HP:|{:10}| {:<9}'.format('', hpShown))
         self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
-        self.screen.addstr(23, 0, 'DMG: {:<3}'.format(player.dmg))
+        self.screen.addstr(23, 0, 'DMG: {:<9}'.format(
+            '{}(+{})'.format(player.dmg + (0 if player.sword == None else player.sword.dmg),
+                             0 if player.sword == None else player.sword.dmg)))
+        self.screen.addstr(23, 15, 'DEF: {:<3}'.format(player.defence))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
 
         curLevelXp = (player.lvl / player.xpConst) ** 2
@@ -197,7 +200,7 @@ class CursesHandler:
         if key == self.keyList.get('e'):
             for item in itemList.values():
                 if item.x == player.x and item.y == player.y:
-                    inventory.addItem(inventory.createItem(item))
+                    inventory.addItem(item.invItem)
                     itemList.pop((item.x, item.y))
                     break
         if key == self.keyList.get('f'):

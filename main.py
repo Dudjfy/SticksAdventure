@@ -66,8 +66,8 @@ entityList[(wizard.x, wizard.y)] = wizard
 entityList[(boss.x, boss.y)] = boss
 
 
-sword = Item(60, 18, '/', 'Sword', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG', consumable=False)
-key = Item(59, 18, '<', 'Key', 2, 4, False, amount=1, stackSize=1, desc='Sword, deals 5 DMG')
+sword = Item(60, 18, '/', 'Sword', 2, 4, False, invItem=Sword('Sword', 1, 'Sword, deals 5 DMG', 1, False, dmg=5))
+key = Item(59, 18, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
 
 itemList = {}
 itemList[(sword.x, sword.y)] = sword
@@ -106,16 +106,17 @@ curHan.renderMessages()
 
 
 inventory = Inventory()
-potion = InvItem('Potion', 99, 'Heals 1/5 of max HP', 3, True)
-maxPotion = InvItem('Max Potion', 99, 'Heals full HP', 3, True)
+potion = NormalPotion('Potion', 99, 'Heals 1/5 of max HP', 3, True, healPart=0.2)
+maxPotion = MaxPotion('Max Potion', 99, 'Heals full HP', 3, True, healPart=1)
 test1 = InvItem('test1', 99, 'Heals full HP', 99, True)
 test2 = InvItem('test2', 99, 'Heals full HP', 1, True)
 test3 = InvItem('test3', 99, 'Heals full HP', 69, True)
-inventory.addItem(potion)
-inventory.addItem(maxPotion)
-inventory.addItem(test1)
-inventory.addItem(test2)
-inventory.addItem(test3)
+inventory.addItem(potion, False)
+inventory.addItem(maxPotion, False)
+inventory.addItem(test1, False)
+inventory.addItem(test2, False)
+inventory.addItem(test3, False)
+
 
 while gameOn:
     # curHan.screen.clear()
@@ -144,6 +145,10 @@ while gameOn:
         fountain.msgFlag = False
         if fountain.healedTimes >= fountain.healTimesMax:
             fountain.respawnNpc(entityList, itemList, gameMap, forbiddenTiles)
+
+    if inventory.msgFlag:
+        curHan.renderMessages(inventory.msg, inventory.msgFlag)
+        inventory.msgFlag = False
 
     for entity in entityList.values():
         if isinstance(entity, NPC) and entity.msgFlag:
