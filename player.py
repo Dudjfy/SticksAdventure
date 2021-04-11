@@ -112,7 +112,10 @@ class Inventory:
                     break
             else:
                 if showMsg:
-                    self.msg = 'Picked up: {}'.format(newItem.name)
+                    if isinstance(newItem, Potion):
+                        self.msg = 'Picked up: {} - Amount: {}'.format(newItem.name, newItem.amount)
+                    else:
+                        self.msg = 'Picked up: {}'.format(newItem.name)
                     self.msgFlag = True
                 self.itemList.append(newItem)
 

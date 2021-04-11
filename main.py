@@ -65,13 +65,19 @@ entityList[(wizard.x, wizard.y)] = wizard
 # entityList[(bossDoor.x, bossDoor.y)] = bossDoor
 entityList[(boss.x, boss.y)] = boss
 
-
-sword = Item(60, 18, '/', 'Sword', 2, 4, False, invItem=Sword('Sword', 1, 'Sword, deals 5 DMG', 1, False, dmg=5))
-key = Item(59, 18, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
+key = Item(57, 17, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
+leatherArmor = Item(59, 18, '%', 'Leather Armor', 2, 4, False,
+                   invItem=LeatherArmor('Leather Armor', 1, 'Leather Armor, DEF + 1', 1, False, defence=1))
+sword = Item(60, 18, '/', 'Sword', 2, 4, False,
+             invItem=Dagger('Dagger', 1, 'Dagger, deals 5 DMG', 1, False, dmg=2))
+normalPotion = Item(62, 19, '~', 'Sword', 2, 4, False,
+             invItem=NormalPotion('Potion', 99, 'Potion, heals 1/5 of max HP', 3, True, healPart=0.2))
 
 itemList = {}
 itemList[(sword.x, sword.y)] = sword
 itemList[(key.x, key.y)] = key
+itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
+itemList[(normalPotion.x, normalPotion.y)] = normalPotion
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
@@ -106,16 +112,16 @@ curHan.renderMessages()
 
 
 inventory = Inventory()
-potion = NormalPotion('Potion', 99, 'Heals 1/5 of max HP', 3, True, healPart=0.2)
-maxPotion = MaxPotion('Max Potion', 99, 'Heals full HP', 3, True, healPart=1)
-test1 = InvItem('test1', 99, 'Heals full HP', 99, True)
-test2 = InvItem('test2', 99, 'Heals full HP', 1, True)
-test3 = InvItem('test3', 99, 'Heals full HP', 69, True)
-inventory.addItem(potion, False)
-inventory.addItem(maxPotion, False)
-inventory.addItem(test1, False)
-inventory.addItem(test2, False)
-inventory.addItem(test3, False)
+# potion = NormalPotion('Potion', 99, 'Heals 1/5 of max HP', 3, True, healPart=0.2)
+# maxPotion = MaxPotion('Max Potion', 99, 'Heals full HP', 3, True, healPart=1)
+# test1 = InvItem('test1', 99, 'Heals full HP', 99, True)
+# test2 = InvItem('test2', 99, 'Heals full HP', 1, True)
+# test3 = InvItem('test3', 99, 'Heals full HP', 69, True)
+# inventory.addItem(potion, False)
+# inventory.addItem(maxPotion, False)
+# inventory.addItem(test1, False)
+# inventory.addItem(test2, False)
+# inventory.addItem(test3, False)
 
 
 while gameOn:
