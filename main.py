@@ -68,13 +68,13 @@ entityList[(boss.x, boss.y)] = boss
 key = Item(57, 17, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
 leatherArmor = Item(59, 18, '%', 'Leather Armor', 2, 4, False,
                    invItem=LeatherArmor('Leather Armor', 1, 'Leather Armor, DEF + 1', 1, False, defence=1))
-sword = Item(60, 18, '/', 'Sword', 2, 4, False,
+dagger = Item(60, 18, '/', 'Dagger', 2, 4, False,
              invItem=Dagger('Dagger', 1, 'Dagger, deals 5 DMG', 1, False, dmg=2))
 normalPotion = Item(62, 19, '~', 'Sword', 2, 4, False,
              invItem=NormalPotion('Potion', 99, 'Potion, heals 1/5 of max HP', 3, True, healPart=0.2))
 
 itemList = {}
-itemList[(sword.x, sword.y)] = sword
+itemList[(dagger.x, dagger.y)] = dagger
 itemList[(key.x, key.y)] = key
 itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
 itemList[(normalPotion.x, normalPotion.y)] = normalPotion

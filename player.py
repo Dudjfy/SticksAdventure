@@ -57,7 +57,7 @@ class Player(Creature):
             self.hp = self.maxHp
 
     def equip(self, eqPiece):
-        if isinstance(eqPiece, Sword):
+        if isinstance(eqPiece, Weapon):
             if self.sword == None:
                 self.sword = eqPiece
                 return True
@@ -198,7 +198,7 @@ class MaxPotion(Potion):
 ''' Weapons '''
 class Weapon(InvItem):
     def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1, consumable=False,
-                 equipped=False, used=False, msg='No Msg', dmg=0):
+                 equipped=False, used=False, dmg=0):
         super().__init__(name, stackSize, desc, amount, consumable, equipped, used)
         self.dmg = dmg
 
@@ -216,7 +216,7 @@ class Sword(Weapon):
 ''' Armour '''
 class Armor(InvItem):
     def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1, consumable=False,
-                 equipped=False, used=False, msg='No Msg', defence=0):
+                 equipped=False, used=False, defence=0):
         super().__init__(name, stackSize, desc, amount, consumable, equipped, used)
         self.defence = defence
 
