@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import curses
 import string
-import time
 import math
+
+from player import *
 
 # Klass som ansvarar för allt som har med curses att göra
 from typing import Callable
-
-
 class CursesHandler:
 
     def __init__(self, screen=None):
@@ -96,7 +95,6 @@ class CursesHandler:
                 self.screen.addstr(entity.y, entity.x, entity.char, curses.color_pair(entity.light))
 
     def renderMessages(self, newMsg='', update=False):
-        # self.screen.addstr(27, 26, "#" * 35)
         if update:
             self.msgLst.insert(0, '{:<35}'.format(newMsg))
             self.msgLst.pop()
@@ -214,6 +212,47 @@ class CursesHandler:
             if len(inventory.itemList) > 0:
                 item = inventory.itemList[inventory.startPos + inventory.curVisibleIdx]
                 inventory.createMsg(item.desc)
+        if key == self.keyList.get('q'):
+            if len(inventory.itemList) > 0:
+                item = inventory.itemList[inventory.startPos + inventory.curVisibleIdx]
+
+                if isinstance(item, Key):
+                    self.renderMessages("Key's too important, can't drop it".format(item.name), True)
+                    return True
+
+                self.renderMessages('Dropping {}? (y/n)'.format(item.name), True)
+
+                self.screen.addstr(player.y, player.x, player.char, curses.color_pair(100))
+
+                # key = self.screen.getch()
+                #
+                # if key == self.keyList.get('y'):
+                #     inventory.pop(item)
+
+                while True:
+                    key = self.screen.getch()
+
+                    if key == self.keyList.get('y'):
+                        self.renderMessages('Dropped item: {}'.format(item.name), True)
+                        if isinstance(item, Weapon) or isinstance(item, Armor):
+                            if item == player.weapon or item == player.armor:
+                                item.use(player)
+
+                        if len(inventory.itemList) > 0:
+                            if inventory.startPos == 0:
+                                if inventory.curVisibleIdx > len(inventory.itemList) - 2:
+                                    inventory.curVisibleIdx -= 1
+                            elif inventory.startPos + inventory.visibleSize > len(inventory.itemList) - 1:
+                                inventory.startPos -= 1
+                        self.renderInventory(inventory, player)
+
+                        inventory.itemList.remove(item)
+                        break
+                    elif key == self.keyList.get('n'):
+                        break
+
+                return True
+
         if key == curses.KEY_UP:
             inventory.nextItem(-1)
         if key == curses.KEY_DOWN:

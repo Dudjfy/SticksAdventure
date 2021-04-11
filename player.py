@@ -157,6 +157,7 @@ class Inventory:
                     text = "Can't use key this way, find a door"
                     curItem.use(player)
                 else:
+                    ''' NEED TO MAKE SWAPPING ITEMS EASIER WITHOUT UNEQUIPPING FIRST '''
                     if isinstance(curItem, Weapon):
                         prevItem = player.weapon
                     elif isinstance(curItem, Armor):
