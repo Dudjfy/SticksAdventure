@@ -5,13 +5,13 @@ from entity import *
 class Player(Creature):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=True,
                  order=7, hp=30, dmg=4, lvl=1, xp=0, xpConst=0.2, baseHp=10, baseDmg=2, maxHp=10, healedHp=0,
-                 defence=0, sword=None, armor=None):
+                 defence=0, weapon=None, armor=None):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order, hp, dmg, lvl, baseHp, baseDmg)
         self.xp = xp
         self.xpConst = xpConst
         self.maxHp = baseHp
         self.healedHp = healedHp
-        self.sword = sword
+        self.weapon = weapon
         self.armor = armor
         self.defence = defence
         # self.msgFlag = msgFlag
@@ -21,7 +21,7 @@ class Player(Creature):
         enemy.attacked = True
         enemy.attackedOnce = True
         self.hp -= enemy.dmg - (0 if self.armor == None else self.defence)
-        enemy.hp -= self.dmg + (0 if self.sword == None else self.sword.dmg)
+        enemy.hp -= self.dmg + (0 if self.weapon == None else self.weapon.dmg)
 
     def move(self, entityList, gameMap, dx, dy):
         coords = (self.x + dx, self.y + dy)
@@ -58,11 +58,11 @@ class Player(Creature):
 
     def equip(self, eqPiece):
         if isinstance(eqPiece, Weapon):
-            if self.sword == None:
-                self.sword = eqPiece
+            if self.weapon == None:
+                self.weapon = eqPiece
                 return True
             else:
-                self.sword = None
+                self.weapon = None
                 return False
 
         elif isinstance(eqPiece, Armor):
@@ -86,9 +86,6 @@ class Inventory:
         self.msgFlag = msgFlag
         self.msg = msg
 
-    def createItem(self, item):
-        return InvItem(item.name, item.stackSize, item.desc, item.amount)
-
     def addItem(self, newItem, showMsg=True):
         ''' NEED TO FIX FOR ADDING ITEMS TO EXISTING ITEMS AMOUNT '''
         if len(self.itemList) < self.totalSize:
@@ -104,19 +101,20 @@ class Inventory:
                         item.amount = item.stackSize
                         if len(self.itemList) + 1 <= self.totalSize:
                             if showMsg:
-                                self.msg = 'Picked up: {} - Amount: {}'.format(newItem.name, newItem.amount)
-                                self.msgFlag = True
+                                text = 'Picked up: {} - Amount: {}'.format(newItem.name, newItem.amount)
+                                self.createMsg(text)
                             self.itemList.append(newItem)
                     else:
                         item.amount += newItem.amount
                     break
             else:
                 if showMsg:
+                    ''' NEED TO FIX FOR OTHER STACKABLE TYPES OF ITEMS '''
                     if isinstance(newItem, Potion):
-                        self.msg = 'Picked up: {} - Amount: {}'.format(newItem.name, newItem.amount)
+                        text = 'Picked up: {} - Amount: {}'.format(newItem.name, newItem.amount)
                     else:
-                        self.msg = 'Picked up: {}'.format(newItem.name)
-                    self.msgFlag = True
+                        text = 'Picked up: {}'.format(newItem.name)
+                    self.createMsg(text)
                 self.itemList.append(newItem)
 
     def nextItem(self, nextItem):
@@ -141,8 +139,8 @@ class Inventory:
             if curItem.consumable:
                 if curItem.amount > 0:
                     ''' NEED TO IMPLEMENT KEY USAGE '''
-                    self.msg = 'Used {}'.format(curItem.name)
-                    self.msgFlag = True
+                    text = 'Used {}'.format(curItem.name)
+                    self.createMsg(text)
 
                     curItem.use(player)
                     curItem.amount -= 1
@@ -156,10 +154,21 @@ class Inventory:
                                 self.startPos -= 1
             else:
                 if isinstance(curItem, Key):
-                    self.msg = "Can't use key this way, find a door"
+                    text = "Can't use key this way, find a door"
+                    curItem.use(player)
                 else:
-                    self.msg = '{} {}'.format('Equipped' if curItem.use(player) else 'Unequipped', curItem.name)
-                self.msgFlag = True
+                    if isinstance(curItem, Weapon):
+                        prevItem = player.weapon
+                    elif isinstance(curItem, Armor):
+                        prevItem = player.armor
+                    equipped = curItem.use(player)
+                    text = '{} {}'.format('Equipped' if equipped else 'Unequipped',
+                                          curItem.name if prevItem == None else prevItem.name)
+                self.createMsg(text)
+
+    def createMsg(self, text):
+        self.msg = text
+        self.msgFlag = True
 
 
 class InvItem:

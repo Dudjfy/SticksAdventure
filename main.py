@@ -54,7 +54,7 @@ wizard = Wizard(80, 19, 'W', 'Wizard', 2, 7, True,
 # bossDoor = Door(5, 5, '-', 'Boss Door', True)
 # test = Entity(5, 2)
 
-# entityList = [player, orc, sword, test]
+# entityList = [player, orc, weapon, test]
 entityList = {}
 entityList[(player.x, player.y)] = player
 entityList[(orc.x, orc.y)] = orc
@@ -66,16 +66,19 @@ entityList[(wizard.x, wizard.y)] = wizard
 entityList[(boss.x, boss.y)] = boss
 
 key = Item(57, 17, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
-leatherArmor = Item(59, 18, '%', 'Leather Armor', 2, 4, False,
+leatherArmor = Item(58, 18, '%', 'Leather Armor', 2, 4, False,
                    invItem=LeatherArmor('Leather Armor', 1, 'Leather Armor, DEF + 1', 1, False, defence=1))
-dagger = Item(60, 18, '/', 'Dagger', 2, 4, False,
+dagger = Item(59, 18, '/', 'Dagger', 2, 4, False,
              invItem=Dagger('Dagger', 1, 'Dagger, deals 5 DMG', 1, False, dmg=2))
+sword = Item(60, 18, '/', 'Sword', 2, 4, False,
+             invItem=Dagger('Sword', 1, 'Sword, deals 5 DMG', 1, False, dmg=4))
 normalPotion = Item(62, 19, '~', 'Sword', 2, 4, False,
              invItem=NormalPotion('Potion', 99, 'Potion, heals 1/5 of max HP', 3, True, healPart=0.2))
 
 itemList = {}
-itemList[(dagger.x, dagger.y)] = dagger
 itemList[(key.x, key.y)] = key
+itemList[(dagger.x, dagger.y)] = dagger
+itemList[(sword.x, sword.y)] = sword
 itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
 itemList[(normalPotion.x, normalPotion.y)] = normalPotion
 
@@ -130,7 +133,7 @@ while gameOn:
 
     curHan.renderPlayerStats(player)
 
-    curHan.renderInventory(inventory)
+    curHan.renderInventory(inventory, player)
 
     curHan.renderDeviders(4)
 

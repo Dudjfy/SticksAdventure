@@ -110,8 +110,8 @@ class CursesHandler:
         self.screen.addstr(22, 0, 'HP:|{:10}| {:<9}'.format('', hpShown))
         self.screen.addstr(22, 4, barChar * hpBarLevel, curses.color_pair(8))
         self.screen.addstr(23, 0, 'DMG: {:<9}'.format(
-            '{}(+{})'.format(player.dmg + (0 if player.sword == None else player.sword.dmg),
-                             0 if player.sword == None else player.sword.dmg)))
+            '{}(+{})'.format(player.dmg + (0 if player.weapon == None else player.weapon.dmg),
+                             0 if player.weapon == None else player.weapon.dmg)))
         self.screen.addstr(23, 15, 'DEF: {:<3}'.format(player.defence))
         self.screen.addstr(24, 0, 'Level: {:<3}'.format(player.lvl))
 
@@ -129,8 +129,8 @@ class CursesHandler:
 
         self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
-    def renderInventory(self, inventory):
-        for y in range(4):
+    def renderInventory(self, inventory, player):
+        for y in range(inventory.visibleSize):
             self.screen.addstr(22 + y, 62, ' ')
 
         if len(inventory.itemList) > 0:
@@ -138,10 +138,14 @@ class CursesHandler:
                 self.screen.addstr(22 + itemIdx, 62, '{:>20}'.format(' '))
 
             for itemIdx in range(inventory.visibleSize):
-                if itemIdx == inventory.curVisibleIdx:
-                    self.screen.addstr(22 + itemIdx, 62, '*', curses.color_pair(100))
-
                 if itemIdx < len(inventory.itemList):
+                    if inventory.itemList[inventory.startPos + itemIdx] == player.weapon \
+                            or inventory.itemList[inventory.startPos + itemIdx] == player.armor:
+                        self.screen.addstr(22 + itemIdx, 62, '*', curses.color_pair(1))
+
+                    if itemIdx == inventory.curVisibleIdx:
+                        self.screen.addstr(22 + itemIdx, 62, '*', curses.color_pair(100))
+
                     msg = '{:>18}'.format('{} x{:>2}'.format(inventory.itemList[inventory.startPos + itemIdx].name,
                                                              inventory.itemList[inventory.startPos + itemIdx].amount))
                     self.screen.addstr(22 + itemIdx, 64, msg)
@@ -205,7 +209,9 @@ class CursesHandler:
                     break
         if key == self.keyList.get('f'):
             inventory.useItem(player)
-            self.renderInventory(inventory)
+            self.renderInventory(inventory, player)
+        if key == self.keyList.get('i'):
+            pass
         if key == curses.KEY_UP:
             inventory.nextItem(-1)
         if key == curses.KEY_DOWN:
