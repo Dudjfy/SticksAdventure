@@ -202,16 +202,18 @@ class CursesHandler:
 
         # Inventory related
         if key == self.keyList.get('e'):
-            for item in itemList.values():
-                if item.x == player.x and item.y == player.y:
-                    inventory.addItem(item.invItem)
-                    itemList.pop((item.x, item.y))
-                    break
+            item = itemList.get((player.x, player.y))
+            if item != None:
+                inventory.addItem(item.invItem)
+                itemList.pop((item.x, item.y))
+
         if key == self.keyList.get('f'):
             inventory.useItem(player)
             self.renderInventory(inventory, player)
-        if key == self.keyList.get('i'):
-            pass
+        if key == self.keyList.get('i') or key == self.keyList.get('c'):
+            if len(inventory.itemList) > 0:
+                item = inventory.itemList[inventory.startPos + inventory.curVisibleIdx]
+                inventory.createMsg(item.desc)
         if key == curses.KEY_UP:
             inventory.nextItem(-1)
         if key == curses.KEY_DOWN:

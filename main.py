@@ -66,21 +66,27 @@ entityList[(wizard.x, wizard.y)] = wizard
 entityList[(boss.x, boss.y)] = boss
 
 key = Item(57, 17, '<', 'Key', 2, 4, False, invItem=Key('Key', 1, 'Key, opens locked doors', 1, False))
-leatherArmor = Item(58, 18, '%', 'Leather Armor', 2, 4, False,
+leatherArmor = Item(57, 18, '%', 'Leather Armor', 2, 4, False,
                    invItem=LeatherArmor('Leather Armor', 1, 'Leather Armor, DEF + 1', 1, False, defence=1))
+ironArmor = Item(58, 18, '%', 'Iron Armor', 2, 4, False,
+                   invItem=IronArmor('Iron Armor', 1, 'Iron Armor, DEF + 3', 1, False, defence=3))
 dagger = Item(59, 18, '/', 'Dagger', 2, 4, False,
-             invItem=Dagger('Dagger', 1, 'Dagger, deals 5 DMG', 1, False, dmg=2))
+             invItem=Dagger('Dagger', 1, 'Dagger, deals 2 DMG', 1, False, dmg=2))
 sword = Item(60, 18, '/', 'Sword', 2, 4, False,
-             invItem=Dagger('Sword', 1, 'Sword, deals 5 DMG', 1, False, dmg=4))
-normalPotion = Item(62, 19, '~', 'Sword', 2, 4, False,
+             invItem=Dagger('Sword', 1, 'Sword, deals 4 DMG', 1, False, dmg=4))
+normalPotion = Item(62, 19, '~', 'Potion', 2, 4, False,
              invItem=NormalPotion('Potion', 99, 'Potion, heals 1/5 of max HP', 3, True, healPart=0.2))
+maxPotion = Item(62, 19, '~', 'Max Potion', 2, 4, False,
+             invItem=MaxPotion('Max Potion', 99, 'Max Potion, heals max HP', 3, True, healPart=1))
 
 itemList = {}
 itemList[(key.x, key.y)] = key
 itemList[(dagger.x, dagger.y)] = dagger
 itemList[(sword.x, sword.y)] = sword
 itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
+itemList[(ironArmor.x, ironArmor.y)] = ironArmor
 itemList[(normalPotion.x, normalPotion.y)] = normalPotion
+itemList[(maxPotion.x, maxPotion.y)] = maxPotion
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
