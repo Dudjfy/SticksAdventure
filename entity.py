@@ -55,7 +55,6 @@ class Monster(Creature):
         self.hp = self.baseHp
         self.dmg = self.baseDmg
 
-
         self.xpReward = self.xpRewardBase + self.xpIncrease * self.lvl
 
     def collision(self, player, entityList):
@@ -64,6 +63,22 @@ class Monster(Creature):
             self.attackedMsg = self.deathMsg
             player.xp += self.xpReward
             player.calcLevel(entityList)
+
+    def spawnRandomItem(self, itemList, itemPresets, amount):
+        ''' POTION DELETION BUG!!! '''
+
+        weights = [item.weight for item in itemPresets]
+        item = (random.choices(itemPresets, weights=weights, k=1))[0]
+        if (item.name).lower() == 'empty':
+            return
+        elif 'potion' in (item.name).lower():
+            amounts = [i for i in range(1, amount + 1)]
+            item.invItem.amount = random.choices(amounts, weights=sorted(amounts, reverse=True), k=1)[0]
+        newItem = Item(x=self.x, y=self.y, char=item.char, name=item.name, dark=item.dark, light=item.light,
+                       blocksMovement=item.blocksMovement, order=item.order, picked=item.picked,
+                       weight=item.weight, invItem=item.invItem)
+
+        itemList[newItem.x, newItem.y] = newItem
 
     def returnAttackedMonster(self, entityList):
         for entity in entityList.values():
@@ -187,7 +202,8 @@ class Fountain(NPC):
 
 class Item(Stationary):
     def __init__(self, x=0, y=0, char='?', name='No Name', dark=2, light=1, blocksMovement=False, order=1,
-                 picked=False, invItem=None):
+                 picked=False, weight=1, invItem=None):
         super().__init__(x, y, char, name, dark, light, blocksMovement, order)
         self.picked = picked
+        self.weight = weight
         self.invItem = invItem

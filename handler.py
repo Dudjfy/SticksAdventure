@@ -203,8 +203,10 @@ class CursesHandler:
         if key == self.keyList.get('e'):
             item = itemList.get((player.x, player.y))
             if item != None:
-                inventory.addItem(item.invItem)
-                itemList.pop((item.x, item.y))
+                if inventory.addItem(item.invItem):
+                    itemList.pop((item.x, item.y))
+                else:
+                    self.renderMessages("You can only hold 10 items at once!".format(item.name), True)
 
         if key == self.keyList.get('f'):
             inventory.useItem(player)

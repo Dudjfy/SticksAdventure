@@ -130,6 +130,9 @@ class Inventory:
                         text = 'Picked up: {}'.format(newItem.name)
                     self.createMsg(text)
                 self.itemList.append(newItem)
+        else:
+            return False
+        return True
 
     def nextItem(self, nextItem):
         if len(self.itemList) > 0:
@@ -204,7 +207,7 @@ class InvItem:
 ''' Potions '''
 class Potion(InvItem):
     def __init__(self, name='No Name', stackSize=1, desc='No Description', amount=1, consumable=False,
-                 equipped=False, used=False, msg='No Msg', healPart=1):
+                 equipped=False, used=False, healPart=1):
         super().__init__(name, stackSize, desc, amount, consumable, equipped, used)
         self.healPart = healPart
 
