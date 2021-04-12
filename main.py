@@ -22,7 +22,6 @@ import curses
     
 """
 
-
 curHan = CursesHandler()
 menu = Menu()
 
@@ -33,7 +32,6 @@ curHan.cursesSetup()
 # while True:
 #     menu.printMenu(ren.screen)
 #     menu.inputMenu(ren.screen)
-
 
 player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
 # player = Player(6, 2, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
@@ -76,7 +74,7 @@ sword = Item(60, 18, '/', 'Sword', 2, 4, False,
              invItem=Dagger('Sword', 1, 'Sword, deals 4 DMG', 1, False, dmg=4))
 normalPotion = Item(62, 19, '~', 'Potion', 2, 4, False,
              invItem=NormalPotion('Potion', 99, 'Potion, heals 1/5 of max HP', 3, True, healPart=0.2))
-maxPotion = Item(62, 19, '~', 'Max Potion', 2, 4, False,
+maxPotion = Item(63, 19, '~', 'Max Potion', 2, 4, False,
              invItem=MaxPotion('Max Potion', 99, 'Max Potion, heals max HP', 3, True, healPart=1))
 
 itemList = {}
@@ -94,21 +92,16 @@ itemList[(maxPotion.x, maxPotion.y)] = maxPotion
 
 # entityList.sort(key=lambda x: x.order)
 
-gameMap = GameMap().createGameMapFromFile()
-forbiddenTiles = GameMap().addForbiddenTiles([], 57, 17, 80, 20)
-forbiddenTiles = GameMap().addForbiddenTiles(forbiddenTiles, 1, 1, 9, 6)
-
+gameMapObj = GameMap()
+gameMapObj.createGameMapFromFile()
+gameMapObj.addForbiddenTiles(57, 17, 80, 20)
+gameMapObj.addForbiddenTiles(1, 1, 9, 6)
+gameMapObj.addBorderTiles()
 
 # Orcs random over whole map
-Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, orc, 50)
-Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, troll, 20)
-Monster().spawnRandomMonsters(entityList, gameMap, forbiddenTiles, goblin, 10)
-
-exploredGameMap = {}
-
-for tile in gameMap.values():
-    if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
-        exploredGameMap[(tile.x, tile.y)] = tile
+Monster().spawnRandomMonsters(entityList, gameMapObj, orc, 50)
+Monster().spawnRandomMonsters(entityList, gameMapObj, troll, 20)
+Monster().spawnRandomMonsters(entityList, gameMapObj, goblin, 10)
 
 rad = 3         # Radius of light
 rays = 360
@@ -117,8 +110,6 @@ gameOn = True
 curHan.renderMode = True
 
 curHan.renderMessages()
-
-
 
 inventory = Inventory()
 # potion = NormalPotion('Potion', 99, 'Heals 1/5 of max HP', 3, True, healPart=0.2)
@@ -131,7 +122,6 @@ inventory = Inventory()
 # inventory.addItem(test1, False)
 # inventory.addItem(test2, False)
 # inventory.addItem(test3, False)
-
 
 while gameOn:
     # curHan.screen.clear()
@@ -159,7 +149,7 @@ while gameOn:
                               fountain.npcMsgList[0].format(player.healedHp), True)
         fountain.msgFlag = False
         if fountain.healedTimes >= fountain.healTimesMax:
-            fountain.respawnNpc(entityList, itemList, gameMap, forbiddenTiles)
+            fountain.respawnNpc(entityList, itemList, gameMapObj)
 
     if inventory.msgFlag:
         curHan.renderMessages(inventory.msg, inventory.msgFlag)
@@ -172,9 +162,9 @@ while gameOn:
             entity.msgFlag = False
             break
 
-    curHan.renderFrame(gameMap, exploredGameMap, entityList, itemList, player, rad, rays, steps)
+    curHan.renderFrame(gameMapObj, entityList, itemList, player, rad, rays, steps)
 
-    gameOn = curHan.playerInput(player, inventory, entityList, itemList, gameMap)
+    gameOn = curHan.playerInput(player, inventory, entityList, itemList, gameMapObj)
 
 menu.gameOver(curHan.screen)
 

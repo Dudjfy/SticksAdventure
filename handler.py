@@ -2,6 +2,7 @@
 import curses
 import string
 import math
+import time
 
 from player import *
 
@@ -56,9 +57,9 @@ class CursesHandler:
         curses.endwin()
 
     # Render funktion mha curses
-    def renderFrame(self, gameMap, exploredGameMap, entityList, itemList, player, rad=4, rays=360, steps=4):
+    def renderFrame(self, gameMapObj, entityList, itemList, player, rad=4, rays=360, steps=4):
         if self.renderMode:
-            for tile in exploredGameMap.values():
+            for tile in gameMapObj.exploredGameMap.values():
                 self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
             for ray in range(rays):
@@ -66,11 +67,11 @@ class CursesHandler:
                 y = rad * math.sin(ray)
                 for step in range(0, steps + 1):
                     cords = (player.x + round(x / steps * step), player.y + round(y / steps * step))
-                    tile = gameMap.get(cords)
+                    tile = gameMapObj.gameMap.get(cords)
                     if tile == None:
                         break
-                    if tile not in exploredGameMap:
-                        exploredGameMap.update({cords : tile})
+                    if tile not in gameMapObj.exploredGameMap:
+                        gameMapObj.exploredGameMap.update({cords : tile})
 
                     item = itemList.get(cords)
                     entity = entityList.get(cords)
@@ -85,7 +86,7 @@ class CursesHandler:
                         break
 
         else:
-            for tile in gameMap.values():
+            for tile in gameMapObj.gameMap.values():
                 self.screen.addstr(tile.y, tile.x, tile.charDark, curses.color_pair(tile.dark))
 
             for item in itemList.values():
@@ -157,7 +158,7 @@ class CursesHandler:
         for y in range(devLen):
             self.screen.addstr(22 + y, 61, '|')
 
-    def playerInput(self, player, inventory, entityList, itemList, gameMap):
+    def playerInput(self, player, inventory, entityList, itemList, gameMapObj):
         key = self.screen.getch()
 
         dx = 0
@@ -275,7 +276,7 @@ class CursesHandler:
         if key == 27:
             return False
 
-        player.move(entityList, gameMap, dx, dy)
+        player.move(entityList, gameMapObj, inventory, dx, dy)
         if player.hp <= 0:
             return False
 

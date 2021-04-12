@@ -20,12 +20,19 @@ class Player(Creature):
     def attack(self, enemy):
         enemy.attacked = True
         enemy.attackedOnce = True
-        self.hp -= enemy.dmg - (0 if self.armor == None else self.defence)
+        totDmg = (enemy.dmg - (0 if self.armor == None else self.defence))
+        self.hp -= 0 if totDmg < 0 else totDmg
         enemy.hp -= self.dmg + (0 if self.weapon == None else self.weapon.dmg)
 
-    def move(self, entityList, gameMap, dx, dy):
+    def move(self, entityList, gameMapObj, inventory, dx, dy):
         coords = (self.x + dx, self.y + dy)
-        if not (gameMap.get(coords)).blocksMovement:
+        if (gameMapObj.gameMap.get(coords)).blocksMovement:
+            if (gameMapObj.gameMap.get(coords)).name == 'Door':
+                for item in inventory.itemList():
+                    if item.name == 'Key':
+                        inventory.remove(item)
+                        gameMapObj.replaceTile()
+        else:
             entity = entityList.get(coords)
             if isinstance(entity, Entity) and entityList.get(coords).blocksMovement:
                 entity.collision(self, entityList)

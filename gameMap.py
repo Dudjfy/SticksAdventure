@@ -2,6 +2,11 @@
 class GameMap:
     def __init__(self):
         self.gameMap = {}
+        self.exploredGameMap = {}
+        self.forbiddenTiles = []
+        # self.tileTypes = {
+        #     'Floor': Door
+        # }
         self.wallChar = '#'
         self.floorCharDark = ' '
         self.floorCharLight = '.'
@@ -14,24 +19,38 @@ class GameMap:
         for y, row in enumerate(file):
             for x, tile in enumerate(row):
                 if tile == self.floorCharDark:
-                    self.gameMap[(x, y)] = Tile(x, y, self.floorCharDark, self.floorCharLight, 'Floor', 2, 1, False)
+                    self.gameMap[(x, y)] = Floor(x, y)
                 elif tile == self.wallChar:
-                    self.gameMap[(x, y)] = (Tile(x, y, self.wallChar, self.wallChar, 'Wall', 2, 1, True))
+                    self.gameMap[(x, y)] = Wall(x, y)
                 elif tile == self.doorCharHorizontal:
-                    self.gameMap[(x, y)] = (Tile(x, y, self.doorCharHorizontal, self.doorCharHorizontal,
-                                                 'Door', 2, 1, True))
+                    self.gameMap[(x, y)] = HDoor(x, y)
+                elif tile == self.doorCharVertical:
+                    self.gameMap[(x, y)] = VDoor(x, y)
         file.close()
-        return self.gameMap
 
-    def addForbiddenTiles(self, forbiddenTiles, xMin, yMin, xMax, yMax):
+    def addBorderTiles(self):
+        for tile in self.gameMap.values():
+            if tile.x == 0 or tile.x == 81 or tile.y == 0 or tile.y == 21:
+                self.exploredGameMap[(tile.x, tile.y)] = tile
+
+    def addForbiddenTiles(self, xMin, yMin, xMax, yMax):
         for x in range(xMin, xMax + 1):
             for y in range(yMin, yMax + 1):
-                forbiddenTiles.append((x, y))
-        return forbiddenTiles
+                self.forbiddenTiles.append((x, y))
+
+    def replaceTile(self, x, y, tileType):
+        self.gameMap.pop((x, y))
+        tileTypes = {
+            Floor().name: Floor,
+            Wall().name: Wall,
+            HDoor().name: HDoor,
+            VDoor().name: VDoor
+        }
+        self.gameMap[(x, y)] = tileTypes[tileType](x, y)
 
 
 class Tile:
-    def __init__(self, x=0, y=0, charDark='?', charLight='?', name='No Name', dark=1, light=2, blocksMovement=True):
+    def __init__(self, x=0, y=0, charDark='?', charLight='?', name='No Name', dark=2, light=1, blocksMovement=True):
         self.x = x
         self.y = y
         self.charDark = charDark
@@ -40,3 +59,31 @@ class Tile:
         self.dark = dark
         self.light = light
         self.blocksMovement = blocksMovement
+
+
+class Floor(Tile):
+    def __init__(self, x=0, y=0, charDark=GameMap().floorCharDark, charLight=GameMap().floorCharLight,
+                 name='Floor', dark=2, light=1, blocksMovement=False):
+        super().__init__(x, y, charDark, charLight, name, dark, light, blocksMovement)
+
+
+class Wall(Tile):
+    def __init__(self, x=0, y=0, charDark=GameMap().wallChar, charLight=GameMap().wallChar,
+                 name='Wall', dark=2, light=1, blocksMovement=True):
+        super().__init__(x, y, charDark, charLight, name, dark, light, blocksMovement)
+
+
+class Door(Tile):
+    pass
+
+
+class HDoor(Door):
+    def __init__(self, x=0, y=0, charDark=GameMap().doorCharHorizontal, charLight=GameMap().doorCharHorizontal,
+                 name='Door', dark=2, light=1, blocksMovement=True):
+        super().__init__(x, y, charDark, charLight, name, dark, light, blocksMovement)
+
+
+class VDoor(Door):
+    def __init__(self, x=0, y=0, charDark=GameMap().doorCharVertical, charLight=GameMap().doorCharVertical,
+                 name='Door', dark=2, light=1, blocksMovement=True):
+        super().__init__(x, y, charDark, charLight, name, dark, light, blocksMovement)

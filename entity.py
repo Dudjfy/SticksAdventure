@@ -35,7 +35,7 @@ class Creature(Entity):
         self.hp -= enemy.dmg
         enemy.hp -= self.dmg
 
-    def move(self, entityList, gameMap, dx, dy):
+    def move(self, entityList, gameMap, inventory, dx, dy):
             self.x += dx
             self.y += dy
 
@@ -73,7 +73,7 @@ class Monster(Creature):
         else:
             return ''
 
-    def spawnRandomMonsters(self, entityList, gameMap, forbiddenTiles, entityBase, amountMax, randomSpawningAmount=False, playableWidthMin=1, playableWidthMax=80,
+    def spawnRandomMonsters(self, entityList, gameMapObj, entityBase, amountMax, randomSpawningAmount=False, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
         for i in range(amountMax if not randomSpawningAmount else random.randint(0, amountMax)):
             while True:
@@ -86,9 +86,9 @@ class Monster(Creature):
 
                 entity.x = random.randint(playableWidthMin, playableWidthMax)
                 entity.y = random.randint(playableHeightMin, playableHeightMax)
-                if not (entity.x, entity.y) in forbiddenTiles:
-                    if not (gameMap.get((entity.x, entity.y))).blocksMovement:
-                        if entityList.get((entity.x, entity.y)) == None and gameMap.get((entity.x, entity.y)) != None:
+                if not (entity.x, entity.y) in gameMapObj.forbiddenTiles:
+                    if not (gameMapObj.gameMap.get((entity.x, entity.y))).blocksMovement:
+                        if entityList.get((entity.x, entity.y)) == None and gameMapObj.gameMap.get((entity.x, entity.y)) != None:
                             entityList[(entity.x, entity.y)] = entity
                             break
 
@@ -153,15 +153,15 @@ class NPC(Stationary):
         self.healedTimes = healedTimes
         self.curMsgIndex = curMsgIndex
 
-    def respawnNpc(self, entityList, itemList, gameMap, forbiddenTiles, playableWidthMin=1, playableWidthMax=80,
+    def respawnNpc(self, entityList, itemList, gameMapObj, playableWidthMin=1, playableWidthMax=80,
                    playableHeightMin=1, playableHeightMax=20):
         self.healedTimes = 0
         while True:
             x = random.randint(playableWidthMin, playableWidthMax)
             y = random.randint(playableHeightMin, playableHeightMax)
             cords = (x, y)
-            if cords not in forbiddenTiles:
-                if not gameMap.get(cords).blocksMovement:
+            if cords not in gameMapObj.forbiddenTiles:
+                if not gameMapObj.gameMap.get(cords).blocksMovement:
                     if entityList.get(cords) == None and itemList.get(cords) == None:
                         entityList.pop((self.x, self.y))
                         self.x = x
