@@ -28,10 +28,17 @@ class Player(Creature):
         coords = (self.x + dx, self.y + dy)
         if (gameMapObj.gameMap.get(coords)).blocksMovement:
             if (gameMapObj.gameMap.get(coords)).name == 'Door':
-                for item in inventory.itemList():
+                for item in inventory.itemList:
                     if item.name == 'Key':
-                        inventory.remove(item)
-                        gameMapObj.replaceTile()
+                        inventory.itemList.remove(item)
+                        gameMapObj.replaceTile(self.x + dx, self.y + dy, 'Floor')
+                        if len(inventory.itemList) > 0:
+                            if inventory.startPos == 0:
+                                if inventory.curVisibleIdx > len(inventory.itemList) - 2:
+                                    inventory.curVisibleIdx -= 1
+                            elif inventory.startPos + inventory.visibleSize > len(inventory.itemList) - 1:
+                                inventory.startPos -= 1
+
         else:
             entity = entityList.get(coords)
             if isinstance(entity, Entity) and entityList.get(coords).blocksMovement:
