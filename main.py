@@ -80,6 +80,15 @@ maxPotion = Item(63, 19, '~', 'Max Potion', 2, 4, False, weight=1,
 falseItem = Item(name='Empty', weight=85)
 
 itemList = {}
+
+itemList[(key.x, key.y)] = key
+itemList[(dagger.x, dagger.y)] = dagger
+itemList[(sword.x, sword.y)] = sword
+itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
+itemList[(ironArmor.x, ironArmor.y)] = ironArmor
+itemList[(normalPotion.x, normalPotion.y)] =normalPotion
+itemList[(maxPotion.x, maxPotion.y)] = maxPotion
+
 itemPresets = []
 
 itemPresets.append(dagger)
@@ -90,13 +99,17 @@ itemPresets.append(normalPotion)
 itemPresets.append(maxPotion)
 itemPresets.append(falseItem)
 
-itemList[(key.x, key.y)] = key
-itemList[(dagger.x, dagger.y)] = dagger
-itemList[(sword.x, sword.y)] = sword
-itemList[(leatherArmor.x, leatherArmor.y)] = leatherArmor
-itemList[(ironArmor.x, ironArmor.y)] = ironArmor
-itemList[(normalPotion.x, normalPotion.y)] =normalPotion
-itemList[(maxPotion.x, maxPotion.y)] = maxPotion
+itemClassTypes = {}
+
+itemClassTypes['Dagger'] = Dagger
+itemClassTypes['Sword'] = Sword
+itemClassTypes['Leather Armor'] = LeatherArmor
+itemClassTypes['Iron Armor'] = IronArmor
+itemClassTypes['Potion'] = NormalPotion
+itemClassTypes['Max Potion'] = MaxPotion
+itemClassTypes['Potion'] = Potion
+itemClassTypes['Weapon'] = Weapon
+itemClassTypes['Armor'] = Armor
 
 # Orcs test
 # [entityList.append(Monster(40 + i, 18, 'o', 'Orc' + str(i), 2, True, hp=10, dmg=2, attackedMsg='{} - HP:{:>3} DMG:{:>3}'))
@@ -154,7 +167,7 @@ while gameOn:
                               isinstance(attackedMonster, Monster))
 
         if attackedMonster.hp <= 0:
-            attackedMonster.spawnRandomItem(itemList, itemPresets, 5)
+            attackedMonster.spawnRandomItem(itemList, itemPresets, itemClassTypes, 5)
             entityList.pop((attackedMonster.x, attackedMonster.y))
 
     if fountain.msgFlag:

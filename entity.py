@@ -64,19 +64,28 @@ class Monster(Creature):
             player.xp += self.xpReward
             player.calcLevel(entityList)
 
-    def spawnRandomItem(self, itemList, itemPresets, amount):
+    def spawnRandomItem(self, itemList, itemPresets, itemClassTypes, amount):
         ''' POTION DELETION BUG!!! '''
 
         weights = [item.weight for item in itemPresets]
         item = (random.choices(itemPresets, weights=weights, k=1))[0]
+        itemClassType = itemClassTypes.get(item.name)
         if (item.name).lower() == 'empty':
             return
-        elif 'potion' in (item.name).lower():
+        elif isinstance(item.invItem, itemClassTypes.get('Potion')):
             amounts = [i for i in range(1, amount + 1)]
             item.invItem.amount = random.choices(amounts, weights=sorted(amounts, reverse=True), k=1)[0]
         newItem = Item(x=self.x, y=self.y, char=item.char, name=item.name, dark=item.dark, light=item.light,
                        blocksMovement=item.blocksMovement, order=item.order, picked=item.picked,
-                       weight=item.weight, invItem=item.invItem)
+                       weight=item.weight, invItem=itemClassType(item.invItem.name, item.invItem.stackSize,
+                        item.invItem.desc, item.invItem.amount, item.invItem.consumable,
+                        item.invItem.equipped, item.invItem.used))
+        if isinstance(item.invItem, itemClassTypes.get('Potion')):
+            newItem.invItem.healPart=item.invItem.healPart
+        elif isinstance(item.invItem, itemClassTypes.get('Weapon')):
+            newItem.invItem.dmg = item.invItem.dmg
+        elif isinstance(item.invItem, itemClassTypes.get('Armor')):
+            newItem.invItem.defence = item.invItem.defence
 
         itemList[newItem.x, newItem.y] = newItem
 
