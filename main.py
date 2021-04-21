@@ -269,7 +269,7 @@ while gameOn:
     gameOn = curHan.playerInput(player, inventory, entityList, itemList, gameMapObj)
 
 # Shows Game Over screen
-menu.gameOver(curHan.screen)
+menu.gameOver(curHan.screen, 5)
 
 # Ends curses, returns to normal console settings
 curHan.cursesEnd()

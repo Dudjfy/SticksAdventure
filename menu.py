@@ -36,14 +36,20 @@ class Menu:
             self.curRow += 1
         # elif key == curses.KEY_ENTER and self.menu[self.curRow] == 'Exit':
 
-    # Game over screen
-    def gameOver(self, screen):
+    # Game over screen, recursive ending, counts down from inputted number curNum to 0
+    def gameOver(self, screen, curNum):
         h, w = screen.getmaxyx()
         screen.clear()
         msg = 'Game Over'
+        countDownMsg = '(This window will close in {})'.format(curNum)
         screen.addstr(h//2, w//2 - len(msg)//2, msg)
+        screen.addstr((h//2) + 1, w//2 - len(countDownMsg)//2, countDownMsg)
         screen.refresh()
-        time.sleep(5)
+        time.sleep(1)
+        if curNum > 0:
+            self.gameOver(screen, curNum - 1)
+        else:
+            return
 
 # class MenuButton:
 #     def
