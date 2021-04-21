@@ -145,9 +145,8 @@ class CursesHandler:
         self.screen.addstr(25, 0, 'XP:|{:10}| {:<9}'.format('', xpShown))
         self.screen.addstr(25, 4, barChar * xpBarLevel, curses.color_pair(4))
 
-        self.screen.addstr(26, 0, ' ')
-
-        self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
+        # Rendering of cords, turned off because has no practical use in-game
+        # self.screen.addstr(27, 0, 'X:{:<3} Y:{:<3}'.format(player.x, player.y))
 
     # Rendering of inventory, the right column
     def renderInventory(self, inventory, player):
