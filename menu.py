@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-s
 from handler import *
 
-# Huvudmenyn klassen
+# This class in not currently used, except for game over screen
 class Menu:
 
     def __init__(self):
-        self.menu = ['Play', 'Settings', 'Exit']    # Menyns olika avdelningar
+        self.menu = ['Play', 'Settings', 'Exit']
         self.curRow = 0
 
-    # Skriver ut menyn
+    # Prints menu
     def printMenu(self, screen):
         screen.clear()
         h, w = screen.getmaxyx()
 
-        # Centrerar menyn vertikalt och horisontalt, varje nästa element skrivs ut på nästa rad
+        # Centers menu depending on game size
         for idx, row in enumerate(self.menu):
             x = w//2 - len(row)//2
             y = h//2 - len(self.menu)//2 + idx
@@ -26,6 +26,7 @@ class Menu:
 
         screen.refresh()
 
+    # Menu input
     def inputMenu(self, screen):
         key = screen.getch()
 
@@ -35,6 +36,7 @@ class Menu:
             self.curRow += 1
         # elif key == curses.KEY_ENTER and self.menu[self.curRow] == 'Exit':
 
+    # Game over screen
     def gameOver(self, screen):
         h, w = screen.getmaxyx()
         screen.clear()
