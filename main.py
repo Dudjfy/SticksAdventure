@@ -49,11 +49,11 @@ curHan.cursesSetup()
 
 # Creates entities objects for tutorial purposes
 player = Player(78, 19, '@', 'Player', 2, 5, True, baseHp=30, baseDmg=4)
-orc = Monster(68, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2,
+orc = Monster(71, 18, 'o', 'Orc', 2, 3, True, baseHp=10, baseDmg=2,
               attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=15)
-troll = Monster(69, 18, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1,
+troll = Monster(67, 19, 'T', 'Troll', 2, 3, True, baseHp=20, baseDmg=1,
                 attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=40)
-goblin = Monster(70, 18, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6,
+goblin = Monster(68, 17, 'G', 'Goblin', 2, 3, True, baseHp=4, baseDmg=6,
                  attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='{0} died', xpRewardBase=50)
 boss = Boss(5, 2, 'B', 'Boss', 2, 9, True, hp=120, dmg=20,
             attackedMsg='{0} - HP:{1:>3} DMG:{2:>3}', deathMsg='Boss died. You won, Stick!')
